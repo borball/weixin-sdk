@@ -1,0 +1,34 @@
+<Settings>
+    <!-- put your corpId here -->
+    <corpId>wx1234567890000</corpId>
+	<!-- put your default corp secret here -->
+    <defaultCorpSecret>0000000000000000000000000000000000000000000000000000000000000000</defaultCorpSecret>
+    <corpSettings>
+        <default>
+            <corpId>wx1234567890000</corpId>
+            <corpSecret>0000000000000000000000000000000000000000000000000000000000000000</corpSecret>
+        </default>
+		<!-- if you have more secret
+		<another>
+            <corpId>wx1234567890001</corpId>
+            <corpSecret>0000000000000000000000000000000000000000000000000000000000000000</corpSecret>
+        </another>
+		-->
+    </corpSettings>
+    <agentSettings>
+        <default>
+            <agentId>30</agentId>
+            <callbackUrl>http://somsites.com/callback</callbackUrl>
+			<!-- put your token here-->
+            <token>0000000000000000</token>
+            <aesKey>0000000000000000000000000000000000000000000</aesKey>
+        </default>
+        <test>
+            <agentId>40</agentId>
+            <callbackUrl>http://somsites.com/callback</callbackUrl>
+			<!-- put your token here-->
+            <token>0000000000000000</token>
+            <aesKey>0000000000000000000000000000000000000000000</aesKey>
+        </test>
+    </agentSettings>
+</Settings>

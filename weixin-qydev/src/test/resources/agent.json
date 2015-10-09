@@ -1,0 +1,60 @@
+{
+    "agent": {
+        "name": "测试Agent",
+        "description": "测试Agent",
+        "agentid": 29,
+        "report_location_flag": 1,
+        "isreportuser": 1,
+        "isreportenter": 1,
+        "close": 0
+    },
+    "menu": {
+        "button": [{
+            "type": "click",
+            "name": "上传",
+            "key": "upload",
+            "sub_button": [{
+                "type": "pic_sysphoto",
+                "name": "拍照",
+                "key": "sys-photo"
+            },
+                {
+                    "type": "pic_weixin",
+                    "name": "相册",
+                    "key": "wx-pic"
+                },
+                {
+                    "type": "pic_photo_or_album",
+                    "name": "拍照或者相册",
+                    "key": "photo-or-album"
+                },
+                {
+                    "type": "location_select",
+                    "name": "地理位置",
+                    "key": "location"
+                },
+                {
+                    "type": "scancode_push",
+                    "name": "扫一扫",
+                    "key": "scan"
+                }]
+        },
+            {
+                "type": "click",
+                "name": "我",
+                "key": "my-account",
+                "sub_button": [{
+                    "type": "view",
+                    "name": "修改密码",
+                    "key": "chg-pwd",
+                    "url": "http://somesites.com/change-pwd"
+                },
+                    {
+                        "type": "view",
+                        "name": "个人设置",
+                        "key": "settings",
+                        "url": "http://somesites.com/settings"
+                    }]
+            }]
+    }
+}

@@ -1,0 +1,38 @@
+<Settings>
+    <corpId>corp-id-test</corpId>
+    <defaultCorpSecret/>
+    <corpSettings>
+        <default>
+            <corpId>corp-id-test</corpId>
+            <corpSecret>corp-secret-test</corpSecret>
+        </default>
+        <second>
+            <corpId>corp-id-test</corpId>
+            <corpSecret>second one</corpSecret>
+        </second>
+        <third>
+            <corpId>corp-id-test</corpId>
+            <corpSecret>third</corpSecret>
+        </third>
+    </corpSettings>
+    <agentSettings>
+        <another>
+            <agentId>10</agentId>
+            <callbackUrl>another-callback-url</callbackUrl>
+            <token>another-token</token>
+            <aesKey>another-aes</aesKey>
+        </another>
+        <default>
+            <agentId>20</agentId>
+            <callbackUrl>default-callback-url</callbackUrl>
+            <token>default-token</token>
+            <aesKey>default-aes</aesKey>
+        </default>
+        <third>
+            <agentId>30</agentId>
+            <callbackUrl>third-callback-url</callbackUrl>
+            <token>third-token</token>
+            <aesKey>third-aes</aesKey>
+        </third>
+    </agentSettings>
+</Settings>
