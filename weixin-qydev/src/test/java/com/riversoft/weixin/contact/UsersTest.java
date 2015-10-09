@@ -1,5 +1,6 @@
 package com.riversoft.weixin.contact;
 
+import com.riversoft.weixin.WxPropLoader;
 import com.riversoft.weixin.contact.bean.user.Invitation;
 import com.riversoft.weixin.contact.bean.user.ReadUser;
 import com.riversoft.weixin.contact.bean.user.SimpleUser;
@@ -13,9 +14,11 @@ import java.util.List;
  */
 public class UsersTest {
 
+    WxPropLoader wxPropLoader = new WxPropLoader(this.getClass().getClassLoader().getResourceAsStream("wx-test.properties"));
+
     @Test
     public void testGet() {
-        ReadUser user = Users.defaultUsers().get("testuser");
+        ReadUser user = Users.defaultUsers().get(wxPropLoader.getProperty("messages.test.user"));
         Assert.assertNotNull(user);
     }
 
