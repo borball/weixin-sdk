@@ -22,7 +22,7 @@ weixin-sdk 是对微信公众平台API的封装；目前只实现了企业号API
 
 或者：参考 [weixin-sdk-demo](https://github.com/borball/weixin-sdk-demo "weixin-sdk-demo")
 
-###正式使用：
+###正式使用？
 
 1.	同单元测试类似，在classpath里面添加文件：wx-settings.xml，填写企业号相关信息。
 

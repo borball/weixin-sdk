@@ -82,7 +82,7 @@ public abstract class AbstractUser extends SimpleUser {
      */
     public static enum Gender {
 
-        MALE, FEMALE;
+        MALE, FEMALE, UNKNOWN;
 
     }
 

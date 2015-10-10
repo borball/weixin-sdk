@@ -14,6 +14,8 @@ public class GenderSerializer extends JsonSerializer<AbstractUser.Gender> {
 
     @Override
     public void serialize(AbstractUser.Gender gender, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeNumber(AbstractUser.Gender.MALE == gender ? 1 : 2);
+        if(AbstractUser.Gender.MALE == gender) jsonGenerator.writeString("1");
+        else if (AbstractUser.Gender.FEMALE == gender) jsonGenerator.writeString("2");
+        else jsonGenerator.writeString("0");
     }
 }

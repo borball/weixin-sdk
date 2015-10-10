@@ -18,25 +18,31 @@ public class UsersTest {
 
     @Test
     public void testGet() {
-        ReadUser user = Users.defaultUsers().get(wxPropLoader.getProperty("messages.test.user"));
+        ReadUser user = Users.defaultUsers().get(getTestUser());
         Assert.assertNotNull(user);
     }
 
     @Test
     public void testSimpleList() {
-        List<SimpleUser> users = Users.defaultUsers().simpleList(102, true, null);
+        ReadUser user = Users.defaultUsers().get(getTestUser());
+        List<SimpleUser> users = Users.defaultUsers().simpleList(user.getDepartment()[0], true, null);
         Assert.assertNotNull(users);
     }
 
     @Test
     public void testList() {
-        List<ReadUser> users = Users.defaultUsers().list(102, true, null);
+        ReadUser user = Users.defaultUsers().get(getTestUser());
+        List<ReadUser> users = Users.defaultUsers().list(user.getDepartment()[0], true, null);
         Assert.assertNotNull(users);
     }
 
     @Test
     public void testInvite() {
-        Invitation invitation = Users.defaultUsers().invite("borball");
+        Invitation invitation = Users.defaultUsers().invite(getTestUser());
         Assert.assertNotNull(invitation);
+    }
+
+    public String getTestUser() {
+        return wxPropLoader.getProperty("messages.test.user");
     }
 }

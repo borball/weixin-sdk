@@ -16,6 +16,8 @@ public class GenderDeserializer extends JsonDeserializer<AbstractUser.Gender> {
     @Override
     public AbstractUser.Gender deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         //为何这里是string，status那里确实数字， 好纠结
-        return "1".equals(jsonParser.getText()) ? AbstractUser.Gender.MALE : AbstractUser.Gender.FEMALE;
+        if("1".equals(jsonParser.getText())) return AbstractUser.Gender.MALE;
+        else if("2".equals(jsonParser.getText())) return AbstractUser.Gender.FEMALE;
+        else return AbstractUser.Gender.UNKNOWN;
     }
 }
