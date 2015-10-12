@@ -29,10 +29,18 @@ public class JobsTest {
         tags.add(2);
         tags.add(3);
 
-        String job = Jobs.defaultTags().invite(users, departments, tags);
-        JobResult result = Jobs.defaultTags().getResult(job);
+        String job = Jobs.defaultJobs().invite(users, departments, tags);
+        JobResult result = Jobs.defaultJobs().getResult(job);
 
         Assert.assertNotNull(result);
+    }
+
+    public void testReplaceDepartments(){
+
+    }
+
+    public void testReplaceUsers(){
+
     }
 
 }
