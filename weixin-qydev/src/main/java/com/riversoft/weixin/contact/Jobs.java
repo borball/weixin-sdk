@@ -25,7 +25,7 @@ public class Jobs {
 
     private WxClient wxClient;
 
-    public static Jobs defaultTags() {
+    public static Jobs defaultJobss() {
         if (jobs == null) {
             jobs = new Jobs();
             jobs.setWxClient(WxClient.defaultWxClient());
