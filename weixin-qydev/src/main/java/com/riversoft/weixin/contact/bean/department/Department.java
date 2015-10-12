@@ -1,4 +1,4 @@
-package com.riversoft.weixin.contact.bean;
+package com.riversoft.weixin.contact.bean.department;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

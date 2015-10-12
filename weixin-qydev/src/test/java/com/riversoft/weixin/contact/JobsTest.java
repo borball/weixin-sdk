@@ -1,9 +1,19 @@
 package com.riversoft.weixin.contact;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.io.Files;
+import com.riversoft.weixin.contact.bean.department.Department;
 import com.riversoft.weixin.contact.bean.job.JobResult;
+import com.riversoft.weixin.contact.bean.user.CreateUser;
+import com.riversoft.weixin.contact.bean.user.ReadUser;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +21,12 @@ import java.util.List;
  * Created by exizhai on 10/7/2015.
  */
 public class JobsTest {
+
+    private final CsvSchema DEPARTMENT_SCHEMA = new CsvSchema.Builder().addColumn("name").addColumn("id")
+            .addColumn("parentid").addColumn("order").build();
+    private final CsvSchema USER_SCHEMA = new CsvSchema.Builder().addColumn("name").addColumn("userid")
+            .addColumn("weixinid").addColumn("mobile").addColumn("email").addArrayColumn("department").addColumn("position").build();
+    private final CsvMapper csvMapper = new CsvMapper();
 
     @Test
     public void testInvite(){
@@ -35,12 +51,110 @@ public class JobsTest {
         Assert.assertNotNull(result);
     }
 
+    @Test
     public void testReplaceDepartments(){
+        List<Department> departments = Departments.defaultDepartments().list();
 
+        File tmpDir = Files.createTempDir();
+        File groups = new File(tmpDir, "departments.csv");
+
+        try {
+            PrintWriter groupPrintWriter = new PrintWriter(new BufferedWriter(new FileWriter(groups, false)));
+            groupPrintWriter.append("部门名称,部门ID,父部门ID,排序").append("\n");
+
+            for (Department department : departments) {
+                groupPrintWriter.append(csv(department));
+            }
+            groupPrintWriter.close();
+
+            String job = Jobs.defaultJobs().replaceDepartments(groups);
+            while (true) {
+                JobResult jobResult = Jobs.defaultJobs().getResult(job);
+                if (3 == jobResult.getStatus()) {
+                    if (100 == jobResult.getPercentage()) {
+                        Assert.assertTrue(true);
+                    }
+                    break;
+                } else {
+                    System.out.println("正在同步:" + jobResult.getPercentage());
+                    sleep(100);
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            Assert.fail("test failed.");
+        } finally {
+            try {
+                FileUtils.forceDelete(tmpDir);
+            } catch (IOException e) {
+            }
+        }
     }
 
-    public void testReplaceUsers(){
+    private void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+        }
+    }
 
+    @Test
+    public void testReplaceUsers(){
+        List<ReadUser> allUsers = Users.defaultUsers().list();
+
+        File tmpDir = Files.createTempDir();
+        File users = new File(tmpDir, "users.csv");
+
+        try {
+            PrintWriter userPrintWriter = new PrintWriter(new BufferedWriter(new FileWriter(users, false)));
+            userPrintWriter.append("姓名,帐号,微信号,手机号,邮箱,所在部门,职位").append("\n");
+
+            for(ReadUser user: allUsers) {
+                CreateUser createUser = new CreateUser();
+                createUser.setName(user.getName());
+                createUser.setMobile(user.getMobile());
+                createUser.setUserId(user.getUserId());
+                createUser.setPosition(user.getPosition());
+                createUser.setWeixinId(user.getWeixinId());
+                createUser.setDepartment(user.getDepartment());
+                createUser.setEmail(user.getEmail());
+                userPrintWriter.append(csv(createUser));
+            }
+
+            userPrintWriter.close();
+
+            String job = Jobs.defaultJobs().replaceUsers(users);
+            while (true) {
+                JobResult jobResult = Jobs.defaultJobs().getResult(job);
+                if (3 == jobResult.getStatus()) {
+                    if (100 == jobResult.getPercentage()) {
+                        Assert.assertTrue(true);
+                    }
+                    break;
+                } else {
+                    System.out.println("正在同步:" + jobResult.getPercentage());
+                    sleep(10);
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            Assert.fail("test failed.");
+        } finally {
+            try {
+                FileUtils.forceDelete(tmpDir);
+            } catch (IOException e) {
+            }
+        }
+    }
+
+    private String csv(CreateUser user) throws JsonProcessingException {
+        csvMapper.enable(JsonGenerator.Feature.IGNORE_UNKNOWN);
+        return csvMapper.writerFor(CreateUser.class).with(USER_SCHEMA).writeValueAsString(user);
+    }
+
+    public String csv(Department department) throws JsonProcessingException {
+        csvMapper.enable(JsonGenerator.Feature.IGNORE_UNKNOWN);
+        return csvMapper.writerFor(Department.class).with(DEPARTMENT_SCHEMA).writeValueAsString(department);
     }
 
 }

@@ -96,6 +96,10 @@ public class Users {
         return readUserList.getUsers();
     }
 
+    public List<ReadUser> list() {
+        return list(1, true, null);
+    }
+
     public List<ReadUser> list(int department) {
         return list(department, true, null);
     }

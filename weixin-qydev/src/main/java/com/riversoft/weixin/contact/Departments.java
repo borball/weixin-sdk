@@ -1,11 +1,14 @@
 package com.riversoft.weixin.contact;
 
 import com.riversoft.weixin.base.WxClient;
-import com.riversoft.weixin.contact.bean.Department;
+import com.riversoft.weixin.contact.bean.department.Department;
+import com.riversoft.weixin.contact.bean.department.DepartmentList;
 import com.riversoft.weixin.util.JsonMapper;
 import com.riversoft.weixin.util.PropertiesLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created by exizhai on 10/4/2015.
@@ -55,5 +58,21 @@ public class Departments {
         String url = PropertiesLoader.getInstance().getProperty("url.department.delete");
         logger.debug("delete department: {}", id);
         wxClient.get(String.format(url, id));
+    }
+
+    public List<Department> list(){
+        String url = PropertiesLoader.getInstance().getProperty("url.department.list.all");
+        String response = wxClient.get(url);
+        logger.debug("list all departments: {}", response);
+        DepartmentList departmentList = JsonMapper.nonEmptyMapper().fromJson(response, DepartmentList.class);
+        return departmentList.getDepartments();
+    }
+
+    public List<Department> list(int id) {
+        String url = PropertiesLoader.getInstance().getProperty("url.department.list");
+        String response = wxClient.get(String.format(url, id));
+        logger.debug("list departments: {}", response);
+        DepartmentList departmentList = JsonMapper.nonEmptyMapper().fromJson(response, DepartmentList.class);
+        return departmentList.getDepartments();
     }
 }

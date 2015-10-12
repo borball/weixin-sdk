@@ -18,7 +18,7 @@
 
         <httpclient.version>4.5</httpclient.version>
         <guava.version>18.0</guava.version>
-        <jackson.version>2.6.0</jackson.version>
+        <jackson.version>2.6.2</jackson.version>
         <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
         <woodstox-core.version>5.0.1</woodstox-core.version>
         <slf4j.version>1.7.12</slf4j.version>
@@ -86,6 +86,13 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-csv</artifactId>
+                <version>${jackson.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
