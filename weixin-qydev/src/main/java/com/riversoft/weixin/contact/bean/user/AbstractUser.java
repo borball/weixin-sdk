@@ -80,9 +80,9 @@ public abstract class AbstractUser extends SimpleUser {
     /**
      * Created by exizhai on 10/4/2015.
      */
-    public static enum Gender {
+    public enum Gender {
 
-        MALE, FEMALE, UNKNOWN;
+        MALE, FEMALE, UNKNOWN
 
     }
 

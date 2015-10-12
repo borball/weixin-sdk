@@ -14,7 +14,7 @@ import java.io.IOException;
 public class UserStatusSerializer extends JsonSerializer<UserStatus> {
 
     @Override
-    public void serialize(UserStatus userStatus, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(UserStatus userStatus, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         if (UserStatus.FOLLOWED == userStatus) jsonGenerator.writeNumber(1);
         if (UserStatus.SUSPEND == userStatus) jsonGenerator.writeNumber(2);
         if (UserStatus.UN_FOLLOWED == userStatus) jsonGenerator.writeNumber(4);

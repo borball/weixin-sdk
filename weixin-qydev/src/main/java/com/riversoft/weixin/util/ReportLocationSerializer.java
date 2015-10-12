@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ReportLocationSerializer extends JsonSerializer<WritableAgent.ReportLocation> {
 
     @Override
-    public void serialize(WritableAgent.ReportLocation reportLocation, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(WritableAgent.ReportLocation reportLocation, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         if (WritableAgent.ReportLocation.NO == reportLocation) jsonGenerator.writeNumber(0);
         if (WritableAgent.ReportLocation.ONLY_IN_SESSION == reportLocation) jsonGenerator.writeNumber(1);
         if (WritableAgent.ReportLocation.ALWAYS == reportLocation) jsonGenerator.writeNumber(2);

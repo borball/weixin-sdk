@@ -13,9 +13,9 @@ public class JobResult {
     /**
      * Created by exizhai on 10/7/2015.
      */
-    public static enum JobType {
+    public enum JobType {
 
-        sync_user, replace_user, invite_user, replace_party;
+        sync_user, replace_user, invite_user, replace_party
 
     }
 

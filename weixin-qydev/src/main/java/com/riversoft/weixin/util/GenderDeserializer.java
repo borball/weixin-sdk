@@ -14,7 +14,7 @@ import java.io.IOException;
 public class GenderDeserializer extends JsonDeserializer<AbstractUser.Gender> {
 
     @Override
-    public AbstractUser.Gender deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public AbstractUser.Gender deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         //为何这里是string，status那里确实数字， 好纠结
         if("1".equals(jsonParser.getText())) return AbstractUser.Gender.MALE;
         else if("2".equals(jsonParser.getText())) return AbstractUser.Gender.FEMALE;

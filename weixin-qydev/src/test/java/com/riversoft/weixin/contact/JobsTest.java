@@ -60,10 +60,10 @@ public class JobsTest {
 
         try {
             PrintWriter groupPrintWriter = new PrintWriter(new BufferedWriter(new FileWriter(groups, false)));
-            groupPrintWriter.append("部门名称,部门ID,父部门ID,排序").append("\n");
+            groupPrintWriter.println("部门名称,部门ID,父部门ID,排序");
 
             for (Department department : departments) {
-                groupPrintWriter.append(csv(department));
+                groupPrintWriter.print(csv(department));
             }
             groupPrintWriter.close();
 
@@ -107,7 +107,7 @@ public class JobsTest {
 
         try {
             PrintWriter userPrintWriter = new PrintWriter(new BufferedWriter(new FileWriter(users, false)));
-            userPrintWriter.append("姓名,帐号,微信号,手机号,邮箱,所在部门,职位").append("\n");
+            userPrintWriter.println("姓名,帐号,微信号,手机号,邮箱,所在部门,职位");
 
             for(ReadUser user: allUsers) {
                 CreateUser createUser = new CreateUser();
@@ -118,7 +118,7 @@ public class JobsTest {
                 createUser.setWeixinId(user.getWeixinId());
                 createUser.setDepartment(user.getDepartment());
                 createUser.setEmail(user.getEmail());
-                userPrintWriter.append(csv(createUser));
+                userPrintWriter.print(csv(createUser));
             }
 
             userPrintWriter.close();

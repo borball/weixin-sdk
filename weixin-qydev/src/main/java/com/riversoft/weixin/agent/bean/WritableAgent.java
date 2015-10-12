@@ -15,9 +15,9 @@ import java.io.Serializable;
  */
 public class WritableAgent implements Serializable {
 
-    public static enum ReportLocation {
+    public enum ReportLocation {
 
-        NO, ONLY_IN_SESSION, ALWAYS;
+        NO, ONLY_IN_SESSION, ALWAYS
 
     }
 

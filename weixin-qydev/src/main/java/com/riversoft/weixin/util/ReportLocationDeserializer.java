@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ReportLocationDeserializer extends JsonDeserializer<WritableAgent.ReportLocation> {
 
     @Override
-    public WritableAgent.ReportLocation deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public WritableAgent.ReportLocation deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         int report = jsonParser.getIntValue();
         if (1 == report)
             return WritableAgent.ReportLocation.ONLY_IN_SESSION;

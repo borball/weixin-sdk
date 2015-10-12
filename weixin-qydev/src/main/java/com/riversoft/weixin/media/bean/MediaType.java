@@ -5,6 +5,6 @@ package com.riversoft.weixin.media.bean;
  */
 public enum MediaType {
 
-    image, voice, video, file, mpnews;
+    image, voice, video, file, mpnews
 
 }

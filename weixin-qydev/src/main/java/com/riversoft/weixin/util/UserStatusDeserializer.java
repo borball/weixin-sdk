@@ -14,7 +14,7 @@ import java.io.IOException;
 public class UserStatusDeserializer extends JsonDeserializer<UserStatus> {
 
     @Override
-    public UserStatus deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public UserStatus deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         int status = jsonParser.getIntValue();
         if (1 == status) return UserStatus.FOLLOWED;
         if (2 == status) return UserStatus.SUSPEND;
