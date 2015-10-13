@@ -38,7 +38,7 @@ public class Medias {
         this.wxClient = wxClient;
     }
 
-    public String mediaUpload(MediaType type, InputStream inputStream, String extName) {
+    public String upload(MediaType type, InputStream inputStream, String extName) {
         String url = PropertiesLoader.getInstance().getProperty("url.media.upload");
 
         String response = wxClient.post(String.format(url, type.name()), inputStream, extName);
@@ -53,40 +53,8 @@ public class Medias {
         }
     }
 
-    public File mediaDownload(String mediaId) {
+    public File download(String mediaId) {
         return wxClient.download(String.format(PropertiesLoader.getInstance().getProperty("url.media.get"), mediaId));
     }
 
-    public String materialUpload(int agent, MediaType type, InputStream inputStream, String extName) {
-        String url = PropertiesLoader.getInstance().getProperty("url.material.upload");
-
-        String response = wxClient.post(String.format(url, agent, type.name()), inputStream, extName);
-
-        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if (result.containsKey("errcode") && "0".equals(result.get("errcode").toString())) {
-            return result.get("media_id").toString();
-        } else {
-            logger.warn("material upload failed: {}", response);
-            throw new WxRuntimeException(998, response);
-        }
-    }
-
-    public File materialDownload(int agent, String mediaId) {
-        return wxClient.download(String.format(PropertiesLoader.getInstance().getProperty("url.material.get"), agent, mediaId));
-    }
-
-    public void materialDelete(int agent, String mediaId) {
-        String response = wxClient.get(String.format(PropertiesLoader.getInstance().getProperty("url.material.delete"), agent, mediaId));
-        logger.info("material delete result: {}", response);
-    }
-
-    public Counts count(int agent) {
-        String response = wxClient.get(String.format(PropertiesLoader.getInstance().getProperty("url.material.count"), agent));
-        return JsonMapper.defaultMapper().fromJson(response, Counts.class);
-    }
-
-    public SearchResult list(Pagination pagination) {
-        String response = wxClient.post(PropertiesLoader.getInstance().getProperty("url.material.list"), JsonMapper.defaultMapper().toJson(pagination));
-        return JsonMapper.defaultMapper().fromJson(response, SearchResult.class);
-    }
 }

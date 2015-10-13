@@ -23,7 +23,7 @@ public class Starter {
         String json = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("agent.json"));
         ExampleAgent exampleAgent = JsonMapper.nonEmptyMapper().fromJson(json, ExampleAgent.class);
 
-        String logo = Medias.defaultMedias().mediaUpload(MediaType.image, this.getClass().getClassLoader().getResourceAsStream("media/image.png"), "png");
+        String logo = Medias.defaultMedias().upload(MediaType.image, this.getClass().getClassLoader().getResourceAsStream("media/image.png"), "png");
         exampleAgent.getAgent().setLogoMediaId(logo);
 
         Agents.defaultAgents().update(exampleAgent.getAgent());
