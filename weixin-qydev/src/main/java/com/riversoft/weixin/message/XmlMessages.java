@@ -53,11 +53,11 @@ public class XmlMessages {
                 case subscribe:
                 case unsubscribe:
                     return (SubscriptionEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SubscriptionEvent.class);
-                case location:
+                case LOCATION:
                     return (LocationReportEvent) XmlObjectMapper.defaultMapper().fromXml(xml, LocationReportEvent.class);
-                case click:
+                case CLICK:
                     return (ClickEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ClickEvent.class);
-                case view:
+                case VIEW:
                     return (ViewEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ViewEvent.class);
                 case scancode_push:
                 case scancode_waitmsg:

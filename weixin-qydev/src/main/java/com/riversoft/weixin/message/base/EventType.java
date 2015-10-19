@@ -9,11 +9,11 @@ public enum EventType {
 
     unsubscribe,
 
-    location,
+    LOCATION,
 
-    click,
+    CLICK,
 
-    view,
+    VIEW,
 
     scancode_push,
 
