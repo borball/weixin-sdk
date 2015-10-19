@@ -5,13 +5,15 @@
     <parent>
         <artifactId>weixin-parent</artifactId>
         <groupId>cn.com.riversoft</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
         <relativePath>../weixin-parent/</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+	
     <artifactId>weixin-qydev</artifactId>
-
+	<name>weixin SDK qydev</name>
+    <description>weixin SDK qydev</description>
+	
     <dependencies>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
