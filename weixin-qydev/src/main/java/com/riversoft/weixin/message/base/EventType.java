@@ -11,9 +11,9 @@ public enum EventType {
 
     LOCATION,
 
-    CLICK,
+    click,
 
-    VIEW,
+    view,
 
     scancode_push,
 

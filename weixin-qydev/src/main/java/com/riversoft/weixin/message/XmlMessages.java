@@ -55,9 +55,9 @@ public class XmlMessages {
                     return (SubscriptionEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SubscriptionEvent.class);
                 case LOCATION:
                     return (LocationReportEvent) XmlObjectMapper.defaultMapper().fromXml(xml, LocationReportEvent.class);
-                case CLICK:
+                case click:
                     return (ClickEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ClickEvent.class);
-                case VIEW:
+                case view:
                     return (ViewEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ViewEvent.class);
                 case scancode_push:
                 case scancode_waitmsg:
