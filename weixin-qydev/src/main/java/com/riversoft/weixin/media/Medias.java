@@ -2,12 +2,9 @@ package com.riversoft.weixin.media;
 
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.exception.WxRuntimeException;
-import com.riversoft.weixin.media.bean.Counts;
 import com.riversoft.weixin.media.bean.MediaType;
-import com.riversoft.weixin.media.bean.Pagination;
-import com.riversoft.weixin.media.bean.SearchResult;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +36,7 @@ public class Medias {
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {
-        String url = PropertiesLoader.getInstance().getProperty("url.media.upload");
+        String url = WxEndpoint.get("url.media.upload");
 
         String response = wxClient.post(String.format(url, type.name()), inputStream, extName);
 
@@ -54,7 +51,7 @@ public class Medias {
     }
 
     public File download(String mediaId) {
-        return wxClient.download(String.format(PropertiesLoader.getInstance().getProperty("url.media.get"), mediaId));
+        return wxClient.download(String.format(WxEndpoint.get("url.media.get"), mediaId));
     }
 
 }

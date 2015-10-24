@@ -5,7 +5,7 @@ import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.contact.bean.job.JobResult;
 import com.riversoft.weixin.exception.WxRuntimeException;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +53,7 @@ public class Jobs {
             maps.put("toparty", Joiner.on("|").join(tags));
         }
 
-        String url = PropertiesLoader.getInstance().getProperty("url.job.users.invite");
+        String url = WxEndpoint.get("url.job.users.invite");
         String json = JsonMapper.defaultMapper().toJson(maps);
         logger.debug("invite users: {}", json);
 
@@ -66,7 +66,7 @@ public class Jobs {
     }
 
     public JobResult getResult(String id) {
-        String url = PropertiesLoader.getInstance().getProperty("url.job.result");
+        String url = WxEndpoint.get("url.job.result");
         String result = wxClient.get(String.format(url, id));
         logger.debug("get job result: {}", result);
         return JsonMapper.nonEmptyMapper().fromJson(result, JobResult.class);
@@ -79,7 +79,7 @@ public class Jobs {
 
     public String syncUsers(String mediaId){
         String json = String.format("{\"media_id\":\"%s\"}", mediaId);
-        String url = PropertiesLoader.getInstance().getProperty("url.job.users.sync");
+        String url = WxEndpoint.get("url.job.users.sync");
 
         logger.debug("sync users: {}", json);
         return submit(url, json);
@@ -92,7 +92,7 @@ public class Jobs {
 
     public String replaceUsers(String mediaId) {
         String json = String.format("{\"media_id\":\"%s\"}", mediaId);
-        String url = PropertiesLoader.getInstance().getProperty("url.job.users.replace");
+        String url = WxEndpoint.get("url.job.users.replace");
 
         logger.debug("replace users: {}", json);
         return submit(url, json);
@@ -105,7 +105,7 @@ public class Jobs {
 
     public String replaceDepartments(String mediaId) {
         String json = String.format("{\"media_id\":\"%s\"}", mediaId);
-        String url = PropertiesLoader.getInstance().getProperty("url.job.departments.replace");
+        String url = WxEndpoint.get("url.job.departments.replace");
 
         logger.debug("replace department: {}", json);
         return submit(url, json);
@@ -123,7 +123,7 @@ public class Jobs {
     }
 
     private String mediaUpload(File file) {
-        String url = PropertiesLoader.getInstance().getProperty("url.media.upload");
+        String url = WxEndpoint.get("url.media.upload");
 
         try(FileInputStream fileInputStream = new FileInputStream(file)) {
             String response = wxClient.post(String.format(url, "file"), fileInputStream, "csv");

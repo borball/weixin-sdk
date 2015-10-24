@@ -6,7 +6,7 @@ import com.riversoft.weixin.contact.bean.tag.TagList;
 import com.riversoft.weixin.contact.bean.tag.TagUsersResult;
 import com.riversoft.weixin.contact.bean.tag.TagUsers;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,27 +36,27 @@ public class Tags {
     }
 
     public void create(Tag tag) {
-        String url = PropertiesLoader.getInstance().getProperty("url.tag.create");
+        String url = WxEndpoint.get("url.tag.create");
         String json = JsonMapper.nonEmptyMapper().toJson(tag);
         logger.debug("create tag: {}", json);
         wxClient.post(url, json);
     }
 
     public void update(Tag tag) {
-        String url = PropertiesLoader.getInstance().getProperty("url.tag.update");
+        String url = WxEndpoint.get("url.tag.update");
         String json = JsonMapper.nonEmptyMapper().toJson(tag);
         logger.debug("update tag: {}", tag);
         wxClient.post(url, json);
     }
 
     public void delete(int id) {
-        String url = PropertiesLoader.getInstance().getProperty("url.tag.delete");
+        String url = WxEndpoint.get("url.tag.delete");
         logger.debug("delete tag: {}", id);
         wxClient.get(String.format(url, id));
     }
 
     public List<Tag> list(){
-        String url = PropertiesLoader.getInstance().getProperty("url.tag.list");
+        String url = WxEndpoint.get("url.tag.list");
 
         String response = wxClient.get(url);
         TagList tagList = JsonMapper.defaultMapper().fromJson(response, TagList.class);
@@ -64,7 +64,7 @@ public class Tags {
     }
 
     public TagUsersResult addUsers(int tagId, List<String> users, List<Integer> departments) {
-        String url = PropertiesLoader.getInstance().getProperty("url.tag.user.add");
+        String url = WxEndpoint.get("url.tag.user.add");
         TagUsers tagUsers = new TagUsers();
         tagUsers.setTagId(tagId);
         tagUsers.setUsers(users);
@@ -76,7 +76,7 @@ public class Tags {
     }
 
     public TagUsersResult deleteUsers(int tagId, List<String> users, List<Integer> departments) {
-        String url = PropertiesLoader.getInstance().getProperty("url.tag.user.delete");
+        String url = WxEndpoint.get("url.tag.user.delete");
         TagUsers tagUsers = new TagUsers();
         tagUsers.setTagId(tagId);
         tagUsers.setUsers(users);

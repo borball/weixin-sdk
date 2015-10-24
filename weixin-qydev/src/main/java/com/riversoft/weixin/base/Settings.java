@@ -18,35 +18,43 @@ public class Settings implements Serializable {
 
     private static Logger logger = LoggerFactory.getLogger(Settings.class);
 
-    private static Settings settings = null;
+    private static Settings defaultSetting = null;
     private String corpId;
     private String defaultCorpSecret;
     private Map<String, CorpSetting> corpSettings;
     private Map<String, AgentSetting> agentSettings;
 
-    public synchronized static Settings buildIn() {
-        if (settings == null) {
-            String xml = null;
-            try {
-                InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-settings-test.xml");
+    public static void setDefault(Settings settings) {
+        defaultSetting = settings;
+    }
 
-                if (inputStream == null) {
-                    inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-settings.xml");
-                }
-
-                if (inputStream != null) {
-                    xml = IOUtils.toString(inputStream);
-                    settings = (Settings) XmlObjectMapper.defaultMapper().fromXml(xml, Settings.class);
-                }
-            } catch (IOException e) {
-                throw new WxRuntimeException(999, "init wx-setting.xml failed:" + e.getMessage());
-            }
+    public static Settings defaultSettings() {
+        if (defaultSetting == null) {
+            loadFromClasspath();
         }
 
-        logger.debug("Current settings: default agent:{}, all agents:{}", settings.getDefaultAgent(), settings.getAgentSettings().keySet());
+        if(defaultSetting == null) {
+            throw new WxRuntimeException(999, "当前系统没有设置缺省的corpId和corpSecret,请使用setDefault方法或者在classpath下面创建wx-settings.xml文件.");
+        }
+        return defaultSetting;
+    }
 
-        return settings;
+    private static void loadFromClasspath() {
+        try {
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-settings-test.xml");
 
+            if (inputStream == null) {
+                inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-settings.xml");
+            }
+
+            if (inputStream != null) {
+                String xml = IOUtils.toString(inputStream);
+                Settings settings = (Settings) XmlObjectMapper.defaultMapper().fromXml(xml, Settings.class);
+                defaultSetting = settings;
+            }
+        } catch (IOException e) {
+            logger.error("read settings from wx-settings-test.xml or wx-settings.xml failed:", e);
+        }
     }
 
     public String getCorpId() {

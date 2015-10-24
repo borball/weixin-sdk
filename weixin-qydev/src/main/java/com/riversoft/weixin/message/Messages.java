@@ -4,7 +4,7 @@ import com.riversoft.weixin.base.Settings;
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.message.json.JsonMessage;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +32,9 @@ public class Messages {
 
     public void send(JsonMessage message) {
         if (message.getAgentId() <= 0) {
-            message.setAgentId(Settings.buildIn().getDefaultAgent());
+            message.setAgentId(Settings.defaultSettings().getDefaultAgent());
         }
-        String url = PropertiesLoader.getInstance().getProperty("url.message.send");
+        String url = WxEndpoint.get("url.message.send");
         String json = JsonMapper.nonEmptyMapper().toJson(message);
         logger.info("send message: {}", json);
         wxClient.post(url, json);

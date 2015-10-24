@@ -3,7 +3,7 @@
     <FromUserName><![CDATA[FromUser]]></FromUserName>
     <CreateTime>123456789</CreateTime>
     <MsgType><![CDATA[event]]></MsgType>
-    <Event><![CDATA[location]]></Event>
+    <Event><![CDATA[LOCATION]]></Event>
     <Latitude>23.104105</Latitude>
     <Longitude>113.320107</Longitude>
     <Precision>65.000000</Precision>

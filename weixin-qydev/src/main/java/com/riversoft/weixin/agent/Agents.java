@@ -5,7 +5,7 @@ import com.riversoft.weixin.agent.bean.AgentsList;
 import com.riversoft.weixin.agent.bean.WritableAgent;
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ public class Agents {
     }
 
     public List<Agent> list() {
-        String url = PropertiesLoader.getInstance().getProperty("url.agent.list");
+        String url = WxEndpoint.get("url.agent.list");
         String content = wxClient.get(url);
 
         logger.debug("list agents: {}", content);
@@ -44,7 +44,7 @@ public class Agents {
     }
 
     public Agent get(int id) {
-        String url = PropertiesLoader.getInstance().getProperty("url.agent.get");
+        String url = WxEndpoint.get("url.agent.get");
 
         String agent = wxClient.get(String.format(url, id));
         logger.debug("get agent: {}", agent);
@@ -62,7 +62,7 @@ public class Agents {
         writableAgent.setReportUserEnter(agent.isReportUserEnter());
         writableAgent.setLogoMediaId(agent.getLogoMediaId());
 
-        String url = PropertiesLoader.getInstance().getProperty("url.agent.set");
+        String url = WxEndpoint.get("url.agent.set");
 
         String json = JsonMapper.nonEmptyMapper().toJson(writableAgent);
         logger.info("update agent: {}", json);

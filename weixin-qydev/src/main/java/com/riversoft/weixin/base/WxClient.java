@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.exception.WxError;
 import com.riversoft.weixin.exception.WxRuntimeException;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
@@ -53,7 +52,7 @@ public class WxClient {
 
     public synchronized static WxClient defaultWxClient() {
         if (defaultWxClient == null) {
-            defaultWxClient = new WxClient(Settings.buildIn().getDefaultCorpSetting());
+            defaultWxClient = new WxClient(Settings.defaultSettings().getDefaultCorpSetting());
         }
         return defaultWxClient;
     }
@@ -219,7 +218,7 @@ public class WxClient {
     public String getAccessToken(boolean refresh) {
         if (refresh || accessToken == null || accessToken.expired()) {
             logger.debug("requesting a new access token.");
-            String url = PropertiesLoader.getInstance().getProperty("url.token.get");
+            String url = WxEndpoint.get("url.token.get");
             String content = httpGet(String.format(url, corpSetting.getCorpId(), corpSetting.getCorpSecret()));
             AccessToken accessToken = AccessToken.fromJson(content);
             logger.debug("requested a new access token: {}", accessToken.accessToken);

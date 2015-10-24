@@ -47,7 +47,7 @@ public class MaterialsTest {
     @Test
     public void testList() {
         Pagination pagination = new Pagination();
-        pagination.setAgentId(Settings.buildIn().getDefaultAgent());
+        pagination.setAgentId(Settings.defaultSettings().getDefaultAgent());
         pagination.setType(MediaType.image);
         pagination.setOffset(0);
         pagination.setCount(20);

@@ -4,7 +4,7 @@ import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.contact.bean.user.*;
 import com.riversoft.weixin.exception.WxRuntimeException;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,28 +36,28 @@ public class Users {
     }
 
     public ReadUser get(String uid) {
-        String url = PropertiesLoader.getInstance().getProperty("url.user.get");
+        String url = WxEndpoint.get("url.user.get");
         String user = wxClient.get(String.format(url, uid));
         logger.debug("get user: {}", user);
         return JsonMapper.nonEmptyMapper().fromJson(user, ReadUser.class);
     }
 
     public void create(CreateUser user) {
-        String url = PropertiesLoader.getInstance().getProperty("url.user.create");
+        String url = WxEndpoint.get("url.user.create");
         String json = JsonMapper.nonEmptyMapper().toJson(user);
         logger.debug("create user: {}", json);
         wxClient.post(url, json);
     }
 
     public void update(UpdateUser user) {
-        String url = PropertiesLoader.getInstance().getProperty("url.user.update");
+        String url = WxEndpoint.get("url.user.update");
         String json = JsonMapper.nonEmptyMapper().toJson(user);
         logger.debug("update user: {}", user);
         wxClient.post(url, json);
     }
 
     public void delete(String uid) {
-        String url = PropertiesLoader.getInstance().getProperty("url.user.delete");
+        String url = WxEndpoint.get("url.user.delete");
         logger.debug("delete user: {}", uid);
         wxClient.get(String.format(url, uid));
     }
@@ -70,7 +70,7 @@ public class Users {
             }
         }
 
-        String url = PropertiesLoader.getInstance().getProperty("url.user.simple.list");
+        String url = WxEndpoint.get("url.user.simple.list");
         String user = wxClient.get(String.format(url, department, fetchChild ? "1" : "0", status));
         logger.debug("list user: {}", user);
         SimpleUserList simpleUserList = JsonMapper.nonEmptyMapper().fromJson(user, SimpleUserList.class);
@@ -89,7 +89,7 @@ public class Users {
             }
         }
 
-        String url = PropertiesLoader.getInstance().getProperty("url.user.list");
+        String url = WxEndpoint.get("url.user.list");
         String user = wxClient.get(String.format(url, department, fetchChild ? "1" : "0", status));
         logger.debug("list user: {}", user);
         ReadUserList readUserList = JsonMapper.nonEmptyMapper().fromJson(user, ReadUserList.class);
@@ -105,14 +105,14 @@ public class Users {
     }
 
     public void delete(List<String> users) {
-        String url = PropertiesLoader.getInstance().getProperty("url.user.batch.delete");
+        String url = WxEndpoint.get("url.user.batch.delete");
         String json = String.format("{\"useridlist\":%s}", JsonMapper.defaultMapper().toJson(users));
         logger.debug("delete users: {}", json);
         wxClient.post(url, json);
     }
 
     public Invitation invite(String uid) {
-        String url = PropertiesLoader.getInstance().getProperty("url.user.invite");
+        String url = WxEndpoint.get("url.user.invite");
         String json = "{\"userid\":\"%s\"}";
         logger.debug("invite user: {}", String.format(json, uid));
 

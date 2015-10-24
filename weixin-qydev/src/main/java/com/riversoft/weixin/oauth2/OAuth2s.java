@@ -3,7 +3,7 @@ package com.riversoft.weixin.oauth2;
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.oauth2.bean.UserInfo;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import com.riversoft.weixin.util.URLEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +34,16 @@ public class OAuth2s {
 
     public String authenticationUrl(String redirect, String state){
         if(state == null || "".equals(state)) {
-            String url = PropertiesLoader.getInstance().getProperty("url.oauth.authentication");
+            String url = WxEndpoint.get("url.oauth.authentication");
             return String.format(url, wxClient.getCorpSetting().getCorpId(), URLEncoder.encode(redirect), state);
         } else {
-            String url = PropertiesLoader.getInstance().getProperty("url.oauth.authentication.state");
+            String url = WxEndpoint.get("url.oauth.authentication.state");
             return String.format(url, wxClient.getCorpSetting().getCorpId(), URLEncoder.encode(redirect));
         }
     }
 
     public UserInfo userInfo(String code) {
-        String url = PropertiesLoader.getInstance().getProperty("url.oauth.get");
+        String url = WxEndpoint.get("url.oauth.get");
 
         //尼玛又不带error code
         String userInfo = wxClient.get(String.format(url, code));

@@ -13,7 +13,7 @@ public class WxClientTest {
 
     @BeforeClass
     public static void beforeClass() {
-        wxClient = new WxClient(Settings.buildIn().getDefaultCorpSetting());
+        wxClient = new WxClient(Settings.defaultSettings().getDefaultCorpSetting());
     }
 
     @Test

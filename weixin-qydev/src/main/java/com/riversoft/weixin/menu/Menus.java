@@ -5,7 +5,7 @@ import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.menu.bean.Menu;
 import com.riversoft.weixin.menu.bean.MenuWrapper;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ public class Menus {
     }
 
     public void create(int agent, Menu menu) {
-        String url = PropertiesLoader.getInstance().getProperty("url.menu.create");
+        String url = WxEndpoint.get("url.menu.create");
 
         String json = JsonMapper.nonEmptyMapper().toJson(menu);
         logger.info("update menu: {}", json);
@@ -40,20 +40,20 @@ public class Menus {
     }
 
     public void create(Menu menu) {
-        create(Settings.buildIn().getDefaultAgent(), menu);
+        create(Settings.defaultSettings().getDefaultAgent(), menu);
     }
 
     public void delete() {
-        delete(Settings.buildIn().getDefaultAgent());
+        delete(Settings.defaultSettings().getDefaultAgent());
     }
 
     public void delete(int agent) {
-        String url = PropertiesLoader.getInstance().getProperty("url.menu.delete");
+        String url = WxEndpoint.get("url.menu.delete");
         wxClient.get(String.format(url, agent));
     }
 
     public Menu list(int agent) {
-        String url = PropertiesLoader.getInstance().getProperty("url.menu.list");
+        String url = WxEndpoint.get("url.menu.list");
         String content = wxClient.get(String.format(url, agent));
 
         logger.debug("list menu: {}", content);
@@ -63,7 +63,7 @@ public class Menus {
     }
 
     public Menu list() {
-        return list(Settings.buildIn().getDefaultAgent());
+        return list(Settings.defaultSettings().getDefaultAgent());
     }
 
 }

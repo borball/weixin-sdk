@@ -57,7 +57,7 @@ public class MessagesTest {
 
     @Test
     public void testFluentAPI() {
-        JsonMessage textMessage = new TextMessage().text("测试流式API").toUser(testUser());
+        JsonMessage textMessage = new TextMessage().text("文本消息").safe().toUser("woden|borball|xxx").toParty("1|2|3").toTag("1|2|3");
         Messages.defaultMessages().send(textMessage);
     }
 

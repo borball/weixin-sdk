@@ -4,7 +4,7 @@ import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.contact.bean.department.Department;
 import com.riversoft.weixin.contact.bean.department.DepartmentList;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,34 +34,34 @@ public class Departments {
     }
 
     public Department get(int id) {
-        String url = PropertiesLoader.getInstance().getProperty("url.department.get");
+        String url = WxEndpoint.get("url.department.get");
         String user = wxClient.get(String.format(url, id));
         logger.debug("get department: {}", user);
         return JsonMapper.nonEmptyMapper().fromJson(user, Department.class);
     }
 
     public void create(Department department) {
-        String url = PropertiesLoader.getInstance().getProperty("url.department.create");
+        String url = WxEndpoint.get("url.department.create");
         String json = JsonMapper.nonEmptyMapper().toJson(department);
         logger.debug("create department: {}", json);
         wxClient.post(url, json);
     }
 
     public void update(Department department) {
-        String url = PropertiesLoader.getInstance().getProperty("url.department.update");
+        String url = WxEndpoint.get("url.department.update");
         String json = JsonMapper.nonEmptyMapper().toJson(department);
         logger.debug("update department: {}", department);
         wxClient.post(url, json);
     }
 
     public void delete(int id) {
-        String url = PropertiesLoader.getInstance().getProperty("url.department.delete");
+        String url = WxEndpoint.get("url.department.delete");
         logger.debug("delete department: {}", id);
         wxClient.get(String.format(url, id));
     }
 
     public List<Department> list(){
-        String url = PropertiesLoader.getInstance().getProperty("url.department.list.all");
+        String url = WxEndpoint.get("url.department.list.all");
         String response = wxClient.get(url);
         logger.debug("list all departments: {}", response);
         DepartmentList departmentList = JsonMapper.nonEmptyMapper().fromJson(response, DepartmentList.class);
@@ -69,7 +69,7 @@ public class Departments {
     }
 
     public List<Department> list(int id) {
-        String url = PropertiesLoader.getInstance().getProperty("url.department.list");
+        String url = WxEndpoint.get("url.department.list");
         String response = wxClient.get(String.format(url, id));
         logger.debug("list departments: {}", response);
         DepartmentList departmentList = JsonMapper.nonEmptyMapper().fromJson(response, DepartmentList.class);

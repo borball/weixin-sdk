@@ -8,7 +8,7 @@ import com.riversoft.weixin.media.bean.MediaType;
 import com.riversoft.weixin.media.bean.Pagination;
 import com.riversoft.weixin.media.bean.SearchResult;
 import com.riversoft.weixin.util.JsonMapper;
-import com.riversoft.weixin.util.PropertiesLoader;
+import com.riversoft.weixin.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +40,11 @@ public class Materials {
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {
-        return upload(Settings.buildIn().getDefaultAgent(), type, inputStream, extName);
+        return upload(Settings.defaultSettings().getDefaultAgent(), type, inputStream, extName);
     }
 
     public String upload(int agent, MediaType type, InputStream inputStream, String extName) {
-        String url = PropertiesLoader.getInstance().getProperty("url.material.upload");
+        String url = WxEndpoint.get("url.material.upload");
 
         String response = wxClient.post(String.format(url, agent, type.name()), inputStream, extName);
 
@@ -58,33 +58,33 @@ public class Materials {
     }
 
     public File download(String mediaId) {
-        return download(Settings.buildIn().getDefaultAgent(), mediaId);
+        return download(Settings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
     public File download(int agent, String mediaId) {
-        return wxClient.download(String.format(PropertiesLoader.getInstance().getProperty("url.material.get"), agent, mediaId));
+        return wxClient.download(String.format(WxEndpoint.get("url.material.get"), agent, mediaId));
     }
 
     public void delete(String mediaId) {
-        delete(Settings.buildIn().getDefaultAgent(), mediaId);
+        delete(Settings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
     public void delete(int agent, String mediaId) {
-        String response = wxClient.get(String.format(PropertiesLoader.getInstance().getProperty("url.material.delete"), agent, mediaId));
+        String response = wxClient.get(String.format(WxEndpoint.get("url.material.delete"), agent, mediaId));
         logger.info("material delete result: {}", response);
     }
 
     public Counts count() {
-        return count(Settings.buildIn().getDefaultAgent());
+        return count(Settings.defaultSettings().getDefaultAgent());
     }
 
     public Counts count(int agent) {
-        String response = wxClient.get(String.format(PropertiesLoader.getInstance().getProperty("url.material.count"), agent));
+        String response = wxClient.get(String.format(WxEndpoint.get("url.material.count"), agent));
         return JsonMapper.defaultMapper().fromJson(response, Counts.class);
     }
 
     public SearchResult list(Pagination pagination) {
-        String response = wxClient.post(PropertiesLoader.getInstance().getProperty("url.material.list"), JsonMapper.defaultMapper().toJson(pagination));
+        String response = wxClient.post(WxEndpoint.get("url.material.list"), JsonMapper.defaultMapper().toJson(pagination));
         return JsonMapper.defaultMapper().fromJson(response, SearchResult.class);
     }
 }
