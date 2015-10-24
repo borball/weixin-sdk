@@ -18,9 +18,12 @@ public class WxClientTest {
 
     @Test
     public void testGetToken() {
-        String token = wxClient.getAccessToken();
+        WxClient.AccessToken token = wxClient.getAccessToken();
+        System.out.println(token.getAccessToken() + "," + token.getExpiresTill());
         Assert.assertNotNull(token);
-        token = wxClient.getAccessToken(true);
+        wxClient.refreshToken();
+        token = wxClient.getAccessToken();
+        System.out.println(token.getAccessToken() + "," + token.getExpiresTill());
         Assert.assertNotNull(token);
     }
 

@@ -45,6 +45,10 @@ public class WxClient {
         return corpSetting;
     }
 
+    public void setCorpSetting(CorpSetting corpSetting) {
+        this.corpSetting = corpSetting;
+    }
+
     public WxClient(CorpSetting corpSetting) {
         this.corpSetting = corpSetting;
         httpClient = HttpClients.createDefault();
@@ -206,26 +210,28 @@ public class WxClient {
     }
 
     private String appendAccessToken(String url) {
-        String accessToken = getAccessToken();
-        logger.debug("access token: {}", accessToken);
-        return url + (url.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken);
-    }
-
-    public String getAccessToken() {
-        return getAccessToken(false);
-    }
-
-    public String getAccessToken(boolean refresh) {
-        if (refresh || accessToken == null || accessToken.expired()) {
-            logger.debug("requesting a new access token.");
-            String url = WxEndpoint.get("url.token.get");
-            String content = httpGet(String.format(url, corpSetting.getCorpId(), corpSetting.getCorpSecret()));
-            AccessToken accessToken = AccessToken.fromJson(content);
-            logger.debug("requested a new access token: {}", accessToken.accessToken);
-            this.accessToken = accessToken;
+        if(accessToken == null || accessToken.expired()) {
+            refreshToken();
         }
+        String token = accessToken.getAccessToken();
+        logger.debug("access token: {}", token);
+        return url + (url.indexOf('?') == -1 ? "?access_token=" + token : "&access_token=" + token);
+    }
 
-        return this.accessToken.getAccessToken();
+    public synchronized void refreshToken() {
+        logger.debug("requesting a new access token.");
+        String url = WxEndpoint.get("url.token.get");
+        String content = httpGet(String.format(url, corpSetting.getCorpId(), corpSetting.getCorpSecret()));
+        AccessToken accessToken = AccessToken.fromJson(content);
+        logger.debug("requested a new access token: {}", accessToken.accessToken);
+        this.accessToken = accessToken;
+    }
+
+    public AccessToken getAccessToken() {
+        if(accessToken == null) {
+            refreshToken();
+        }
+        return accessToken;
     }
 
     public static class AccessToken {
@@ -257,6 +263,10 @@ public class WxClient {
         public void setExpiresIn(long expiresIn) {
             this.expiresIn = expiresIn;
             this.expiresTill = System.currentTimeMillis() + (expiresIn * 1000) - 300000;
+        }
+
+        public long getExpiresTill() {
+            return expiresTill;
         }
 
         public boolean expired() {
