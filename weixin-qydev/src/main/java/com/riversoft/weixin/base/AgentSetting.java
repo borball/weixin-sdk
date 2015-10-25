@@ -5,10 +5,19 @@ package com.riversoft.weixin.base;
  */
 public class AgentSetting {
 
+    private String name;
     private int agentId;
     private String callbackUrl;
     private String token;
     private String aesKey;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getAgentId() {
         return agentId;

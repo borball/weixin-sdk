@@ -47,4 +47,19 @@ public class Video implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Video mediaId(String mediaId) {
+        this.mediaId = mediaId;
+        return this;
+    }
+
+    public Video title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Video description(String description) {
+        this.description = description;
+        return this;
+    }
 }
