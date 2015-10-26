@@ -130,6 +130,9 @@ public class Users {
                 if (60119 == wxRuntimeException.getCode()) {
                     return Invitation.ALREADY_FOLLOWED;
                 }
+                if(45025 == wxRuntimeException.getCode()) {
+                    return Invitation.ALREADY_INVITED;
+                }
             }
             return Invitation.FAILED;
         }

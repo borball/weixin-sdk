@@ -5,7 +5,7 @@ package com.riversoft.weixin.contact.bean.user;
  */
 public enum UserStatus {
 
-    FOLLOWED(1), UN_FOLLOWED(4), SUSPEND(2), UNKNOWN(0);
+    FOLLOWED(1), UN_FOLLOWED(4), SUSPEND(2), UNKNOWN(-1);
 
     private int status;
 

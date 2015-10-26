@@ -16,7 +16,7 @@ public class WxEndpoint {
         if(endpoints == null) {
             try {
                 Properties properties = new Properties();
-                InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("wx-endpoint.properties");
+                InputStream inputStream = WxEndpoint.class.getClassLoader().getResourceAsStream("wx-endpoint.properties");
                 properties.load(inputStream);
                 endpoints = properties;
             } catch (IOException e) {

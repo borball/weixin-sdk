@@ -38,7 +38,7 @@ public class UsersTest {
 
     @Test
     public void testInvite() {
-        Invitation invitation = Users.defaultUsers().invite(getTestUser());
+        Invitation invitation = Users.defaultUsers().invite("smooth");
         Assert.assertNotNull(invitation);
     }
 

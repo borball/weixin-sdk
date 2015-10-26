@@ -41,12 +41,40 @@ public class MessagesTest {
     @Test
     public void testNews() {
         News news = new News();
-        Article article = new Article();
-        article.setTitle("测试news");
-        article.setDescription("今日头条，正在调试message API, 测试是否能正常发送news类型。");
-        article.setUrl("http://riversoft.com.cn/Upload/Pic/banner4.jpg");
-        article.setPicUrl("http://riversoft.com.cn/Upload/Pic/banner2.jpg");
-        news.add(article);
+        Article article1 = new Article();
+        article1.setTitle("iTerm：让你的命令行也能丰富多彩");
+        article1.setDescription("iTerm：让你的命令行也能丰富多彩");
+        article1.setUrl("http://swiftcafe.io/2015/07/25/iterm");
+        article1.setPicUrl("http://swiftcafe.io/images/iterm/1.png");
+        news.add(article1);
+
+        Article article2 = new Article();
+        article2.setTitle("GitHub 漫游指南");
+        article2.setDescription("GitHub 漫游指南");
+        article2.setUrl("https://github.com/phodal/github-roam");
+        article2.setPicUrl("http://7rf34y.com1.z0.glb.clouddn.com/user/7ec9b7dc0f494919b68d6f6be9504790/thumb");
+
+        news.add(article2);
+        Article article3 = new Article();
+        article3.setTitle("[译] 为 JavaScript 程序员准备的 10 本免费书籍");
+        article3.setDescription("[译] 为 JavaScript 程序员准备的 10 本免费书籍");
+        article3.setUrl("http://info.9iphp.com/10-free-javascript-books-for-beginners");
+        article3.setPicUrl("http://www.pinyourclient.com/wp-content/uploads/2015/01/9455413519_javascript.png");
+        news.add(article3);
+
+        Article article4 = new Article();
+        article4.setTitle("疯狂 HTML + CSS + JS 中 CSS 总结");
+        article4.setDescription("疯狂 HTML + CSS + JS 中 CSS 总结");
+        article4.setUrl("http://mzkmzk.github.io/blog/2015/10/18/amazeing-css.markdwon");
+        article4.setPicUrl("http://extjs.org.cn/screen_capture/extjswebbook/crazy-ajax-03.jpg");
+        news.add(article4);
+
+        Article article5 = new Article();
+        article5.setTitle("Facebook CEO 扎克伯格用中文讲了三个故事");
+        article5.setDescription("Facebook CEO 扎克伯格用中文讲了三个故事");
+        article5.setUrl("http://www.cyzone.cn/a/20151024/282339.html");
+        article5.setPicUrl("http://img0.pconline.com.cn/pconline/1410/23/5615376_03_thumb.jpg");
+        news.add(article5);
 
         NewsMessage newsMessage = new NewsMessage();
         newsMessage.setNews(news);

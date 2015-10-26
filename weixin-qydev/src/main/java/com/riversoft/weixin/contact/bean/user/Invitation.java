@@ -5,7 +5,7 @@ package com.riversoft.weixin.contact.bean.user;
  */
 public enum Invitation {
 
-    WX(1), EMAIL(2), ALREADY_FOLLOWED(0), FAILED(99);
+    WX(1), EMAIL(2), ALREADY_FOLLOWED(0), ALREADY_INVITED(98), FAILED(99);
 
     private int type;
 
