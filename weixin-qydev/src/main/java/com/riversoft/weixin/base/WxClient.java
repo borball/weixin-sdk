@@ -56,7 +56,7 @@ public class WxClient {
 
     public synchronized static WxClient defaultWxClient() {
         if (defaultWxClient == null) {
-            defaultWxClient = new WxClient(Settings.defaultSettings().getDefaultCorpSetting());
+            defaultWxClient = new WxClient(DefaultSettings.defaultSettings().getCorpSetting());
         }
         return defaultWxClient;
     }

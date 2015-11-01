@@ -1,6 +1,6 @@
 package com.riversoft.weixin.message;
 
-import com.riversoft.weixin.base.Settings;
+import com.riversoft.weixin.base.DefaultSettings;
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.message.json.JsonMessage;
 import com.riversoft.weixin.util.JsonMapper;
@@ -32,7 +32,7 @@ public class Messages {
 
     public void send(JsonMessage message) {
         if (message.getAgentId() <= 0) {
-            message.setAgentId(Settings.defaultSettings().getDefaultAgent());
+            message.setAgentId(DefaultSettings.defaultSettings().getDefaultAgent());
         }
         String url = WxEndpoint.get("url.message.send");
         String json = JsonMapper.nonEmptyMapper().toJson(message);

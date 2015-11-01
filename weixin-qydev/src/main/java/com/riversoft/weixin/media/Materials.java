@@ -1,6 +1,6 @@
 package com.riversoft.weixin.media;
 
-import com.riversoft.weixin.base.Settings;
+import com.riversoft.weixin.base.DefaultSettings;
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.exception.WxRuntimeException;
 import com.riversoft.weixin.media.bean.Counts;
@@ -40,7 +40,7 @@ public class Materials {
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {
-        return upload(Settings.defaultSettings().getDefaultAgent(), type, inputStream, extName);
+        return upload(DefaultSettings.defaultSettings().getDefaultAgent(), type, inputStream, extName);
     }
 
     public String upload(int agent, MediaType type, InputStream inputStream, String extName) {
@@ -58,7 +58,7 @@ public class Materials {
     }
 
     public File download(String mediaId) {
-        return download(Settings.defaultSettings().getDefaultAgent(), mediaId);
+        return download(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
     public File download(int agent, String mediaId) {
@@ -66,7 +66,7 @@ public class Materials {
     }
 
     public void delete(String mediaId) {
-        delete(Settings.defaultSettings().getDefaultAgent(), mediaId);
+        delete(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
     public void delete(int agent, String mediaId) {
@@ -75,7 +75,7 @@ public class Materials {
     }
 
     public Counts count() {
-        return count(Settings.defaultSettings().getDefaultAgent());
+        return count(DefaultSettings.defaultSettings().getDefaultAgent());
     }
 
     public Counts count(int agent) {

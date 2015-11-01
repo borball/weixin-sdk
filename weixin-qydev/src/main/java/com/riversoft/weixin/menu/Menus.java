@@ -1,6 +1,6 @@
 package com.riversoft.weixin.menu;
 
-import com.riversoft.weixin.base.Settings;
+import com.riversoft.weixin.base.DefaultSettings;
 import com.riversoft.weixin.base.WxClient;
 import com.riversoft.weixin.menu.bean.Menu;
 import com.riversoft.weixin.menu.bean.MenuWrapper;
@@ -40,11 +40,11 @@ public class Menus {
     }
 
     public void create(Menu menu) {
-        create(Settings.defaultSettings().getDefaultAgent(), menu);
+        create(DefaultSettings.defaultSettings().getDefaultAgent(), menu);
     }
 
     public void delete() {
-        delete(Settings.defaultSettings().getDefaultAgent());
+        delete(DefaultSettings.defaultSettings().getDefaultAgent());
     }
 
     public void delete(int agent) {
@@ -63,7 +63,7 @@ public class Menus {
     }
 
     public Menu list() {
-        return list(Settings.defaultSettings().getDefaultAgent());
+        return list(DefaultSettings.defaultSettings().getDefaultAgent());
     }
 
 }

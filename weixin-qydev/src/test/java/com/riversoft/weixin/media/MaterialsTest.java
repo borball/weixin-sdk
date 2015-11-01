@@ -1,6 +1,6 @@
 package com.riversoft.weixin.media;
 
-import com.riversoft.weixin.base.Settings;
+import com.riversoft.weixin.base.DefaultSettings;
 import com.riversoft.weixin.media.bean.Counts;
 import com.riversoft.weixin.media.bean.MediaType;
 import com.riversoft.weixin.media.bean.Pagination;
@@ -47,7 +47,7 @@ public class MaterialsTest {
     @Test
     public void testList() {
         Pagination pagination = new Pagination();
-        pagination.setAgentId(Settings.defaultSettings().getDefaultAgent());
+        pagination.setAgentId(DefaultSettings.defaultSettings().getDefaultAgent());
         pagination.setType(MediaType.image);
         pagination.setOffset(0);
         pagination.setCount(20);

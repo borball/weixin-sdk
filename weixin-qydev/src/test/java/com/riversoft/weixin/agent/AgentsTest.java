@@ -1,7 +1,7 @@
 package com.riversoft.weixin.agent;
 
 import com.riversoft.weixin.agent.bean.Agent;
-import com.riversoft.weixin.base.Settings;
+import com.riversoft.weixin.base.DefaultSettings;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class AgentsTest {
 
     @Test
     public void testGet() {
-        Agent agent = Agents.defaultAgents().get(Settings.defaultSettings().getDefaultAgent());
+        Agent agent = Agents.defaultAgents().get(DefaultSettings.defaultSettings().getDefaultAgent());
 
         Assert.assertNotNull(agent);
     }
@@ -27,12 +27,12 @@ public class AgentsTest {
 
     @Test
     public void testUpdate() {
-        Agent agent = Agents.defaultAgents().get(Settings.defaultSettings().getDefaultAgent());
+        Agent agent = Agents.defaultAgents().get(DefaultSettings.defaultSettings().getDefaultAgent());
         agent.setName(agent.getName());
         agent.setDescription(agent.getDescription());
         Agents.defaultAgents().update(agent);
 
-        agent = Agents.defaultAgents().get(Settings.defaultSettings().getDefaultAgent());
+        agent = Agents.defaultAgents().get(DefaultSettings.defaultSettings().getDefaultAgent());
 
         Assert.assertNotNull(agent);
     }
