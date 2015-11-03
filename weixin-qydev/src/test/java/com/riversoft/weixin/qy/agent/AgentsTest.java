@@ -1,0 +1,39 @@
+package com.riversoft.weixin.qy.agent;
+
+import com.riversoft.weixin.qy.agent.bean.Agent;
+import com.riversoft.weixin.qy.base.DefaultSettings;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.List;
+
+/**
+ * Created by exizhai on 9/26/2015.
+ */
+public class AgentsTest {
+
+    @Test
+    public void testGet() {
+        Agent agent = Agents.defaultAgents().get(DefaultSettings.defaultSettings().getDefaultAgent());
+
+        Assert.assertNotNull(agent);
+    }
+
+    @Test
+    public void testList() {
+        List<Agent> list = Agents.defaultAgents().list();
+        Assert.assertNotNull(list);
+    }
+
+    @Test
+    public void testUpdate() {
+        Agent agent = Agents.defaultAgents().get(DefaultSettings.defaultSettings().getDefaultAgent());
+        agent.setName(agent.getName());
+        agent.setDescription(agent.getDescription());
+        Agents.defaultAgents().update(agent);
+
+        agent = Agents.defaultAgents().get(DefaultSettings.defaultSettings().getDefaultAgent());
+
+        Assert.assertNotNull(agent);
+    }
+}
