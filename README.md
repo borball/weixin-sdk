@@ -7,7 +7,7 @@ weixin-sdk 是对微信公众平台API的封装；目前只实现了企业号API
     <dependency>
       <groupId>cn.com.riversoft</groupId>
       <artifactId>weixin-qydev</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.1.0</version>
     </dependency>
 
 ##如何使用：
