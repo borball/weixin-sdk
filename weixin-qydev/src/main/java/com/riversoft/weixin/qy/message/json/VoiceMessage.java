@@ -16,7 +16,8 @@ public class VoiceMessage extends JsonMessage {
     @JsonSerialize(using = BooleanSerializer.class)
     @JsonDeserialize(using = BooleanDeserializer.class)
     private boolean safe;
-    @JsonProperty("media_id")
+
+    @JsonProperty("voice")
     private Media media;
 
     public VoiceMessage() {

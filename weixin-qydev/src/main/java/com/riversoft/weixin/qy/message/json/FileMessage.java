@@ -13,10 +13,11 @@ import com.riversoft.weixin.qy.util.BooleanSerializer;
  */
 public class FileMessage extends JsonMessage {
 
-    @JsonProperty("media_id")
+    @JsonProperty("file")
     private Media media;
     @JsonSerialize(using = BooleanSerializer.class)
     @JsonDeserialize(using = BooleanDeserializer.class)
+
     private boolean safe;
 
     public FileMessage() {

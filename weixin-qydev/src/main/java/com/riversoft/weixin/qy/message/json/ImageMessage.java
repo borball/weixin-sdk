@@ -13,8 +13,9 @@ import com.riversoft.weixin.qy.util.BooleanSerializer;
  */
 public class ImageMessage extends JsonMessage {
 
-    @JsonProperty("media_id")
+    @JsonProperty("image")
     private Media media;
+
     @JsonSerialize(using = BooleanSerializer.class)
     @JsonDeserialize(using = BooleanDeserializer.class)
     private boolean safe;

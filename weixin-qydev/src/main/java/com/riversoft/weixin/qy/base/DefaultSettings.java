@@ -32,17 +32,17 @@ public class DefaultSettings implements Serializable {
         }
 
         if(defaultSetting == null) {
-            throw new WxRuntimeException(999, "当前系统没有设置缺省的corpId和corpSecret,请使用setDefault方法或者在classpath下面创建wx-settings.xml文件.");
+            throw new WxRuntimeException(999, "当前系统没有设置缺省的corpId和corpSecret,请使用setDefault方法或者在classpath下面创建wx-qy-settings.xml文件.");
         }
         return defaultSetting;
     }
 
     private static void loadFromClasspath() {
         try {
-            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-settings-test.xml");
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-qy-settings-test.xml");
 
             if (inputStream == null) {
-                inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-settings.xml");
+                inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("wx-qy-settings.xml");
             }
 
             if (inputStream != null) {
@@ -51,7 +51,7 @@ public class DefaultSettings implements Serializable {
                 defaultSetting = defaultSettings;
             }
         } catch (IOException e) {
-            logger.error("read settings from wx-settings-test.xml or wx-settings.xml failed:", e);
+            logger.error("read settings from wx-qy-settings-test.xml or wx-qy-settings.xml failed:", e);
         }
     }
 

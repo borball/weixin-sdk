@@ -61,6 +61,7 @@ public class Agents {
         writableAgent.setReportUserChange(agent.isReportUserChange());
         writableAgent.setReportUserEnter(agent.isReportUserEnter());
         writableAgent.setLogoMediaId(agent.getLogoMediaId());
+        writableAgent.setRedirectDomain(agent.getRedirectDomain());
 
         String url = WxEndpoint.get("url.agent.set");
 
