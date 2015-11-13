@@ -38,7 +38,7 @@ public class Groups {
     }
 
     public Group create(String name){
-        String url = WxEndpoint.get("mp.url.group.create");
+        String url = WxEndpoint.get("url.group.create");
         String json = String.format("{\"group\":{\"name\":\"%s\"}}", name);
         logger.debug("create group: {}", json);
         String response = wxClient.post(url, json);
@@ -47,7 +47,7 @@ public class Groups {
     }
 
     public List<Group> list(){
-        String url = WxEndpoint.get("mp.url.group.list");
+        String url = WxEndpoint.get("url.group.list");
         String response = wxClient.get(url);
         logger.debug("list groups: {}", response);
         GroupList groupList = JsonMapper.defaultMapper().fromJson(response, GroupList.class);
@@ -55,14 +55,14 @@ public class Groups {
     }
 
     public void update(int id, String name) {
-        String url = WxEndpoint.get("mp.url.group.update");
+        String url = WxEndpoint.get("url.group.update");
         String json = String.format("{\"group\":{\"id\":%s,\"name\":\"%s\"}}", id, name);
         logger.debug("update group: {}", json);
         wxClient.post(url, json);
     }
 
     public void delete(int id) {
-        String url = WxEndpoint.get("mp.url.group.delete");
+        String url = WxEndpoint.get("url.group.delete");
         String json = String.format("{\"group\":{\"id\":%s}}", id);
         logger.debug("delete group: {}", json);
         wxClient.post(url, json);
@@ -74,7 +74,7 @@ public class Groups {
      * @return
      */
     public int getUserGroup(String openId) {
-        String url = WxEndpoint.get("mp.url.group.user.get");
+        String url = WxEndpoint.get("url.group.user.get");
         String json = String.format("{\"openid\":\"%s\"}", openId);
         logger.debug("get user group: {}", json);
         String response = wxClient.post(url, json);
@@ -87,14 +87,14 @@ public class Groups {
     }
 
     public void move(String openId, int group) {
-        String url = WxEndpoint.get("mp.url.group.user.move");
+        String url = WxEndpoint.get("url.group.user.move");
         String json = String.format("{\"openid\":\"%s\",\"to_groupid\":%s}", openId, group);
         logger.debug("move user group: {}", json);
         wxClient.post(url, json);
     }
 
     public void move(List<String> openIds, int group) {
-        String url = WxEndpoint.get("mp.url.group.user.moves");
+        String url = WxEndpoint.get("url.group.user.moves");
         String ids = Joiner.on(",").join(openIds);
         String json = String.format("{\"openid_list\":[%s],\"to_groupid\":%s}", ids, group);
         logger.debug("move users group: {}", json);

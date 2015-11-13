@@ -37,20 +37,20 @@ public class Users {
     }
 
     public User get(String openId, String lang) {
-        String url = WxEndpoint.get("mp.url.user.get");
+        String url = WxEndpoint.get("url.user.get");
         String user = wxClient.get(String.format(url, openId, lang));
         logger.debug("get user: {}", user);
         return JsonMapper.nonEmptyMapper().fromJson(user, User.class);
     }
 
     public String list(){
-        String url = WxEndpoint.get("mp.url.user.list");
+        String url = WxEndpoint.get("url.user.list");
         logger.debug("list users: {}");
         return wxClient.get(url);
     }
 
     public void remark(String openId, String remark) {
-        String url = WxEndpoint.get("mp.url.user.remark");
+        String url = WxEndpoint.get("url.user.remark");
         String json = String.format("{\"openid\":\"%s\",\"remark\":\"%s\"}", openId, remark);
         logger.debug("remark user: {}", json);
         wxClient.post(url, json);

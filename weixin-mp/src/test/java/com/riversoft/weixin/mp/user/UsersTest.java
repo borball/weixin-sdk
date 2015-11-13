@@ -1,6 +1,7 @@
 package com.riversoft.weixin.mp.user;
 
 import com.riversoft.weixin.mp.user.bean.User;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -11,6 +12,7 @@ public class UsersTest {
     @Test
     public void testGet(){
         User user = Users.defaultUsers().get("oUQlRwnlS4u6PABZdR6Lgtcwq0vk");
+        Assert.assertNotNull(user);
     }
 
     @Test
