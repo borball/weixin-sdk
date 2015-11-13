@@ -1,7 +1,9 @@
 package com.riversoft.weixin.qy.media;
 
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.base.WxClient;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import com.riversoft.weixin.qy.media.bean.Counts;
 import com.riversoft.weixin.qy.media.bean.MediaType;
@@ -23,20 +25,20 @@ public class Materials {
 
     private static Logger logger = LoggerFactory.getLogger(Materials.class);
 
-    private static Materials materials = null;
     private WxClient wxClient;
-
-    public static Materials defaultMaterials() {
-        if (materials == null) {
-            materials = new Materials();
-            materials.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return materials;
-    }
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Materials defaultMaterials() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Materials with(CorpSetting corpSetting) {
+        Materials materials = new Materials();
+        materials.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return materials;
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {

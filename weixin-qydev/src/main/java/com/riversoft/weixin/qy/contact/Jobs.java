@@ -1,7 +1,10 @@
 package com.riversoft.weixin.qy.contact;
 
 import com.google.common.base.Joiner;
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.contact.bean.job.JobResult;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import com.riversoft.weixin.qy.util.JsonMapper;
@@ -21,21 +24,21 @@ import java.util.Map;
 public class Jobs {
 
     private static Logger logger = LoggerFactory.getLogger(Jobs.class);
-    private static Jobs jobs = null;
 
     private WxClient wxClient;
 
-    public static Jobs defaultJobs() {
-        if (jobs == null) {
-            jobs = new Jobs();
-            jobs.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return jobs;
-    }
-
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Jobs defaultJobs() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Jobs with(CorpSetting corpSetting) {
+        Jobs jobs = new Jobs();
+        jobs.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return jobs;
     }
 
     public String invite(List<String> users, List<Integer> departments, List<Integer> tags) {

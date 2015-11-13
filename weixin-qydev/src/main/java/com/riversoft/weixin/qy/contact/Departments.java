@@ -1,6 +1,9 @@
 package com.riversoft.weixin.qy.contact;
 
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.contact.bean.department.Department;
 import com.riversoft.weixin.qy.contact.bean.department.DepartmentList;
 import com.riversoft.weixin.qy.util.JsonMapper;
@@ -17,20 +20,20 @@ public class Departments {
 
     private static Logger logger = LoggerFactory.getLogger(Users.class);
 
-    private static Departments departments = null;
     private WxClient wxClient;
-
-    public static Departments defaultDepartments() {
-        if (departments == null) {
-            departments = new Departments();
-            departments.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return departments;
-    }
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Departments defaultDepartments() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Departments with(CorpSetting corpSetting) {
+        Departments departments = new Departments();
+        departments.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return departments;
     }
 
     public Department get(int id) {

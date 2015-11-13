@@ -1,9 +1,9 @@
-package com.riversoft.weixin.qy.base;
+package com.riversoft.weixin.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.riversoft.weixin.qy.exception.WxError;
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.util.JsonMapper;
+import com.riversoft.weixin.common.exception.WxError;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
+import com.riversoft.weixin.common.util.JsonMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
@@ -35,30 +35,33 @@ public class WxClient {
 
     private static Logger logger = LoggerFactory.getLogger(WxClient.class);
 
-    private static WxClient defaultWxClient = null;
-
     protected CloseableHttpClient httpClient;
     private AccessToken accessToken;
-    private CorpSetting corpSetting;
+    private String clientId;
+    private String clientSecret;
+    private String tokenUrl;
 
-    public CorpSetting getCorpSetting() {
-        return corpSetting;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setCorpSetting(CorpSetting corpSetting) {
-        this.corpSetting = corpSetting;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public WxClient(CorpSetting corpSetting) {
-        this.corpSetting = corpSetting;
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    public WxClient(String tokenUrl, String clientId, String clientSecret) {
+        this.tokenUrl = tokenUrl;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
         httpClient = HttpClients.createDefault();
-    }
-
-    public synchronized static WxClient defaultWxClient() {
-        if (defaultWxClient == null) {
-            defaultWxClient = new WxClient(DefaultSettings.defaultSettings().getCorpSetting());
-        }
-        return defaultWxClient;
     }
 
     public String get(String url) {
@@ -220,8 +223,7 @@ public class WxClient {
 
     public synchronized void refreshToken() {
         logger.debug("requesting a new access token.");
-        String url = WxEndpoint.get("url.token.get");
-        String content = httpGet(String.format(url, corpSetting.getCorpId(), corpSetting.getCorpSecret()));
+        String content = httpGet(String.format(tokenUrl, clientId, clientSecret));
         AccessToken accessToken = AccessToken.fromJson(content);
         logger.debug("requested a new access token: {}", accessToken.accessToken);
         this.accessToken = accessToken;

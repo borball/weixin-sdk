@@ -1,6 +1,9 @@
 package com.riversoft.weixin.qy.oauth2;
 
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.oauth2.bean.UserInfo;
 import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
@@ -15,30 +18,29 @@ public class OAuth2s {
 
     private static Logger logger = LoggerFactory.getLogger(OAuth2s.class);
 
-    private static OAuth2s oAuth2s = null;
-
-    public static OAuth2s defaultOAuth(){
-        if(oAuth2s == null) {
-            oAuth2s = new OAuth2s();
-            oAuth2s.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return oAuth2s;
-    }
-
     private WxClient wxClient;
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
     }
 
+    public static OAuth2s defaultOAuth2s() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static OAuth2s with(CorpSetting corpSetting) {
+        OAuth2s oAuth2s = new OAuth2s();
+        oAuth2s.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return oAuth2s;
+    }
+
     public String authenticationUrl(String redirect, String state){
         if(state == null || "".equals(state)) {
             String url = WxEndpoint.get("url.oauth.authentication");
-            return String.format(url, wxClient.getCorpSetting().getCorpId(), URLEncoder.encode(redirect), state);
+            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), state);
         } else {
             String url = WxEndpoint.get("url.oauth.authentication.state");
-            return String.format(url, wxClient.getCorpSetting().getCorpId(), URLEncoder.encode(redirect));
+            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect));
         }
     }
 

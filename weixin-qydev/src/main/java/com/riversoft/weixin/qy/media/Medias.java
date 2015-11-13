@@ -1,6 +1,9 @@
 package com.riversoft.weixin.qy.media;
 
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import com.riversoft.weixin.qy.media.bean.MediaType;
 import com.riversoft.weixin.qy.util.JsonMapper;
@@ -19,20 +22,20 @@ public class Medias {
 
     private static Logger logger = LoggerFactory.getLogger(Medias.class);
 
-    private static Medias medias = null;
     private WxClient wxClient;
-
-    public static Medias defaultMedias() {
-        if (medias == null) {
-            medias = new Medias();
-            medias.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return medias;
-    }
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Medias defaultMedias() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Medias with(CorpSetting corpSetting) {
+        Medias medias = new Medias();
+        medias.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return medias;
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {

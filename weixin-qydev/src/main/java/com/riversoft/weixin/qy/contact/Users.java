@@ -1,6 +1,9 @@
 package com.riversoft.weixin.qy.contact;
 
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.contact.bean.user.*;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import com.riversoft.weixin.qy.util.JsonMapper;
@@ -19,20 +22,20 @@ public class Users {
 
     private static Logger logger = LoggerFactory.getLogger(Users.class);
 
-    private static Users users = null;
     private WxClient wxClient;
-
-    public static Users defaultUsers() {
-        if (users == null) {
-            users = new Users();
-            users.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return users;
-    }
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Users defaultUsers() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Users with(CorpSetting corpSetting) {
+        Users users = new Users();
+        users.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return users;
     }
 
     public ReadUser get(String uid) {

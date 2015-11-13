@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>weixin-parent</artifactId>
@@ -9,18 +9,10 @@
         <relativePath>../weixin-parent/</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-	
-    <artifactId>weixin-qydev</artifactId>
-	<name>weixin SDK qydev</name>
-    <description>weixin SDK qydev</description>
-	
-    <dependencies>
-        <dependency>
-            <groupId>cn.com.riversoft</groupId>
-            <artifactId>weixin-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
+    <artifactId>weixin-common</artifactId>
+
+    <dependencies>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>fluent-hc</artifactId>
@@ -59,21 +51,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-csv</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
@@ -82,7 +59,15 @@
             <artifactId>slf4j-simple</artifactId>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

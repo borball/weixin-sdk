@@ -1,6 +1,9 @@
 package com.riversoft.weixin.qy.contact;
 
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.contact.bean.tag.Tag;
 import com.riversoft.weixin.qy.contact.bean.tag.TagList;
 import com.riversoft.weixin.qy.contact.bean.tag.TagUsersResult;
@@ -19,20 +22,20 @@ public class Tags {
 
     private static Logger logger = LoggerFactory.getLogger(Users.class);
 
-    private static Tags tags = null;
     private WxClient wxClient;
-
-    public static Tags defaultTags() {
-        if (tags == null) {
-            tags = new Tags();
-            tags.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return tags;
-    }
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Tags defaultTags() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Tags with(CorpSetting corpSetting) {
+        Tags tags = new Tags();
+        tags.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return tags;
     }
 
     public void create(Tag tag) {

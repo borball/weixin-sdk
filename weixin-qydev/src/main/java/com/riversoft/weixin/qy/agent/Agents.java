@@ -1,9 +1,12 @@
 package com.riversoft.weixin.qy.agent;
 
+import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.agent.bean.Agent;
 import com.riversoft.weixin.qy.agent.bean.AgentsList;
 import com.riversoft.weixin.qy.agent.bean.WritableAgent;
-import com.riversoft.weixin.qy.base.WxClient;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.slf4j.Logger;
@@ -18,20 +21,20 @@ public class Agents {
 
     private static Logger logger = LoggerFactory.getLogger(Agents.class);
 
-    private static Agents agents = null;
     private WxClient wxClient;
-
-    public static Agents defaultAgents() {
-        if (agents == null) {
-            agents = new Agents();
-            agents.setWxClient(WxClient.defaultWxClient());
-        }
-
-        return agents;
-    }
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public static Agents defaultAgents() {
+        return with(DefaultSettings.defaultSettings().getCorpSetting());
+    }
+
+    public static Agents with(CorpSetting corpSetting) {
+        Agents agents = new Agents();
+        agents.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return agents;
     }
 
     public List<Agent> list() {
