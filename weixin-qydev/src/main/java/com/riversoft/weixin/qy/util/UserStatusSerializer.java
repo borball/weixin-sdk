@@ -3,7 +3,7 @@ package com.riversoft.weixin.qy.util;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.riversoft.weixin.qy.contact.bean.user.UserStatus;
+import com.riversoft.weixin.qy.contact.user.UserStatus;
 
 import java.io.IOException;
 

@@ -1,13 +1,13 @@
 package com.riversoft.weixin.qy.contact;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.contact.bean.department.Department;
-import com.riversoft.weixin.qy.contact.bean.department.DepartmentList;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
+import com.riversoft.weixin.qy.contact.department.Department;
+import com.riversoft.weixin.qy.contact.department.DepartmentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,10 +22,6 @@ public class Departments {
 
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Departments defaultDepartments() {
         return with(DefaultSettings.defaultSettings().getCorpSetting());
     }
@@ -34,6 +30,10 @@ public class Departments {
         Departments departments = new Departments();
         departments.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
         return departments;
+    }
+
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
     }
 
     public Department get(int id) {
@@ -63,7 +63,7 @@ public class Departments {
         wxClient.get(String.format(url, id));
     }
 
-    public List<Department> list(){
+    public List<Department> list() {
         String url = WxEndpoint.get("url.department.list.all");
         String response = wxClient.get(url);
         logger.debug("list all departments: {}", response);

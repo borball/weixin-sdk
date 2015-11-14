@@ -3,7 +3,7 @@ package com.riversoft.weixin.common.util;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.riversoft.weixin.common.bean.user.Gender;
+import com.riversoft.weixin.common.user.Gender;
 
 import java.io.IOException;
 

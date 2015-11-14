@@ -12,7 +12,7 @@ import java.util.List;
 public class GroupsTest {
 
     @Test
-    public void testAll(){
+    public void testAll() {
         List<Group> groups = Groups.defaultGroups().list();
 
         Assert.assertNotNull(groups);

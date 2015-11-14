@@ -1,7 +1,7 @@
 package com.riversoft.weixin.qy.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.riversoft.weixin.qy.util.JsonMapper;
+import com.riversoft.weixin.common.util.JsonMapper;
 
 import java.io.Serializable;
 

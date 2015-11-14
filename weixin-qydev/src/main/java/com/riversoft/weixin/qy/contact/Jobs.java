@@ -2,13 +2,13 @@ package com.riversoft.weixin.qy.contact;
 
 import com.google.common.base.Joiner;
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.contact.bean.job.JobResult;
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
+import com.riversoft.weixin.qy.contact.job.JobResult;
+import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +27,6 @@ public class Jobs {
 
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Jobs defaultJobs() {
         return with(DefaultSettings.defaultSettings().getCorpSetting());
     }
@@ -41,18 +37,22 @@ public class Jobs {
         return jobs;
     }
 
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
+    }
+
     public String invite(List<String> users, List<Integer> departments, List<Integer> tags) {
         Map<String, String> maps = new HashMap<>();
 
-        if(!isEmpty(users)) {
+        if (!isEmpty(users)) {
             maps.put("touser", Joiner.on("|").join(users));
         }
 
-        if(!isEmpty(departments)) {
+        if (!isEmpty(departments)) {
             maps.put("toparty", Joiner.on("|").join(departments));
         }
 
-        if(!isEmpty(tags)) {
+        if (!isEmpty(tags)) {
             maps.put("toparty", Joiner.on("|").join(tags));
         }
 
@@ -80,7 +80,7 @@ public class Jobs {
         return syncUsers(mediaId);
     }
 
-    public String syncUsers(String mediaId){
+    public String syncUsers(String mediaId) {
         String json = String.format("{\"media_id\":\"%s\"}", mediaId);
         String url = WxEndpoint.get("url.job.users.sync");
 
@@ -117,7 +117,7 @@ public class Jobs {
     private String submit(String url, String json) {
         String response = wxClient.post(url, json);
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("jobid")) {
+        if (result.containsKey("jobid")) {
             return result.get("jobid").toString();
         } else {
             //should never happen
@@ -128,7 +128,7 @@ public class Jobs {
     private String mediaUpload(File file) {
         String url = WxEndpoint.get("url.media.upload");
 
-        try(FileInputStream fileInputStream = new FileInputStream(file)) {
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
             String response = wxClient.post(String.format(url, "file"), fileInputStream, "csv");
 
             Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);

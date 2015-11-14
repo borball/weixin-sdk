@@ -3,8 +3,8 @@ package com.riversoft.weixin.qy.agent.bean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.riversoft.weixin.qy.util.BooleanDeserializer;
-import com.riversoft.weixin.qy.util.BooleanSerializer;
+import com.riversoft.weixin.common.util.BooleanDeserializer;
+import com.riversoft.weixin.common.util.BooleanSerializer;
 
 /**
  * Created by exizhai on 9/25/2015.

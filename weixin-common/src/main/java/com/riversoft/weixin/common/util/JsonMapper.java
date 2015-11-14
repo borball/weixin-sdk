@@ -52,7 +52,7 @@ public class JsonMapper {
         mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
-        if(unwrapRoot) {
+        if (unwrapRoot) {
             mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         }
     }
@@ -77,8 +77,8 @@ public class JsonMapper {
         return nonDefaultJsonMapper;
     }
 
-    public synchronized static JsonMapper defaultUnwrapRootMapper(){
-        if(defaultUnwrapRootJsonMapper == null) {
+    public synchronized static JsonMapper defaultUnwrapRootMapper() {
+        if (defaultUnwrapRootJsonMapper == null) {
             defaultUnwrapRootJsonMapper = new JsonMapper(true);
         }
         return defaultUnwrapRootJsonMapper;

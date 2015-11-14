@@ -41,6 +41,13 @@ public class WxClient {
     private String clientSecret;
     private String tokenUrl;
 
+    public WxClient(String tokenUrl, String clientId, String clientSecret) {
+        this.tokenUrl = tokenUrl;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        httpClient = HttpClients.createDefault();
+    }
+
     public String getClientId() {
         return clientId;
     }
@@ -55,13 +62,6 @@ public class WxClient {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
-    }
-
-    public WxClient(String tokenUrl, String clientId, String clientSecret) {
-        this.tokenUrl = tokenUrl;
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        httpClient = HttpClients.createDefault();
     }
 
     public String get(String url) {
@@ -81,6 +81,11 @@ public class WxClient {
             String responseContent = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
 
             WxError wxError = WxError.fromJson(responseContent);
+
+            if (invalidToken(wxError.getErrorCode())) {
+                refreshToken();
+            }
+
             if (wxError.getErrorCode() != 0) {
                 throw new WxRuntimeException(wxError);
             }
@@ -89,6 +94,10 @@ public class WxClient {
             logger.error("http get: {} failed.", url, ex);
             throw new WxRuntimeException(999, ex.getMessage());
         }
+    }
+
+    private boolean invalidToken(int code) {
+        return code == 42001 || code == 40001 || code == 40014;
     }
 
     public File download(String url) {
@@ -179,6 +188,11 @@ public class WxClient {
             String responseContent = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
 
             WxError wxError = WxError.fromJson(responseContent);
+
+            if (invalidToken(wxError.getErrorCode())) {
+                refreshToken();
+            }
+
             if (wxError.getErrorCode() != 0) {
                 throw new WxRuntimeException(wxError);
             }
@@ -213,7 +227,7 @@ public class WxClient {
     }
 
     private String appendAccessToken(String url) {
-        if(accessToken == null || accessToken.expired()) {
+        if (accessToken == null || accessToken.expired()) {
             refreshToken();
         }
         String token = accessToken.getAccessToken();
@@ -230,7 +244,7 @@ public class WxClient {
     }
 
     public AccessToken getAccessToken() {
-        if(accessToken == null) {
+        if (accessToken == null) {
             refreshToken();
         }
         return accessToken;

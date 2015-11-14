@@ -1,8 +1,8 @@
 package com.riversoft.weixin.qy.message.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.riversoft.weixin.qy.message.base.Message;
-import com.riversoft.weixin.qy.message.base.MsgType;
+import com.riversoft.weixin.common.message.Message;
+import com.riversoft.weixin.common.message.MsgType;
 
 import java.io.Serializable;
 

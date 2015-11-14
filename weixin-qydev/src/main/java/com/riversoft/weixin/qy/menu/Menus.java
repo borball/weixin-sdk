@@ -1,12 +1,12 @@
 package com.riversoft.weixin.qy.menu;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.menu.Menu;
+import com.riversoft.weixin.common.menu.MenuWrapper;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.menu.bean.Menu;
-import com.riversoft.weixin.qy.menu.bean.MenuWrapper;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +19,6 @@ public class Menus {
     private static Logger logger = LoggerFactory.getLogger(Menus.class);
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Menus defaultMenus() {
         return with(DefaultSettings.defaultSettings().getCorpSetting());
     }
@@ -31,6 +27,10 @@ public class Menus {
         Menus menus = new Menus();
         menus.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
         return menus;
+    }
+
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
     }
 
     public void create(int agent, Menu menu) {

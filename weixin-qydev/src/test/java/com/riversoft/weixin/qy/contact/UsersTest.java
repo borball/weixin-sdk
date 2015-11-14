@@ -1,9 +1,9 @@
 package com.riversoft.weixin.qy.contact;
 
 import com.riversoft.weixin.qy.WxPropLoader;
-import com.riversoft.weixin.qy.contact.bean.user.Invitation;
-import com.riversoft.weixin.qy.contact.bean.user.ReadUser;
-import com.riversoft.weixin.qy.contact.bean.user.SimpleUser;
+import com.riversoft.weixin.qy.contact.user.Invitation;
+import com.riversoft.weixin.qy.contact.user.ReadUser;
+import com.riversoft.weixin.qy.contact.user.SimpleUser;
 import org.junit.Assert;
 import org.junit.Test;
 

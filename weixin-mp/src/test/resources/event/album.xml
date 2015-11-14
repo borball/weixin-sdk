@@ -1,0 +1,16 @@
+<xml>
+    <ToUserName><![CDATA[toUser]]></ToUserName>
+    <FromUserName><![CDATA[FromUser]]></FromUserName>
+    <CreateTime>1408090816</CreateTime>
+    <MsgType><![CDATA[event]]></MsgType>
+    <Event><![CDATA[pic_weixin]]></Event>
+    <EventKey><![CDATA[6]]></EventKey>
+    <SendPicsInfo>
+        <Count>1</Count>
+        <PicList>
+            <item>
+                <PicMd5Sum><![CDATA[5a75aaca956d97be686719218f275c6b]]></PicMd5Sum>
+            </item>
+        </PicList>
+    </SendPicsInfo>
+</xml>

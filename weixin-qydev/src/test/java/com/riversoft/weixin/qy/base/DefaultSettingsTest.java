@@ -1,7 +1,7 @@
 package com.riversoft.weixin.qy.base;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.riversoft.weixin.qy.util.XmlObjectMapper;
+import com.riversoft.weixin.common.util.XmlObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;

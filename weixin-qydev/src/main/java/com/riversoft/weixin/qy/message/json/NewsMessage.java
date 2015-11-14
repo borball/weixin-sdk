@@ -1,7 +1,7 @@
 package com.riversoft.weixin.qy.message.json;
 
-import com.riversoft.weixin.qy.message.base.MsgType;
-import com.riversoft.weixin.qy.message.base.News;
+import com.riversoft.weixin.common.message.MsgType;
+import com.riversoft.weixin.common.message.News;
 
 /**
  * Created by exizhai on 9/26/2015.

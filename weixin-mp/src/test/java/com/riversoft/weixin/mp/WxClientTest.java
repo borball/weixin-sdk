@@ -17,7 +17,7 @@ public class WxClientTest {
     @BeforeClass
     public static void beforeClass() {
         AppSetting appSetting = AppSetting.defaultSettings();
-        String url = WxEndpoint.get("mp.url.token.get");
+        String url = WxEndpoint.get("url.token.get");
         wxClient = new WxClient(url, appSetting.getAppId(), appSetting.getSecret());
     }
 

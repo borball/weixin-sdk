@@ -2,10 +2,10 @@ package com.riversoft.weixin.qy.message.json;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.riversoft.weixin.qy.message.base.MsgType;
-import com.riversoft.weixin.qy.message.base.Text;
-import com.riversoft.weixin.qy.util.BooleanDeserializer;
-import com.riversoft.weixin.qy.util.BooleanSerializer;
+import com.riversoft.weixin.common.message.MsgType;
+import com.riversoft.weixin.common.message.Text;
+import com.riversoft.weixin.common.util.BooleanDeserializer;
+import com.riversoft.weixin.common.util.BooleanSerializer;
 
 /**
  * Created by exizhai on 9/26/2015.

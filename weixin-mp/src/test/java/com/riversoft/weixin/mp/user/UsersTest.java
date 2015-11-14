@@ -10,13 +10,13 @@ import org.junit.Test;
 public class UsersTest {
 
     @Test
-    public void testGet(){
+    public void testGet() {
         User user = Users.defaultUsers().get("oUQlRwnlS4u6PABZdR6Lgtcwq0vk");
         Assert.assertNotNull(user);
     }
 
     @Test
-    public void testList(){
+    public void testList() {
         String users = Users.defaultUsers().list();
     }
 }

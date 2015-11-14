@@ -1,13 +1,13 @@
 package com.riversoft.weixin.qy;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.riversoft.weixin.common.menu.Menu;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.agent.Agents;
 import com.riversoft.weixin.qy.agent.bean.Agent;
 import com.riversoft.weixin.qy.media.Medias;
 import com.riversoft.weixin.qy.media.bean.MediaType;
 import com.riversoft.weixin.qy.menu.Menus;
-import com.riversoft.weixin.qy.menu.bean.Menu;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 

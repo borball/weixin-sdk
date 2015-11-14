@@ -1,15 +1,15 @@
 package com.riversoft.weixin.qy.contact;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.contact.bean.tag.Tag;
-import com.riversoft.weixin.qy.contact.bean.tag.TagList;
-import com.riversoft.weixin.qy.contact.bean.tag.TagUsersResult;
-import com.riversoft.weixin.qy.contact.bean.tag.TagUsers;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
+import com.riversoft.weixin.qy.contact.tag.Tag;
+import com.riversoft.weixin.qy.contact.tag.TagList;
+import com.riversoft.weixin.qy.contact.tag.TagUsers;
+import com.riversoft.weixin.qy.contact.tag.TagUsersResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +24,6 @@ public class Tags {
 
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Tags defaultTags() {
         return with(DefaultSettings.defaultSettings().getCorpSetting());
     }
@@ -36,6 +32,10 @@ public class Tags {
         Tags tags = new Tags();
         tags.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
         return tags;
+    }
+
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
     }
 
     public void create(Tag tag) {
@@ -58,7 +58,7 @@ public class Tags {
         wxClient.get(String.format(url, id));
     }
 
-    public List<Tag> list(){
+    public List<Tag> list() {
         String url = WxEndpoint.get("url.tag.list");
 
         String response = wxClient.get(url);

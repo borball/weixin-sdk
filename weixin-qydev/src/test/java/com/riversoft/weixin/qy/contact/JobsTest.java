@@ -5,10 +5,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.io.Files;
-import com.riversoft.weixin.qy.contact.bean.department.Department;
-import com.riversoft.weixin.qy.contact.bean.job.JobResult;
-import com.riversoft.weixin.qy.contact.bean.user.CreateUser;
-import com.riversoft.weixin.qy.contact.bean.user.ReadUser;
+import com.riversoft.weixin.qy.contact.department.Department;
+import com.riversoft.weixin.qy.contact.job.JobResult;
+import com.riversoft.weixin.qy.contact.user.CreateUser;
+import com.riversoft.weixin.qy.contact.user.ReadUser;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class JobsTest {
     private final CsvMapper csvMapper = new CsvMapper();
 
     @Test
-    public void testInvite(){
+    public void testInvite() {
         List<String> users = new ArrayList<>();
         users.add("user1");
         users.add("user2");
@@ -52,7 +52,7 @@ public class JobsTest {
     }
 
     @Test
-    public void testReplaceDepartments(){
+    public void testReplaceDepartments() {
         List<Department> departments = Departments.defaultDepartments().list();
 
         File tmpDir = Files.createTempDir();
@@ -80,7 +80,7 @@ public class JobsTest {
                     sleep(100);
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("test failed.");
         } finally {
@@ -99,7 +99,7 @@ public class JobsTest {
     }
 
     @Test
-    public void testReplaceUsers(){
+    public void testReplaceUsers() {
         List<ReadUser> allUsers = Users.defaultUsers().list();
 
         File tmpDir = Files.createTempDir();
@@ -109,7 +109,7 @@ public class JobsTest {
             PrintWriter userPrintWriter = new PrintWriter(new BufferedWriter(new FileWriter(users, false)));
             userPrintWriter.println("姓名,帐号,微信号,手机号,邮箱,所在部门,职位");
 
-            for(ReadUser user: allUsers) {
+            for (ReadUser user : allUsers) {
                 CreateUser createUser = new CreateUser();
                 createUser.setName(user.getName());
                 createUser.setMobile(user.getMobile());
@@ -136,7 +136,7 @@ public class JobsTest {
                     sleep(10);
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("test failed.");
         } finally {

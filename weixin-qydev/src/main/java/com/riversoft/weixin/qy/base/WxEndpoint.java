@@ -1,6 +1,7 @@
 package com.riversoft.weixin.qy.base;
 
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -13,7 +14,7 @@ public class WxEndpoint {
     private static Properties endpoints;
 
     private static synchronized void loadProperties() {
-        if(endpoints == null) {
+        if (endpoints == null) {
             try {
                 Properties properties = new Properties();
                 InputStream inputStream = WxEndpoint.class.getClassLoader().getResourceAsStream("wx-qy-endpoint.properties");

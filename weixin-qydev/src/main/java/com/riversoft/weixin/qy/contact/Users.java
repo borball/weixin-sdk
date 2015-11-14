@@ -1,13 +1,13 @@
 package com.riversoft.weixin.qy.contact;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.contact.bean.user.*;
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
+import com.riversoft.weixin.qy.contact.user.*;
+import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +24,6 @@ public class Users {
 
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Users defaultUsers() {
         return with(DefaultSettings.defaultSettings().getCorpSetting());
     }
@@ -36,6 +32,10 @@ public class Users {
         Users users = new Users();
         users.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
         return users;
+    }
+
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
     }
 
     public ReadUser get(String uid) {
@@ -133,7 +133,7 @@ public class Users {
                 if (60119 == wxRuntimeException.getCode()) {
                     return Invitation.ALREADY_FOLLOWED;
                 }
-                if(45025 == wxRuntimeException.getCode()) {
+                if (45025 == wxRuntimeException.getCode()) {
                     return Invitation.ALREADY_INVITED;
                 }
             }

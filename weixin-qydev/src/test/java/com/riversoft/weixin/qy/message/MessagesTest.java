@@ -1,9 +1,9 @@
 package com.riversoft.weixin.qy.message;
 
+import com.riversoft.weixin.common.message.Article;
+import com.riversoft.weixin.common.message.News;
+import com.riversoft.weixin.common.message.Text;
 import com.riversoft.weixin.qy.WxPropLoader;
-import com.riversoft.weixin.qy.message.base.Article;
-import com.riversoft.weixin.qy.message.base.News;
-import com.riversoft.weixin.qy.message.base.Text;
 import com.riversoft.weixin.qy.message.json.JsonMessage;
 import com.riversoft.weixin.qy.message.json.NewsMessage;
 import com.riversoft.weixin.qy.message.json.TextMessage;

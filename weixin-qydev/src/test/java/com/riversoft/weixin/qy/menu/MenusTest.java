@@ -1,9 +1,9 @@
 package com.riversoft.weixin.qy.menu;
 
+import com.riversoft.weixin.common.menu.Menu;
+import com.riversoft.weixin.common.menu.MenuItem;
+import com.riversoft.weixin.common.menu.MenuType;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.menu.bean.Menu;
-import com.riversoft.weixin.qy.menu.bean.MenuItem;
-import com.riversoft.weixin.qy.menu.bean.MenuType;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

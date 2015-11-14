@@ -1,7 +1,7 @@
 package com.riversoft.weixin.qy.base;
 
+import com.riversoft.weixin.common.util.XmlObjectMapper;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.util.XmlObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class DefaultSettings implements Serializable {
             loadFromClasspath();
         }
 
-        if(defaultSetting == null) {
+        if (defaultSetting == null) {
             throw new WxRuntimeException(999, "当前系统没有设置缺省的corpId和corpSecret,请使用setDefault方法或者在classpath下面创建wx-qy-settings.xml文件.");
         }
         return defaultSetting;
@@ -71,7 +71,7 @@ public class DefaultSettings implements Serializable {
         this.agentSetting = agentSetting;
     }
 
-    public int getDefaultAgent(){
+    public int getDefaultAgent() {
         return agentSetting.getAgentId();
     }
 }

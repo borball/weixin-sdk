@@ -1,13 +1,16 @@
 package com.riversoft.weixin.qy.contact;
 
-import com.riversoft.weixin.qy.contact.bean.user.AbstractUser;
-import com.riversoft.weixin.qy.contact.bean.user.CreateUser;
-import com.riversoft.weixin.qy.contact.bean.user.UpdateUser;
-import com.riversoft.weixin.qy.util.JsonMapper;
+import com.riversoft.weixin.common.util.JsonMapper;
+import com.riversoft.weixin.qy.contact.user.AbstractUser;
+import com.riversoft.weixin.qy.contact.user.CreateUser;
+import com.riversoft.weixin.qy.contact.user.UpdateUser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by exizhai on 10/4/2015.
@@ -67,7 +70,7 @@ public class JsonTest {
     }
 
     @Test
-    public void testMap2Json(){
+    public void testMap2Json() {
         Map<String, String> map = new HashMap<>();
         map.put("touser", "123|321");
         map.put("toparty", "1|2|3");

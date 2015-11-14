@@ -1,12 +1,12 @@
 package com.riversoft.weixin.qy.message;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
-import com.riversoft.weixin.qy.message.json.JsonMessage;
-import com.riversoft.weixin.qy.util.JsonMapper;
 import com.riversoft.weixin.qy.base.WxEndpoint;
+import com.riversoft.weixin.qy.message.json.JsonMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +18,6 @@ public class Messages {
     private static Logger logger = LoggerFactory.getLogger(Messages.class);
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Messages defaultMessages() {
         return with(DefaultSettings.defaultSettings().getCorpSetting());
     }
@@ -30,6 +26,10 @@ public class Messages {
         Messages messages = new Messages();
         messages.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
         return messages;
+    }
+
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
     }
 
     public void send(JsonMessage message) {

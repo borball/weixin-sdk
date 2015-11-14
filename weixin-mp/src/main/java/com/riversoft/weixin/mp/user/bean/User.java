@@ -3,9 +3,9 @@ package com.riversoft.weixin.mp.user.bean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.riversoft.weixin.common.user.Gender;
 import com.riversoft.weixin.common.util.BooleanDeserializer;
 import com.riversoft.weixin.common.util.BooleanSerializer;
-import com.riversoft.weixin.common.bean.user.Gender;
 import com.riversoft.weixin.common.util.GenderDeserializer;
 import com.riversoft.weixin.common.util.GenderSerializer;
 

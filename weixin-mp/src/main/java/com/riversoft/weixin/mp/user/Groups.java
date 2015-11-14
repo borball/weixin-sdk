@@ -3,8 +3,8 @@ package com.riversoft.weixin.mp.user;
 import com.google.common.base.Joiner;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
-import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.MpWxClientFactory;
+import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.user.bean.Group;
 import com.riversoft.weixin.mp.user.bean.GroupList;
@@ -23,10 +23,6 @@ public class Groups {
 
     private WxClient wxClient;
 
-    public void setWxClient(WxClient wxClient) {
-        this.wxClient = wxClient;
-    }
-
     public static Groups defaultGroups() {
         return with(AppSetting.defaultSettings());
     }
@@ -37,7 +33,11 @@ public class Groups {
         return groups;
     }
 
-    public Group create(String name){
+    public void setWxClient(WxClient wxClient) {
+        this.wxClient = wxClient;
+    }
+
+    public Group create(String name) {
         String url = WxEndpoint.get("url.group.create");
         String json = String.format("{\"group\":{\"name\":\"%s\"}}", name);
         logger.debug("create group: {}", json);
@@ -46,7 +46,7 @@ public class Groups {
         return JsonMapper.defaultUnwrapRootMapper().fromJson(response, Group.class);
     }
 
-    public List<Group> list(){
+    public List<Group> list() {
         String url = WxEndpoint.get("url.group.list");
         String response = wxClient.get(url);
         logger.debug("list groups: {}", response);
@@ -70,6 +70,7 @@ public class Groups {
 
     /**
      * 2B微信，只给个id有鸟用
+     *
      * @param openId
      * @return
      */
@@ -80,7 +81,7 @@ public class Groups {
         String response = wxClient.post(url, json);
 
         Map<String, Object> map = JsonMapper.nonEmptyMapper().json2Map(response);
-        if(map.containsKey("groupid")) {
+        if (map.containsKey("groupid")) {
             Integer.valueOf(map.get("groupid").toString());
         }
         return -1;

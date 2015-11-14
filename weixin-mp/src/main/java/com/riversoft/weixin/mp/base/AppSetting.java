@@ -21,6 +21,14 @@ public class AppSetting {
     private String appId;
     private String secret;
 
+    public AppSetting() {
+    }
+
+    public AppSetting(String appId, String secret) {
+        this.appId = appId;
+        this.secret = secret;
+    }
+
     public static void setDefault(AppSetting appSetting) {
         appSetting = appSetting;
     }
@@ -30,7 +38,7 @@ public class AppSetting {
             loadFromClasspath();
         }
 
-        if(appSetting == null) {
+        if (appSetting == null) {
             throw new WxRuntimeException(999, "当前系统没有设置缺省的appId和secret,请使用setDefault方法或者在classpath下面创建wx-mp-settings.xml文件.");
         }
         return appSetting;
@@ -52,13 +60,6 @@ public class AppSetting {
         } catch (IOException e) {
             logger.error("read settings from wx-mp-settings-test.xml or wx-mp-settings.xml failed:", e);
         }
-    }
-    public AppSetting() {
-    }
-
-    public AppSetting(String appId, String secret) {
-        this.appId = appId;
-        this.secret = secret;
     }
 
     public String getAppId() {
