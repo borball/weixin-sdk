@@ -39,11 +39,58 @@ public class Materials {
         this.wxClient = wxClient;
     }
 
-    public String uploadMpNews(MpNewsMedia mpNewsMedia){
-        String url = WxEndpoint.get("url.mpnews.upload");
-        String json = JsonMapper.nonEmptyMapper().toJson(mpNewsMedia);
+    public String addMpNews(MpNews mpNews){
+        return addMpNews(DefaultSettings.defaultSettings().getDefaultAgent(), mpNews);
+    }
+
+    public String addMpNews(int agent, MpNews mpNews){
+        String url = WxEndpoint.get("url.material.mpnews.add");
+        AddMpNewsRequest addMpNewsRequest = new AddMpNewsRequest();
+        addMpNewsRequest.setAgentId(agent);
+        addMpNewsRequest.setMpNews(mpNews);
+
+        String json = JsonMapper.nonEmptyMapper().toJson(addMpNewsRequest);
         logger.info("add mpnews: {}", json);
         return wxClient.post(url, json);
+    }
+
+    public void updateMpNews(String mediaId, MpNews mpNews){
+        updateMpNews(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId, mpNews);
+    }
+
+    public void updateMpNews(int agent, String mediaId, MpNews mpNews){
+        String url = WxEndpoint.get("url.material.mpnews.update");
+        UpdateMpNewsRequest updateMpNewsRequest = new UpdateMpNewsRequest();
+        updateMpNewsRequest.setMpNews(mpNews);
+        updateMpNewsRequest.setAgentId(agent);
+        updateMpNewsRequest.setMediaId(mediaId);
+
+        String json = JsonMapper.nonEmptyMapper().toJson(updateMpNewsRequest);
+        logger.info("update mpnews: {}", json);
+        wxClient.post(url, json);
+    }
+
+    public MpNews getMpNews(String mediaId){
+        return getMpNews(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
+    }
+
+    public MpNews getMpNews(int agent, String mediaId){
+        String url = WxEndpoint.get("url.material.mpnews.get");
+        String response = wxClient.get(String.format(url, agent, mediaId));
+        GetMpNewsResponse getMpNewsResponse = JsonMapper.defaultMapper().fromJson(response, GetMpNewsResponse.class);
+        if(getMpNewsResponse != null) {
+            return getMpNewsResponse.getMpNews();
+        } else {
+            return null;
+        }
+    }
+
+    public void deleteMpNews(int agentId, String mediaId){
+        delete(agentId, mediaId);
+    }
+
+    public void deleteMpNews(String mediaId){
+        delete(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {
@@ -51,7 +98,7 @@ public class Materials {
     }
 
     public String upload(int agent, MediaType type, InputStream inputStream, String extName) {
-        String url = WxEndpoint.get("url.material.upload");
+        String url = WxEndpoint.get("url.material.binary.upload");
 
         String response = wxClient.post(String.format(url, agent, type.name()), inputStream, extName);
 
@@ -69,7 +116,7 @@ public class Materials {
     }
 
     public File download(int agent, String mediaId) {
-        return wxClient.download(String.format(WxEndpoint.get("url.material.get"), agent, mediaId));
+        return wxClient.download(String.format(WxEndpoint.get("url.material.binary.get"), agent, mediaId));
     }
 
     public void delete(String mediaId) {

@@ -81,7 +81,7 @@ public class MaterialsTest {
         mpArticle2.content("这里是内容，据说可以支持html").contentSourceUrl("http://www.blogchong.com/post/127.html");
         mpNews.add(mpArticle2);
 
-        String mpNewsMedia = Materials.defaultMaterials().uploadMpNews(new MpNewsMedia().agent(45).mpNews(mpNews));
+        String mpNewsMedia = Materials.defaultMaterials().addMpNews(45, mpNews);
         System.out.println(mpNewsMedia);
     }
 

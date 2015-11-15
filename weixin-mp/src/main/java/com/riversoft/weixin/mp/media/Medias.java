@@ -38,7 +38,7 @@ public class Medias {
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {
-        String url = WxEndpoint.get("url.material.upload");
+        String url = WxEndpoint.get("url.material.binary.upload");
 
         String response = wxClient.post(url, inputStream, extName);
 

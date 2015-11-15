@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.message.MpNews;
 
 /**
- * Created by exizhai on 11/14/2015.
+ * Created by exizhai on 11/15/2015.
  */
-public class MpNewsMedia {
+public class AddMpNewsRequest {
 
     @JsonProperty("agentid")
     private int agentId;
@@ -30,13 +30,4 @@ public class MpNewsMedia {
         this.mpNews = mpNews;
     }
 
-    public MpNewsMedia agent(int agentId){
-        this.agentId = agentId;
-        return this;
-    }
-
-    public MpNewsMedia mpNews(MpNews mpNews) {
-        this.mpNews = mpNews;
-        return this;
-    }
 }
