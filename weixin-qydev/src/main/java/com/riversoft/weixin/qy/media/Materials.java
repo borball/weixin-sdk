@@ -1,16 +1,14 @@
 package com.riversoft.weixin.qy.media;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.message.MpNews;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.media.bean.Counts;
-import com.riversoft.weixin.qy.media.bean.MediaType;
-import com.riversoft.weixin.qy.media.bean.Pagination;
-import com.riversoft.weixin.qy.media.bean.SearchResult;
+import com.riversoft.weixin.qy.media.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +37,13 @@ public class Materials {
 
     public void setWxClient(WxClient wxClient) {
         this.wxClient = wxClient;
+    }
+
+    public String uploadMpNews(MpNewsMedia mpNewsMedia){
+        String url = WxEndpoint.get("url.mpnews.upload");
+        String json = JsonMapper.nonEmptyMapper().toJson(mpNewsMedia);
+        logger.info("add mpnews: {}", json);
+        return wxClient.post(url, json);
     }
 
     public String upload(MediaType type, InputStream inputStream, String extName) {

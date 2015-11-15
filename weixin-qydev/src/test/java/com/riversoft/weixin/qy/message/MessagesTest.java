@@ -1,13 +1,15 @@
 package com.riversoft.weixin.qy.message;
 
-import com.riversoft.weixin.common.message.Article;
-import com.riversoft.weixin.common.message.News;
-import com.riversoft.weixin.common.message.Text;
+import com.riversoft.weixin.common.message.*;
 import com.riversoft.weixin.qy.WxPropLoader;
-import com.riversoft.weixin.qy.message.json.JsonMessage;
-import com.riversoft.weixin.qy.message.json.NewsMessage;
-import com.riversoft.weixin.qy.message.json.TextMessage;
+import com.riversoft.weixin.qy.media.Medias;
+import com.riversoft.weixin.qy.media.bean.MediaType;
+import com.riversoft.weixin.qy.message.json.*;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by exizhai on 9/28/2015.
@@ -90,8 +92,29 @@ public class MessagesTest {
     }
 
     @Test
-    public void testMpNews() {
+    public void testMpNews() throws IOException {
+        String html5 = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("media/html5.html"));
 
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/image.png");
+        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "png");
+
+        MpNews mpNews = new MpNews();
+        MpArticle mpArticle1 = new MpArticle();
+        mpArticle1.author("woden").digest("我所理解的大数据个性化推荐").showCover().title("我所理解的大数据个性化推荐").thumbMediaId(mediaId);
+        mpArticle1.content(html5).contentSourceUrl("http://www.blogchong.com/post/127.html");
+        mpNews.add(mpArticle1);
+
+        MpArticle mpArticle2 = new MpArticle();
+        mpArticle2.author("woden").digest("HTML5").showCover().title("HTML5").thumbMediaId(mediaId);
+        mpArticle2.content(html5).contentSourceUrl("http://www.blogchong.com/post/127.html");
+        mpNews.add(mpArticle2);
+
+        Messages.defaultMessages().send(new MpNewsMessage().mpNews(mpNews).agentId(45).toUser("@all"));
+    }
+
+    @Test
+    public void testMpNewsWithMediaId() {
+        Messages.defaultMessages().send(new MpNewsWithMediaIdMessage("2tt-ZHoEbMjF4cweRKEdpYQ0TFtfHGHoBujB-zr5am9k5k7iSNeGf2szpllfwEGw8").agentId(45).toUser("@all"));
     }
 
     private String testUser() {
