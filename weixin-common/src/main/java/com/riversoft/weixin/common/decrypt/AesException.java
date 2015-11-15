@@ -1,4 +1,4 @@
-package com.riversoft.weixin.qy.decrypt;
+package com.riversoft.weixin.common.decrypt;
 
 @SuppressWarnings("serial")
 public class AesException extends Exception {

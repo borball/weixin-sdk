@@ -6,7 +6,7 @@
 
 // ------------------------------------------------------------------------
 
-package com.riversoft.weixin.qy.decrypt;
+package com.riversoft.weixin.common.decrypt;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -16,27 +16,24 @@ import java.util.Arrays;
  * <p/>
  * 计算公众平台的消息签名接口.
  */
-class SHA1 {
+public class SHA1 {
 
     /**
      * 用SHA1算法生成安全签名
      *
-     * @param token     票据
-     * @param timestamp 时间戳
-     * @param nonce     随机字符串
-     * @param encrypt   密文
+     * @param array     字符串
      * @return 安全签名
      * @throws AesException
      */
-    public static String getSHA1(String token, String timestamp, String nonce, String encrypt) throws AesException {
+    public static String getSHA1(String... array) throws AesException {
         try {
-            String[] array = new String[]{token, timestamp, nonce, encrypt};
             StringBuffer sb = new StringBuffer();
             // 字符串排序
             Arrays.sort(array);
-            for (int i = 0; i < 4; i++) {
-                sb.append(array[i]);
+            for(String item: array) {
+                sb.append(item);
             }
+
             String str = sb.toString();
             // SHA1签名生成
             MessageDigest md = MessageDigest.getInstance("SHA-1");

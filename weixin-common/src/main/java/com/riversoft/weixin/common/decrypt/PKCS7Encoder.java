@@ -6,7 +6,7 @@
 
 // ------------------------------------------------------------------------
 
-package com.riversoft.weixin.qy.decrypt;
+package com.riversoft.weixin.common.decrypt;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;

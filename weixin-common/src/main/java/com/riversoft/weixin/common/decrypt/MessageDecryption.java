@@ -1,4 +1,4 @@
-package com.riversoft.weixin.qy.decrypt;
+package com.riversoft.weixin.common.decrypt;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -21,24 +21,24 @@ public class MessageDecryption {
     Base64 base64 = new Base64();
     byte[] aesKey;
     String token;
-    String corpId;
+    String clientId;
 
     /**
      * 构造函数
      *
      * @param token  公众平台上，开发者设置的token
      * @param aes    公众平台上，开发者设置的EncodingAESKey
-     * @param corpId 企业的corpid
+     * @param clientId 企业的corpId或者服务号的appId
      * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
      */
-    public MessageDecryption(String token, String aes, String corpId) throws AesException {
+    public MessageDecryption(String token, String aes, String clientId) throws AesException {
         if (aes.length() != 43) {
             logger.error("MessageDecryption constructs failed, aesKey size is not 43.");
             throw new AesException(AesException.IllegalAesKey);
         }
 
         this.token = token;
-        this.corpId = corpId;
+        this.clientId = clientId;
         aesKey = Base64.decodeBase64(aes + "=");
     }
 
@@ -86,7 +86,7 @@ public class MessageDecryption {
         byte[] randomStrBytes = randomStr.getBytes(CHARSET);
         byte[] textBytes = text.getBytes(CHARSET);
         byte[] networkBytesOrder = getNetworkBytesOrder(textBytes.length);
-        byte[] corpidBytes = corpId.getBytes(CHARSET);
+        byte[] corpidBytes = clientId.getBytes(CHARSET);
 
         // randomStr + networkBytesOrder + text + corpid
         byteCollector.addBytes(randomStrBytes);
@@ -164,7 +164,7 @@ public class MessageDecryption {
         }
 
         // corpid不相同的情况
-        if (!from_corpid.equals(corpId)) {
+        if (!from_corpid.equals(clientId)) {
             logger.error("MessageDecryption decrypt failed, corpid mismatches.");
             throw new AesException(AesException.ValidateCorpidError);
         }

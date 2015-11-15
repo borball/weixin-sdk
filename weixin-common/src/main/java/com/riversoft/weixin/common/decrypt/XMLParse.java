@@ -6,7 +6,7 @@
 
 // ------------------------------------------------------------------------
 
-package com.riversoft.weixin.qy.decrypt;
+package com.riversoft.weixin.common.decrypt;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
