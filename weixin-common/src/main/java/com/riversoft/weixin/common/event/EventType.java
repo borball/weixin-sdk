@@ -8,8 +8,15 @@ public enum EventType {
     subscribe,
     unsubscribe,
     LOCATION,
-    click,
-    view,
+
+    /**
+     * 忍不住骂人
+     */
+    click,//企业号
+    CLICK,//服务号，订阅号
+    view,//企业号
+    VIEW,//服务号，订阅号
+
     scancode_push,
     scancode_waitmsg,
     pic_sysphoto,
