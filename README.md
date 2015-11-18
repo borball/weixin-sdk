@@ -1,6 +1,6 @@
-#微信公众平台(订阅号、服务号、企业号)SDK
+#微信公众平台(订阅号、服务号、企业号)JAVA SDK
 
-weixin-sdk 是对微信公众平台API的封装：
+weixin-sdk 是对微信公众平台API的JAVA版封装：
 
  - 服务号，订阅号：weixin-mp
  - 企业号：weixin-qydev
