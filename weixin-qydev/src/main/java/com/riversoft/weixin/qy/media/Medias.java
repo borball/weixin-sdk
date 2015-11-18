@@ -38,10 +38,10 @@ public class Medias {
         this.wxClient = wxClient;
     }
 
-    public String upload(MediaType type, InputStream inputStream, String extName) {
+    public String upload(MediaType type, InputStream inputStream, String fileName) {
         String url = WxEndpoint.get("url.media.upload");
 
-        String response = wxClient.post(String.format(url, type.name()), inputStream, extName);
+        String response = wxClient.post(String.format(url, type.name()), inputStream, fileName);
 
         //为什么这个成功返回的response没有error code，和其他的格格不入,临时工弄的?
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);

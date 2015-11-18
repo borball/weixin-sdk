@@ -155,8 +155,8 @@ public class WxClient {
         return httpPost(appendAccessToken(url), content);
     }
 
-    public String post(String url, InputStream inputStream, String extName) {
-        File tempFile = new File(FileUtils.getTempDirectory(), UUID.randomUUID().toString() + "." + extName);
+    public String post(String url, InputStream inputStream, String fileName) {
+        File tempFile = new File(FileUtils.getTempDirectory(), fileName);
 
         try {
             FileUtils.copyInputStreamToFile(inputStream, tempFile);

@@ -93,14 +93,14 @@ public class Materials {
         delete(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
-    public String upload(MediaType type, InputStream inputStream, String extName) {
-        return upload(DefaultSettings.defaultSettings().getDefaultAgent(), type, inputStream, extName);
+    public String upload(MediaType type, InputStream inputStream, String fileName) {
+        return upload(DefaultSettings.defaultSettings().getDefaultAgent(), type, inputStream, fileName);
     }
 
-    public String upload(int agent, MediaType type, InputStream inputStream, String extName) {
+    public String upload(int agent, MediaType type, InputStream inputStream, String fileName) {
         String url = WxEndpoint.get("url.material.binary.upload");
 
-        String response = wxClient.post(String.format(url, agent, type.name()), inputStream, extName);
+        String response = wxClient.post(String.format(url, agent, type.name()), inputStream, fileName);
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
         if (result.containsKey("errcode") && "0".equals(result.get("errcode").toString())) {
