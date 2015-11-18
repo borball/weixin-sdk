@@ -2,6 +2,8 @@ package com.riversoft.weixin.qy.media.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.riversoft.weixin.common.util.DateDeserializer;
 
 import java.util.Date;
 import java.util.List;
@@ -64,6 +66,7 @@ public class SearchResult {
         private String fileName;
 
         @JsonProperty("update_time")
+        @JsonDeserialize(using = DateDeserializer.class)
         private Date updateTime;
 
         public String getMediaId() {
