@@ -129,7 +129,7 @@ public class Jobs {
         String url = WxEndpoint.get("url.media.upload");
 
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            String response = wxClient.post(String.format(url, "file"), fileInputStream, "csv");
+            String response = wxClient.post(String.format(url, "file"), fileInputStream, file.getName());
 
             Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
             if (result.containsKey("media_id")) {

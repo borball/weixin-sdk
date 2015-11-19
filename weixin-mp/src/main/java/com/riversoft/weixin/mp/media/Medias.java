@@ -37,10 +37,10 @@ public class Medias {
         this.wxClient = wxClient;
     }
 
-    public String upload(MediaType type, InputStream inputStream, String extName) {
+    public String upload(MediaType type, InputStream inputStream, String fileName) {
         String url = WxEndpoint.get("url.material.binary.upload");
 
-        String response = wxClient.post(url, inputStream, extName);
+        String response = wxClient.post(url, inputStream, fileName);
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
         if (result.containsKey("errcode") && "0".equals(result.get("errcode").toString())) {

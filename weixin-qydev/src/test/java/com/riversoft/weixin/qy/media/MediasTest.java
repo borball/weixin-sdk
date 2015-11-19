@@ -15,14 +15,14 @@ public class MediasTest {
     @Test
     public void testUpload() {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/image.png");
-        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "png");
+        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "image.png");
         Assert.assertNotNull(mediaId);
     }
 
     @Test
     public void testDownload() {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/image.png");
-        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "png");
+        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "image.png");
         Assert.assertNotNull(mediaId);
 
         File file = Medias.defaultMedias().download(mediaId);

@@ -96,7 +96,7 @@ public class MessagesTest {
         String html5 = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("media/html5.html"));
 
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/image.png");
-        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "png");
+        String mediaId = Medias.defaultMedias().upload(MediaType.image, inputStream, "image.png");
 
         MpNews mpNews = new MpNews();
         MpArticle mpArticle1 = new MpArticle();

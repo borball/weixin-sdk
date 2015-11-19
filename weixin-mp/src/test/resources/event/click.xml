@@ -3,6 +3,6 @@
     <FromUserName><![CDATA[FromUser]]></FromUserName>
     <CreateTime>123456789</CreateTime>
     <MsgType><![CDATA[event]]></MsgType>
-    <Event><![CDATA[click]]></Event>
+    <Event><![CDATA[CLICK]]></Event>
     <EventKey><![CDATA[EVENTKEY]]></EventKey>
 </xml>

@@ -28,6 +28,10 @@ public class DefaultSettings implements Serializable {
 
     public static DefaultSettings defaultSettings() {
         if (defaultSetting == null) {
+            loadFromSystemProperties();
+        }
+
+        if(defaultSetting == null) {
             loadFromClasspath();
         }
 
@@ -35,6 +39,21 @@ public class DefaultSettings implements Serializable {
             throw new WxRuntimeException(999, "当前系统没有设置缺省的corpId和corpSecret,请使用setDefault方法或者在classpath下面创建wx-qy-settings.xml文件.");
         }
         return defaultSetting;
+    }
+
+    private static void loadFromSystemProperties() {
+        if(System.getProperties().contains("qyconfig")) {
+            String xml = System.getProperties().getProperty("qyconfig", "");
+            if(xml == null || "".equals(xml)) {
+                return;
+            } else {
+                try {
+                    DefaultSettings defaultSettings = (DefaultSettings) XmlObjectMapper.defaultMapper().fromXml(xml, DefaultSettings.class);
+                    defaultSetting = defaultSettings;
+                } catch (IOException e) {
+                }
+            }
+        }
     }
 
     private static void loadFromClasspath() {

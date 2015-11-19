@@ -37,6 +37,10 @@ public class AppSetting {
 
     public static AppSetting defaultSettings() {
         if (appSetting == null) {
+            loadFromSystemProperties();
+        }
+
+        if (appSetting == null) {
             loadFromClasspath();
         }
 
@@ -44,6 +48,21 @@ public class AppSetting {
             throw new WxRuntimeException(999, "当前系统没有设置缺省的appId和secret,请使用setDefault方法或者在classpath下面创建wx-mp-settings.xml文件.");
         }
         return appSetting;
+    }
+
+    private static void loadFromSystemProperties() {
+        if(System.getProperties().contains("mpconfig")) {
+            String xml = System.getProperties().getProperty("mpconfig", "");
+            if(xml == null || "".equals(xml)) {
+                return;
+            } else {
+                try {
+                    AppSetting setting = (AppSetting) XmlObjectMapper.defaultMapper().fromXml(xml, AppSetting.class);
+                    appSetting = setting;
+                } catch (IOException e) {
+                }
+            }
+        }
     }
 
     private static void loadFromClasspath() {
