@@ -3,7 +3,7 @@
     <parent>
         <artifactId>weixin-parent</artifactId>
         <groupId>cn.com.riversoft</groupId>
-        <version>0.3.5</version>
+        <version>0.3.6-SNAPSHOT</version>
         <relativePath>../weixin-parent/</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
