@@ -11,6 +11,7 @@ import com.riversoft.weixin.qy.contact.user.CreateUser;
 import com.riversoft.weixin.qy.contact.user.ReadUser;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -28,7 +29,7 @@ public class JobsTest {
             .addColumn("weixinid").addColumn("mobile").addColumn("email").addArrayColumn("department").addColumn("position").build();
     private final CsvMapper csvMapper = new CsvMapper();
 
-    @Test
+    @Ignore
     public void testInvite() {
         List<String> users = new ArrayList<>();
         users.add("user1");
