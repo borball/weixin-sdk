@@ -43,6 +43,7 @@ public class DefaultSettings implements Serializable {
 
     private static void loadFromSystemProperties() {
         if(System.getProperties().contains("qyconfig")) {
+            logger.info("loading qy configuration from system properties...");
             String xml = System.getProperties().getProperty("qyconfig", "");
             if(xml == null || "".equals(xml)) {
                 return;

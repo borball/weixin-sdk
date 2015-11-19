@@ -52,6 +52,7 @@ public class AppSetting {
 
     private static void loadFromSystemProperties() {
         if(System.getProperties().contains("mpconfig")) {
+            logger.info("loading mp configuration from system properties...");
             String xml = System.getProperties().getProperty("mpconfig", "");
             if(xml == null || "".equals(xml)) {
                 return;
