@@ -5,7 +5,7 @@
     <groupId>cn.com.riversoft</groupId>
     <artifactId>weixin-sdk</artifactId>
     <packaging>pom</packaging>
-    <version>0.3.5-SNAPSHOT</version>
+    <version>0.3.5</version>
     <name>weixin SDK POM</name>
     <description>weixin SDK POM</description>
     <url>https://github.com/borball/weixin-sdk</url>
