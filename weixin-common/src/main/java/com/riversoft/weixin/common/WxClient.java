@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -155,19 +155,23 @@ public class WxClient {
         return httpPost(appendAccessToken(url), content);
     }
 
-    public String post(String url, InputStream inputStream, String fileName) {
+    public String post(String url, InputStream inputStream, String fileName, Map<String, String> form) {
         File tempFile = new File(FileUtils.getTempDirectory(), fileName);
 
         try {
             FileUtils.copyInputStreamToFile(inputStream, tempFile);
 
-            return httpPost(appendAccessToken(url), tempFile);
+            return httpPost(appendAccessToken(url), tempFile, form);
         } catch (IOException e) {
             logger.error("http post: {} failed", url, e);
             throw new WxRuntimeException(999, "Copy stream to file failed:" + e.getMessage());
         } finally {
             FileUtils.deleteQuietly(tempFile);
         }
+    }
+
+    public String post(String url, InputStream inputStream, String fileName) {
+        return post(url, inputStream, fileName, null);
     }
 
     private String httpPost(String url, String content) {
@@ -204,11 +208,21 @@ public class WxClient {
     }
 
     private String httpPost(String url, File file) {
+        return httpPost(url, file, null);
+    }
+
+    private String httpPost(String url, File file, Map<String, String> form) {
         HttpPost httpPost = new HttpPost(url);
 
         if (file != null) {
-            HttpEntity entity = MultipartEntityBuilder.create().addBinaryBody("media", file).build();
-            httpPost.setEntity(entity);
+            MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+            multipartEntityBuilder.addBinaryBody("media", file);
+            if(form != null && !form.isEmpty()) {
+                for(String key: form.keySet()) {
+                    multipartEntityBuilder.addTextBody(key, form.get(key));
+                }
+            }
+            httpPost.setEntity(multipartEntityBuilder.build());
             httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
         }
 

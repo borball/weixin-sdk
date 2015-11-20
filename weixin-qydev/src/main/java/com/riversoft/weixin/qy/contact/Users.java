@@ -109,7 +109,7 @@ public class Users {
 
     public void delete(List<String> users) {
         String url = WxEndpoint.get("url.user.batch.delete");
-        String json = String.format("{\"useridlist\":%s}", JsonMapper.defaultMapper().toJson(users));
+        String json = String.format("{\"useridlist\":\"%s\"}", JsonMapper.defaultMapper().toJson(users));
         logger.debug("delete users: {}", json);
         wxClient.post(url, json);
     }

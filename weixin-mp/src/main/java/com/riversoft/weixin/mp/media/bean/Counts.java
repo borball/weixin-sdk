@@ -1,4 +1,4 @@
-package com.riversoft.weixin.common.media;
+package com.riversoft.weixin.mp.media.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
