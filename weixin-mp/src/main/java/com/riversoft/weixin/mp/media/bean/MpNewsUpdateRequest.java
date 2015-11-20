@@ -1,7 +1,7 @@
 package com.riversoft.weixin.mp.media.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.riversoft.weixin.common.message.MpArticle;
+import com.riversoft.weixin.common.media.MpArticle;
 
 /**
  * Created by exizhai on 11/19/2015.

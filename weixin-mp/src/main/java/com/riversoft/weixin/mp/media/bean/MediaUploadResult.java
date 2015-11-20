@@ -1,7 +1,9 @@
 package com.riversoft.weixin.mp.media.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.media.MediaType;
+import com.riversoft.weixin.common.util.DateDeserializer;
 
 import java.util.Date;
 
@@ -15,6 +17,7 @@ public class MediaUploadResult {
     @JsonProperty("media_id")
     private String mediaId;
 
+    @JsonDeserialize(using = DateDeserializer.class)
     @JsonProperty("created_at")
     private Date createdAt;
 
