@@ -6,7 +6,7 @@ import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.agent.Agents;
 import com.riversoft.weixin.qy.agent.bean.Agent;
 import com.riversoft.weixin.qy.media.Medias;
-import com.riversoft.weixin.qy.media.bean.MediaType;
+import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.qy.menu.Menus;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;

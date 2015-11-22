@@ -1,16 +1,15 @@
-package com.riversoft.weixin.mp.media.bean;
+package com.riversoft.weixin.common.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.common.util.DateDeserializer;
 
 import java.util.Date;
 
 /**
- * Created by exizhai on 11/19/2015.
+ * Created by exizhai on 11/21/2015.
  */
-public class MediaUploadResult {
+public class Media {
 
     private MediaType type;
 
@@ -44,4 +43,5 @@ public class MediaUploadResult {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
 }

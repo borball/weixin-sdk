@@ -24,7 +24,7 @@ public class MpNewsSearchResult {
     private int totalCount;
 
     /**
-     * 当前页返回素材数母
+     * 当前页返回素材数
      */
     @JsonProperty("item_count")
     private int currentCount;

@@ -1,11 +1,11 @@
-package com.riversoft.weixin.mp.media.bean;
+package com.riversoft.weixin.common.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by exizhai on 11/19/2015.
+ * Created by exizhai on 11/21/2015.
  */
-public class VideoSearchResult {
+public class Video {
 
     private String title;
 
@@ -38,4 +38,5 @@ public class VideoSearchResult {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }

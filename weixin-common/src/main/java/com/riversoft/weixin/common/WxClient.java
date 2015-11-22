@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,14 +121,13 @@ public class WxClient {
                     String fileName = extractFileName(dispositionHeaders[0].getValue());
                     if (fileName == null || "".equals(fileName.trim())) {
                         logger.warn("Cannot get filename from Content-disposition");
-                        throw new WxRuntimeException(999, "cannot get filename from Content-disposition");
-                    } else {
-                        InputStream inputStream = entity.getContent();
-                        File tempFile = new File(FileUtils.getTempDirectory(), fileName);
-                        FileUtils.copyInputStreamToFile(inputStream, tempFile);
-
-                        return tempFile;
+                        fileName = UUID.randomUUID().toString();
                     }
+                    InputStream inputStream = entity.getContent();
+                    File tempFile = new File(FileUtils.getTempDirectory(), fileName);
+                    FileUtils.copyInputStreamToFile(inputStream, tempFile);
+
+                    return tempFile;
                 } else {
                     String errors = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
                     logger.warn("download file : {} failed: {}", url, errors);
@@ -216,7 +217,7 @@ public class WxClient {
 
         if (file != null) {
             MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-            multipartEntityBuilder.addBinaryBody("media", file);
+            multipartEntityBuilder.addBinaryBody("media", file).setMode(HttpMultipartMode.RFC6532);
             if(form != null && !form.isEmpty()) {
                 for(String key: form.keySet()) {
                     multipartEntityBuilder.addTextBody(key, form.get(key));

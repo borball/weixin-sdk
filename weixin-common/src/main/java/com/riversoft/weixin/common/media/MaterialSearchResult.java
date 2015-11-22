@@ -1,9 +1,7 @@
-package com.riversoft.weixin.qy.media.bean;
+package com.riversoft.weixin.common.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.riversoft.weixin.common.util.DateDeserializer;
 
 import java.util.Date;
 import java.util.List;
@@ -11,9 +9,7 @@ import java.util.List;
 /**
  * Created by exizhai on 10/2/2015.
  */
-public class SearchResult {
-
-    private MediaType type;
+public class MaterialSearchResult {
 
     @JsonProperty("total_count")
     private int totalCount;
@@ -23,15 +19,7 @@ public class SearchResult {
 
     @JsonProperty("itemlist")
     @JsonUnwrapped()
-    private List<Item> items;
-
-    public MediaType getType() {
-        return type;
-    }
-
-    public void setType(MediaType type) {
-        this.type = type;
-    }
+    private List<Material> items;
 
     public int getTotalCount() {
         return totalCount;
@@ -49,25 +37,20 @@ public class SearchResult {
         this.currentCount = currentCount;
     }
 
-    public List<Item> getItems() {
+    public List<Material> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<Material> items) {
         this.items = items;
     }
 
-    public static class Item {
+    public static class Material {
 
-        @JsonProperty("media_id")
         private String mediaId;
-
-        @JsonProperty("filename")
         private String fileName;
-
-        @JsonProperty("update_time")
-        @JsonDeserialize(using = DateDeserializer.class)
         private Date updateTime;
+        private String url;
 
         public String getMediaId() {
             return mediaId;
@@ -91,6 +74,14 @@ public class SearchResult {
 
         public void setUpdateTime(Date updateTime) {
             this.updateTime = updateTime;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

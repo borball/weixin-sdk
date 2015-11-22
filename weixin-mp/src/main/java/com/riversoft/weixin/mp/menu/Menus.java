@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 自定义菜单管理
  * Created by exizhai on 9/25/2015.
  */
 public class Menus {

@@ -5,6 +5,19 @@ package com.riversoft.weixin.common.media;
  */
 public enum MediaType {
 
-    image, voice, video, file, thumb, mpnews
+    image,
+    voice,
+    video,
+    mpnews,
+
+    /**
+     * 企业号特有
+     */
+    file,
+
+    /**
+     * 订阅号服务号特有
+     */
+    thumb
 
 }

@@ -1,7 +1,13 @@
 package com.riversoft.weixin.qy.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.media.MaterialSearchResult;
+import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.common.message.MpNews;
+import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
@@ -14,9 +20,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Map;
+import java.util.*;
 
 /**
+ * 永久素材管理
  * Created by exizhai on 10/12/2015.
  */
 public class Materials {
@@ -45,11 +52,12 @@ public class Materials {
 
     public String addMpNews(int agent, MpNews mpNews){
         String url = WxEndpoint.get("url.material.mpnews.add");
-        AddMpNewsRequest addMpNewsRequest = new AddMpNewsRequest();
-        addMpNewsRequest.setAgentId(agent);
-        addMpNewsRequest.setMpNews(mpNews);
 
-        String json = JsonMapper.nonEmptyMapper().toJson(addMpNewsRequest);
+        Map<String, Object> request = new HashMap<>();
+        request.put("agentid", agent);
+        request.put("mpnews", mpNews);
+
+        String json = JsonMapper.nonEmptyMapper().toJson(request);
         logger.info("add mpnews: {}", json);
         return wxClient.post(url, json);
     }
@@ -60,12 +68,12 @@ public class Materials {
 
     public void updateMpNews(int agent, String mediaId, MpNews mpNews){
         String url = WxEndpoint.get("url.material.mpnews.update");
-        UpdateMpNewsRequest updateMpNewsRequest = new UpdateMpNewsRequest();
-        updateMpNewsRequest.setMpNews(mpNews);
-        updateMpNewsRequest.setAgentId(agent);
-        updateMpNewsRequest.setMediaId(mediaId);
+        Map<String, Object> request = new HashMap<>();
+        request.put("agentid", agent);
+        request.put("mpnews", mpNews);
+        request.put("mediaId", mediaId);
 
-        String json = JsonMapper.nonEmptyMapper().toJson(updateMpNewsRequest);
+        String json = JsonMapper.nonEmptyMapper().toJson(request);
         logger.info("update mpnews: {}", json);
         wxClient.post(url, json);
     }
@@ -137,8 +145,143 @@ public class Materials {
         return JsonMapper.defaultMapper().fromJson(response, Counts.class);
     }
 
-    public SearchResult list(Pagination pagination) {
-        String response = wxClient.post(WxEndpoint.get("url.material.list"), JsonMapper.defaultMapper().toJson(pagination));
-        return JsonMapper.defaultMapper().fromJson(response, SearchResult.class);
+    public MaterialSearchResult list(MediaType type, int offset, int size) {
+        return list(DefaultSettings.defaultSettings().getDefaultAgent(), type, offset, size);
+    }
+
+    public MaterialSearchResult list(int agentId, MediaType type, int offset, int size) {
+        String request = "{\"type\":\"%s\",\"agentid\":%s,\"offset\":%s,\"count\":%s}";
+        String url = WxEndpoint.get("url.material.list");
+        String response = wxClient.post(url, String.format(request, type.name(), agentId, offset, size));
+
+        return toMaterialSearchResult(JsonMapper.defaultMapper().fromJson(response, QyMaterialSearchResult.class));
+    }
+
+    private MaterialSearchResult toMaterialSearchResult(QyMaterialSearchResult qyMaterialSearchResult) {
+        MaterialSearchResult result = new MaterialSearchResult();
+        result.setTotalCount(qyMaterialSearchResult.getTotalCount());
+        result.setCurrentCount(qyMaterialSearchResult.getCurrentCount());
+
+        List<QyMaterialSearchResult.Material> qyItems = qyMaterialSearchResult.getItems();
+        List<MaterialSearchResult.Material> items = new ArrayList<>();
+
+        for (QyMaterialSearchResult.Material qyItem: qyItems) {
+            MaterialSearchResult.Material item = new MaterialSearchResult.Material();
+            item.setFileName(qyItem.getFileName());
+            item.setMediaId(qyItem.getMediaId());
+            item.setUpdateTime(qyItem.updateTime);
+
+            items.add(item);
+        }
+        result.setItems(items);
+        return result;
+    }
+
+    public static class QyMaterialSearchResult {
+
+        private MediaType type;
+
+        @JsonProperty("total_count")
+        private int totalCount;
+
+        @JsonProperty("item_count")
+        private int currentCount;
+
+        @JsonProperty("itemlist")
+        @JsonUnwrapped()
+        private List<Material> items;
+
+        public MediaType getType() {
+            return type;
+        }
+
+        public void setType(MediaType type) {
+            this.type = type;
+        }
+
+        public int getTotalCount() {
+            return totalCount;
+        }
+
+        public void setTotalCount(int totalCount) {
+            this.totalCount = totalCount;
+        }
+
+        public int getCurrentCount() {
+            return currentCount;
+        }
+
+        public void setCurrentCount(int currentCount) {
+            this.currentCount = currentCount;
+        }
+
+        public List<Material> getItems() {
+            return items;
+        }
+
+        public void setItems(List<Material> items) {
+            this.items = items;
+        }
+
+        public static class Material {
+
+            @JsonProperty("media_id")
+            private String mediaId;
+
+            @JsonProperty("filename")
+            private String fileName;
+
+            @JsonProperty("update_time")
+            @JsonDeserialize(using = DateDeserializer.class)
+            private Date updateTime;
+
+            public String getMediaId() {
+                return mediaId;
+            }
+
+            public void setMediaId(String mediaId) {
+                this.mediaId = mediaId;
+            }
+
+            public String getFileName() {
+                return fileName;
+            }
+
+            public void setFileName(String fileName) {
+                this.fileName = fileName;
+            }
+
+            public Date getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(Date updateTime) {
+                this.updateTime = updateTime;
+            }
+        }
+    }
+
+    public static class GetMpNewsResponse {
+
+        private String type;
+
+        @JsonProperty("mpnews")
+        private MpNews mpNews;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public MpNews getMpNews() {
+            return mpNews;
+        }
+
+        public void setMpNews(MpNews mpNews) {
+            this.mpNews = mpNews;
+        }
     }
 }

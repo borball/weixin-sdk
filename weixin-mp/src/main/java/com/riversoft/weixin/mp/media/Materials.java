@@ -1,10 +1,11 @@
 package com.riversoft.weixin.mp.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
-import com.riversoft.weixin.common.media.MediaType;
-import com.riversoft.weixin.common.media.MpArticle;
-import com.riversoft.weixin.common.media.MpNews;
+import com.riversoft.weixin.common.media.*;
+import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.mp.media.bean.*;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
@@ -15,10 +16,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
+ * 永久素材管理
  * Created by exizhai on 11/12/2015.
  */
 public class Materials {
@@ -98,12 +99,13 @@ public class Materials {
      */
     public void updateMpNews(String mediaId, int index, MpArticle article){
         String url = WxEndpoint.get("url.material.mpnews.update");
-        MpNewsUpdateRequest mpNewsUpdateRequest = new MpNewsUpdateRequest();
-        mpNewsUpdateRequest.setMediaId(mediaId);
-        mpNewsUpdateRequest.setIndex(index);
-        mpNewsUpdateRequest.setArticle(article);
+        Map<String, Object> request = new HashMap<>();
 
-        String json = JsonMapper.nonEmptyMapper().toJson(mpNewsUpdateRequest);
+        request.put("media_id", mediaId);
+        request.put("index", index);
+        request.put("articles", article);
+
+        String json = JsonMapper.nonEmptyMapper().toJson(request);
         logger.info("update mpnews: {}", json);
         wxClient.post(url, json);
     }
@@ -114,7 +116,7 @@ public class Materials {
      * @param fileName 文件名
      * @return 上传结果
      */
-    public MaterialUploadResult addVoice(InputStream inputStream, String fileName){
+    public Material addVoice(InputStream inputStream, String fileName){
         return upload(MediaType.voice, inputStream, fileName);
     }
 
@@ -141,7 +143,7 @@ public class Materials {
      * @param fileName 文件名
      * @return 上传结果
      */
-    public MaterialUploadResult addImage(InputStream inputStream, String fileName){
+    public Material addImage(InputStream inputStream, String fileName){
         return upload(MediaType.image, inputStream, fileName);
     }
 
@@ -168,7 +170,7 @@ public class Materials {
      * @param fileName 文件名
      * @return 上传结果
      */
-    public MaterialUploadResult addThumb(InputStream inputStream, String fileName){
+    public Material addThumb(InputStream inputStream, String fileName){
         return upload(MediaType.thumb, inputStream, fileName);
     }
 
@@ -197,7 +199,7 @@ public class Materials {
      * @param description 描述
      * @return 上传结果
      */
-    public MaterialUploadResult addVideo(InputStream inputStream, String fileName, String title, String description) {
+    public Material addVideo(InputStream inputStream, String fileName, String title, String description) {
         String url = WxEndpoint.get("url.material.binary.upload");
         String desc = "{\"title\":\"%s\",\"introduction\":\"%s\"}";
         Map<String, String> form = new HashMap<>();
@@ -206,7 +208,7 @@ public class Materials {
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
         if (result.containsKey("media_id")) {
-            return JsonMapper.defaultMapper().fromJson(response, MaterialUploadResult.class);
+            return JsonMapper.defaultMapper().fromJson(response, Material.class);
         } else {
             logger.warn("image upload failed: {}", response);
             throw new WxRuntimeException(999, response);
@@ -218,11 +220,11 @@ public class Materials {
      * @param mediaId media id
      * @return video
      */
-    public VideoSearchResult getVideo(String mediaId) {
+    public Video getVideo(String mediaId) {
         String response = wxClient.get(String.format(WxEndpoint.get("url.material.binary.get"), mediaId));
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
         if (result.containsKey("title")) {
-            return JsonMapper.defaultMapper().fromJson(response, VideoSearchResult.class);
+            return JsonMapper.defaultMapper().fromJson(response, Video.class);
         } else {
             logger.warn("download video failed: {}", response);
             throw new WxRuntimeException(999, response);
@@ -250,7 +252,7 @@ public class Materials {
             String response = wxClient.post(url, String.format(body, mediaType.name(), offset, count));
             logger.debug("list materials: {}", response);
 
-            return JsonMapper.defaultMapper().fromJson(response, MaterialSearchResult.class);
+            return toMaterialSearchResult(JsonMapper.defaultMapper().fromJson(response, MpMaterialSearchResult.class));
         } else {
             throw new WxRuntimeException(999, "cannot support mpnews list.");
         }
@@ -266,16 +268,16 @@ public class Materials {
         return JsonMapper.defaultMapper().fromJson(response, MpNewsSearchResult.class);
     }
 
-    private MaterialUploadResult upload(MediaType type, InputStream inputStream, String fileName) {
+    private Material upload(MediaType type, InputStream inputStream, String fileName) {
         if(type == MediaType.mpnews || type == MediaType.video) {
-            throw new WxRuntimeException(999, "cannot support mpnews upload.");
+            throw new WxRuntimeException(999, "cannot support mpnews or video upload.");
         } else {
             String url = WxEndpoint.get("url.material.binary.upload");
-            String response = wxClient.post(String.format(url, MediaType.image.name()), inputStream, fileName);
+            String response = wxClient.post(String.format(url, type.name()), inputStream, fileName);
 
             Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
             if (result.containsKey("media_id")) {
-                return JsonMapper.defaultMapper().fromJson(response, MaterialUploadResult.class);
+                return JsonMapper.defaultMapper().fromJson(response, Material.class);
             } else {
                 logger.warn("image upload failed: {}", response);
                 throw new WxRuntimeException(999, response);
@@ -292,5 +294,119 @@ public class Materials {
         String body = "{\"media_id\":\"%s\"}";
         String response = wxClient.post(String.format(url, mediaId), body);
         logger.info("material delete result: {}", response);
+    }
+
+    private MaterialSearchResult toMaterialSearchResult(MpMaterialSearchResult mpMaterialSearchResult) {
+        MaterialSearchResult result = new MaterialSearchResult();
+        result.setTotalCount(mpMaterialSearchResult.getTotalCount());
+        result.setCurrentCount(mpMaterialSearchResult.getCurrentCount());
+
+        List<MpMaterialSearchResult.Material> qyItems = mpMaterialSearchResult.getItems();
+        List<MaterialSearchResult.Material> items = new ArrayList<>();
+
+        for (MpMaterialSearchResult.Material mpItem: qyItems) {
+            MaterialSearchResult.Material item = new MaterialSearchResult.Material();
+            item.setFileName(mpItem.getName());
+            item.setMediaId(mpItem.getMediaId());
+            item.setUpdateTime(mpItem.updateTime);
+            item.setUrl(mpItem.getUrl());
+            items.add(item);
+        }
+        result.setItems(items);
+        return result;
+    }
+
+
+    public static class MpMaterialSearchResult {
+
+        /**
+         * 总素材数
+         */
+        @JsonProperty("total_count")
+        private int totalCount;
+
+        /**
+         * 当前页返回素材数母
+         */
+        @JsonProperty("item_count")
+        private int currentCount;
+
+        /**
+         * 素材列表
+         */
+        @JsonProperty("item")
+        private List<Material> items;
+
+        public int getTotalCount() {
+            return totalCount;
+        }
+
+        public void setTotalCount(int totalCount) {
+            this.totalCount = totalCount;
+        }
+
+        public int getCurrentCount() {
+            return currentCount;
+        }
+
+        public void setCurrentCount(int currentCount) {
+            this.currentCount = currentCount;
+        }
+
+        public List<Material> getItems() {
+            return items;
+        }
+
+        public void setItems(List<Material> items) {
+            this.items = items;
+        }
+
+        public class Material {
+
+            @JsonProperty("media_id")
+            private String mediaId;
+            private String name;
+
+            @JsonProperty("update_time")
+            @JsonDeserialize(using = DateDeserializer.class)
+            private Date updateTime;
+
+            /**
+             * only for 图片素材
+             */
+            private String url;
+
+            public String getMediaId() {
+                return mediaId;
+            }
+
+            public void setMediaId(String mediaId) {
+                this.mediaId = mediaId;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Date getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(Date updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
     }
 }

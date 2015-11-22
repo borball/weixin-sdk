@@ -3,7 +3,7 @@ package com.riversoft.weixin.qy.message;
 import com.riversoft.weixin.common.message.*;
 import com.riversoft.weixin.qy.WxPropLoader;
 import com.riversoft.weixin.qy.media.Medias;
-import com.riversoft.weixin.qy.media.bean.MediaType;
+import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.qy.message.json.*;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
