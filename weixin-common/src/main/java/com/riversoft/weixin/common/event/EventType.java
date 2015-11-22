@@ -26,5 +26,12 @@ public enum EventType {
     enter_agent,
     batch_job_result,
     media_id,
-    view_limited
+    view_limited,
+
+    /**
+     * 多客服接口特有
+     */
+    kf_create_session,
+    kf_close_session,
+    kf_switch_session
 }

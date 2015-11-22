@@ -6,6 +6,9 @@ import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.message.XmlMessageHeader;
 import com.riversoft.weixin.common.request.*;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
+import com.riversoft.weixin.mp.event.care.SessionCloseEvent;
+import com.riversoft.weixin.mp.event.care.SessionCreateEvent;
+import com.riversoft.weixin.mp.event.care.SessionForwardEvent;
 import com.riversoft.weixin.mp.request.LinkMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +74,12 @@ public class MpXmlMessages {
                     return (PhotoEvent) XmlObjectMapper.defaultMapper().fromXml(xml, PhotoEvent.class);
                 case location_select:
                     return (LocationSelectEvent) XmlObjectMapper.defaultMapper().fromXml(xml, LocationSelectEvent.class);
+                case kf_create_session:
+                    return (SessionCreateEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionCreateEvent.class);
+                case kf_close_session:
+                    return (SessionCloseEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionCloseEvent.class);
+                case kf_switch_session:
+                    return (SessionForwardEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionForwardEvent.class);
                 default:
                     logger.warn("xml to event, unknown event type {}.", eventRequest.getEventType());
                     throw new WxRuntimeException(999, "xml to bean event, unknown event type " + eventRequest.getEventType());
