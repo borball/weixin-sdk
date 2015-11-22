@@ -1,7 +1,7 @@
 package com.riversoft.weixin.qy.message;
 
 import com.riversoft.weixin.common.message.*;
-import com.riversoft.weixin.qy.WxPropLoader;
+import com.riversoft.weixin.qy.TestConfiguration;
 import com.riversoft.weixin.qy.media.Medias;
 import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.qy.message.json.*;
@@ -15,8 +15,6 @@ import java.io.InputStream;
  * Created by exizhai on 9/28/2015.
  */
 public class MessagesTest {
-
-    WxPropLoader wxPropLoader = new WxPropLoader(this.getClass().getClassLoader().getResourceAsStream("wx-test.properties"));
 
     @Test
     public void testText() {
@@ -118,7 +116,7 @@ public class MessagesTest {
     }
 
     private String testUser() {
-        return wxPropLoader.getProperty("messages.test.user");
+        return TestConfiguration.getInstance().testUser();
     }
 
 }

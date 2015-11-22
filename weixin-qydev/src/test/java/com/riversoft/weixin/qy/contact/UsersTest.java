@@ -1,6 +1,6 @@
 package com.riversoft.weixin.qy.contact;
 
-import com.riversoft.weixin.qy.WxPropLoader;
+import com.riversoft.weixin.qy.TestConfiguration;
 import com.riversoft.weixin.qy.contact.user.Invitation;
 import com.riversoft.weixin.qy.contact.user.ReadUser;
 import com.riversoft.weixin.qy.contact.user.SimpleUser;
@@ -13,8 +13,6 @@ import java.util.List;
  * Created by exizhai on 10/3/2015.
  */
 public class UsersTest {
-
-    WxPropLoader wxPropLoader = new WxPropLoader(this.getClass().getClassLoader().getResourceAsStream("wx-test.properties"));
 
     @Test
     public void testGet() {
@@ -43,6 +41,6 @@ public class UsersTest {
     }
 
     public String getTestUser() {
-        return wxPropLoader.getProperty("messages.test.user");
+        return TestConfiguration.getInstance().testUser();
     }
 }

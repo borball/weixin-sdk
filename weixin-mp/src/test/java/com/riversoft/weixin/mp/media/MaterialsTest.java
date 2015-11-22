@@ -7,6 +7,7 @@ import com.riversoft.weixin.common.media.MpNews;
 import com.riversoft.weixin.mp.media.bean.Counts;
 import com.riversoft.weixin.mp.media.bean.Material;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 /**
  * Created by exizhai on 10/2/2015.
  */
+@Ignore
 public class MaterialsTest {
 
     @Test
@@ -25,7 +27,7 @@ public class MaterialsTest {
 
     @Test
     public void testList() {
-        MaterialSearchResult materialSearchResult = Materials.defaultMaterials().list(MediaType.image, 0, 10);
+        MaterialSearchResult materialSearchResult = Materials.defaultMaterials().list(MediaType.image, 1, 10);
         Assert.assertNotNull(materialSearchResult);
     }
 

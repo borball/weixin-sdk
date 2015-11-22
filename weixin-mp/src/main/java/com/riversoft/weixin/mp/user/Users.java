@@ -1,15 +1,18 @@
 package com.riversoft.weixin.mp.user;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.user.bean.User;
+import com.riversoft.weixin.mp.user.bean.UserPagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 用户管理
  * Created by exizhai on 11/4/2015.
  */
 public class Users {
@@ -38,17 +41,41 @@ public class Users {
 
     public User get(String openId, String lang) {
         String url = WxEndpoint.get("url.user.get");
-        String user = wxClient.get(String.format(url, openId, lang));
-        logger.debug("get user: {}", user);
-        return JsonMapper.nonEmptyMapper().fromJson(user, User.class);
+        try {
+            String user = wxClient.get(String.format(url, openId, lang));
+            logger.debug("get user: {}", user);
+            return JsonMapper.nonEmptyMapper().fromJson(user, User.class);
+        }catch (WxRuntimeException e) {
+            if(e.getCode() == 40003) {
+                logger.warn("open id: {} not found.", openId);
+                return null;
+            }
+            throw e;
+        }
     }
 
-    public String list() {
+    public UserPagination list() {
+        return list(null);
+    }
+
+    public UserPagination list(String nextOpenId) {
         String url = WxEndpoint.get("url.user.list");
-        logger.debug("list users: {}");
-        return wxClient.get(url);
+        if(nextOpenId == null || "".equals(nextOpenId)) {
+        } else {
+            url = url + "?next_openid=" + nextOpenId;
+        }
+
+        String response = wxClient.get(url);
+        logger.debug("list users: {}", response);
+
+        return JsonMapper.defaultMapper().fromJson(response, UserPagination.class);
     }
 
+    /**
+     * 备注
+     * @param openId
+     * @param remark 长度小于30
+     */
     public void remark(String openId, String remark) {
         String url = WxEndpoint.get("url.user.remark");
         String json = String.format("{\"openid\":\"%s\",\"remark\":\"%s\"}", openId, remark);

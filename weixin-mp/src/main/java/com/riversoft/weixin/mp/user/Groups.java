@@ -7,7 +7,6 @@ import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.user.bean.Group;
-import com.riversoft.weixin.mp.user.bean.GroupList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +36,11 @@ public class Groups {
         this.wxClient = wxClient;
     }
 
+    /**
+     * 创建分组
+     * @param name 分组名
+     * @return
+     */
     public Group create(String name) {
         String url = WxEndpoint.get("url.group.create");
         String json = String.format("{\"group\":{\"name\":\"%s\"}}", name);
@@ -46,6 +50,10 @@ public class Groups {
         return JsonMapper.defaultUnwrapRootMapper().fromJson(response, Group.class);
     }
 
+    /**
+     * 查询所有分组
+     * @return
+     */
     public List<Group> list() {
         String url = WxEndpoint.get("url.group.list");
         String response = wxClient.get(url);
@@ -54,6 +62,11 @@ public class Groups {
         return groupList.getGroups();
     }
 
+    /**
+     * 修改分组
+     * @param id
+     * @param name
+     */
     public void update(int id, String name) {
         String url = WxEndpoint.get("url.group.update");
         String json = String.format("{\"group\":{\"id\":%s,\"name\":\"%s\"}}", id, name);
@@ -61,6 +74,10 @@ public class Groups {
         wxClient.post(url, json);
     }
 
+    /**
+     * 删除分组
+     * @param id
+     */
     public void delete(int id) {
         String url = WxEndpoint.get("url.group.delete");
         String json = String.format("{\"group\":{\"id\":%s}}", id);
@@ -82,7 +99,7 @@ public class Groups {
 
         Map<String, Object> map = JsonMapper.nonEmptyMapper().json2Map(response);
         if (map.containsKey("groupid")) {
-            Integer.valueOf(map.get("groupid").toString());
+            return (Integer)map.get("groupid");
         }
         return -1;
     }
@@ -100,5 +117,18 @@ public class Groups {
         String json = String.format("{\"openid_list\":[%s],\"to_groupid\":%s}", ids, group);
         logger.debug("move users group: {}", json);
         wxClient.post(url, json);
+    }
+
+    public static class GroupList {
+
+        private List<Group> groups;
+
+        public List<Group> getGroups() {
+            return groups;
+        }
+
+        public void setGroups(List<Group> groups) {
+            this.groups = groups;
+        }
     }
 }

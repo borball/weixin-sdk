@@ -12,6 +12,26 @@ import java.util.List;
 public class GroupsTest {
 
     @Test
+    public void testUserGroup(){
+        int group = Groups.defaultGroups().getUserGroup(TestConfiguration.getInstance().testUser());
+        Assert.assertTrue(group >= 0);
+    }
+
+    @Test
+    public void testMove(){
+        Groups.defaultGroups().move(TestConfiguration.getInstance().testUser(), 0);
+
+        int group = Groups.defaultGroups().getUserGroup(TestConfiguration.getInstance().testUser());
+        Assert.assertTrue(group == 0);
+        Groups.defaultGroups().move(TestConfiguration.getInstance().testUser(), 2);
+
+        group = Groups.defaultGroups().getUserGroup(TestConfiguration.getInstance().testUser());
+        Assert.assertTrue(group == 2);
+
+        Groups.defaultGroups().move(TestConfiguration.getInstance().testUser(), 0);
+    }
+
+    @Test
     public void testAll() {
         List<Group> groups = Groups.defaultGroups().list();
 
