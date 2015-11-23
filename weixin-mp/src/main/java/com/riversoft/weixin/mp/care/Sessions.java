@@ -7,10 +7,12 @@ import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.care.bean.Session;
+import com.riversoft.weixin.mp.care.bean.SessionLog;
 import com.riversoft.weixin.mp.care.bean.WaitingSessions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +115,29 @@ public class Sessions {
         return sessionList;
     }
 
+    /**
+     * 获取客服聊天记录
+     * @param start 开始时间
+     * @param end 结束时间
+     * @param index 查询第几页
+     * @param size 每页大小
+     * @return 聊天记录
+     */
+    public List<SessionLog> listSessionLogs(Date start, Date end, int index, int size){
+        String url = WxEndpoint.get("url.care.session.logs");
+        Map<String, Object> request = new HashMap<>();
+        request.put("starttime", start.getTime() / 1000);
+        request.put("endtime", end.getTime() / 1000);
+        request.put("pageindex", index);
+        request.put("pagesize", size);
+
+        String json = JsonMapper.nonEmptyMapper().toJson(request);
+        logger.debug("get session logs: {}", json);
+        String response = wxClient.post(url, json);
+        SessionLogList sessionLogList = JsonMapper.defaultMapper().fromJson(response, SessionLogList.class);
+        return sessionLogList.getLogs();
+    }
+
     public static class SessionList{
 
         @JsonProperty("sessionlist")
@@ -127,4 +152,17 @@ public class Sessions {
         }
     }
 
+    public static class SessionLogList{
+
+        @JsonProperty("sessionlist")
+        private List<SessionLog> logs;
+
+        public List<SessionLog> getLogs() {
+            return logs;
+        }
+
+        public void setLogs(List<SessionLog> logs) {
+            this.logs = logs;
+        }
+    }
 }

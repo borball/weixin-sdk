@@ -40,10 +40,10 @@ public class Accounts {
         this.wxClient = wxClient;
     }
 
-    public void add(String care, String nickName, String password){
+    public void add(String account, String nickName, String password){
         String url = WxEndpoint.get("url.care.account.add");
         Map<String, String> request = new HashMap<>();
-        request.put("kf_account", care);
+        request.put("kf_account", account);
         request.put("nickname", nickName);
         request.put("password", password);
 
@@ -52,10 +52,10 @@ public class Accounts {
         wxClient.post(url, json);
     }
 
-    public void update(String care, String nickName, String password){
+    public void update(String account, String nickName, String password){
         String url = WxEndpoint.get("url.care.account.update");
         Map<String, String> request = new HashMap<>();
-        request.put("kf_account", care);
+        request.put("kf_account", account);
         request.put("nickname", nickName);
         request.put("password", password);
 
@@ -64,16 +64,16 @@ public class Accounts {
         wxClient.post(url, json);
     }
 
-    public void delete(String care){
+    public void delete(String account){
         String url = WxEndpoint.get("url.care.account.delete");
-        logger.debug("delete care account: {}", care);
-        wxClient.get(String.format(url, care));
+        logger.debug("delete care account: {}", account);
+        wxClient.get(String.format(url, account));
     }
 
-    public void uploadHeadImage(String care, InputStream inputStream, String fileName) {
+    public void uploadHeadImage(String account, InputStream inputStream, String fileName) {
         String url = WxEndpoint.get("url.care.account.uploadhead");
-        logger.debug("upload care account :{} head image: {}", care, fileName);
-        wxClient.post(String.format(url, care), inputStream, fileName);
+        logger.debug("upload care account :{} head image: {}", account, fileName);
+        wxClient.post(String.format(url, account), inputStream, fileName);
     }
 
     public List<Account> list(){
