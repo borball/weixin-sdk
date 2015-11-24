@@ -35,6 +35,7 @@
         <module>weixin-qydev</module>
         <module>weixin-mp</module>
         <module>weixin-common</module>
+        <module>weixin-pay</module>
     </modules>
 
     <distributionManagement>

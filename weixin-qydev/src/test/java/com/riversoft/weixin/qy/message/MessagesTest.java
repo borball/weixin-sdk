@@ -112,7 +112,7 @@ public class MessagesTest {
 
     @Test
     public void testMpNewsWithMediaId() {
-        Messages.defaultMessages().send(new MpNewsWithMediaIdMessage("2tt-ZHoEbMjF4cweRKEdpYQ0TFtfHGHoBujB-zr5am9k5k7iSNeGf2szpllfwEGw8").agentId(45).toUser("@all"));
+        Messages.defaultMessages().send(new MpNewsMediaIdMessage("2tt-ZHoEbMjF4cweRKEdpYQ0TFtfHGHoBujB-zr5am9k5k7iSNeGf2szpllfwEGw8").agentId(45).toUser("@all"));
     }
 
     private String testUser() {

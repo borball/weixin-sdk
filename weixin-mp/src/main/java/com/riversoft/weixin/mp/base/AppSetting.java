@@ -32,7 +32,7 @@ public class AppSetting {
     }
 
     public static void setDefault(AppSetting appSetting) {
-        appSetting = appSetting;
+        AppSetting.appSetting = appSetting;
     }
 
     public static AppSetting defaultSettings() {

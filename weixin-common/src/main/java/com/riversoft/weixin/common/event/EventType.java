@@ -33,5 +33,10 @@ public enum EventType {
      */
     kf_create_session,
     kf_close_session,
-    kf_switch_session
+    kf_switch_session,
+
+    /**
+     * 群发消息结果
+     */
+    MASSSENDJOBFINISH
 }

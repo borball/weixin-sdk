@@ -7,7 +7,7 @@ import com.riversoft.weixin.common.message.MsgType;
 /**
  * Created by exizhai on 11/14/2015.
  */
-public class MpNewsWithMediaIdMessage extends JsonMessage {
+public class MpNewsMediaIdMessage extends JsonMessage {
 
     @JsonProperty("mpnews")
     private Media media;
@@ -20,7 +20,7 @@ public class MpNewsWithMediaIdMessage extends JsonMessage {
         this.media = media;
     }
 
-    public MpNewsWithMediaIdMessage(String mediaId) {
+    public MpNewsMediaIdMessage(String mediaId) {
         this.msgType = MsgType.mpnews;
         Media m = new Media(mediaId);
         this.media = m;
