@@ -1,6 +1,5 @@
 package com.riversoft.weixin.mp.user;
 
-import com.google.common.base.Joiner;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
@@ -10,6 +9,7 @@ import com.riversoft.weixin.mp.user.bean.Group;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +104,11 @@ public class Groups {
         return -1;
     }
 
+    /**
+     * 用户分组迁移
+     * @param openId
+     * @param group
+     */
     public void move(String openId, int group) {
         String url = WxEndpoint.get("url.group.user.move");
         String json = String.format("{\"openid\":\"%s\",\"to_groupid\":%s}", openId, group);
@@ -111,10 +116,18 @@ public class Groups {
         wxClient.post(url, json);
     }
 
+    /**
+     * 批量用户分组迁移
+     * @param openIds
+     * @param group
+     */
     public void move(List<String> openIds, int group) {
         String url = WxEndpoint.get("url.group.user.moves");
-        String ids = Joiner.on(",").join(openIds);
-        String json = String.format("{\"openid_list\":[%s],\"to_groupid\":%s}", ids, group);
+        Map<String, Object> request = new HashMap<>();
+        request.put("openid_list", openIds);
+        request.put("to_groupid", group);
+
+        String json = JsonMapper.defaultMapper().toJson(request);
         logger.debug("move users group: {}", json);
         wxClient.post(url, json);
     }

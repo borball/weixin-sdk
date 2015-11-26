@@ -1,5 +1,7 @@
 package com.riversoft.weixin.mp.user;
 
+import com.riversoft.weixin.common.util.JsonMapper;
+import com.riversoft.weixin.mp.TestConfiguration;
 import com.riversoft.weixin.mp.user.bean.User;
 import com.riversoft.weixin.mp.user.bean.UserPagination;
 import org.junit.Assert;
@@ -19,6 +21,12 @@ public class UsersTest {
     }
 
     @Test
+    public void testGetNotFound() {
+        User user = Users.defaultUsers().get("not-found-user-open-id");
+        Assert.assertNull(user);
+    }
+
+    @Test
     public void testList() {
         UserPagination userPagination = Users.defaultUsers().list();
 
@@ -27,6 +35,12 @@ public class UsersTest {
         int count = userPagination.getCount();
         int total = userPagination.getTotal();
         List<String> users = userPagination.getUsers();
+
+        for(String openid: users) {
+            User user = Users.defaultUsers().get(openid);
+            System.out.println(JsonMapper.defaultMapper().toJson(user));
+        }
+
         String next = userPagination.getNextOpenId();
 
         userPagination = Users.defaultUsers().list(next);

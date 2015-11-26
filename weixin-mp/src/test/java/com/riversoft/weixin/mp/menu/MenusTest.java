@@ -12,6 +12,11 @@ import org.junit.Test;
 public class MenusTest {
 
     @Test
+    public void testDelete() {
+        Menus.defaultMenus().delete();
+    }
+
+    @Test
     public void testGet() {
         Menu menu = Menus.defaultMenus().get();
         Assert.assertNotNull(menu);

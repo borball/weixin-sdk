@@ -14,7 +14,6 @@ import com.riversoft.weixin.mp.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 
@@ -125,7 +124,7 @@ public class Materials {
      * @param mediaId media id
      * @return voice
      */
-    public File getVoice(String mediaId) {
+    public InputStream getVoice(String mediaId) {
         return download(mediaId);
     }
 
@@ -152,7 +151,7 @@ public class Materials {
      * @param mediaId media id
      * @return image
      */
-    public File getImage(String mediaId) {
+    public InputStream getImage(String mediaId) {
         return download(mediaId);
     }
 
@@ -179,7 +178,7 @@ public class Materials {
      * @param mediaId media id
      * @return thumb
      */
-    public File getThumb(String mediaId) {
+    public InputStream getThumb(String mediaId) {
         return download(mediaId);
     }
 
@@ -245,7 +244,7 @@ public class Materials {
     }
 
     public MaterialSearchResult list(MediaType mediaType, int offset, int count) {
-        if(mediaType != MediaType.mpnews) {
+        if(mediaType != MediaType.news && mediaType != MediaType.mpnews) {
             String url = WxEndpoint.get("url.material.list");
             String body = "{\"type\":\"%s\",\"offset\":%s,\"count\":%s}";
 
@@ -262,7 +261,7 @@ public class Materials {
         String url = WxEndpoint.get("url.material.list");
         String body = "{\"type\":\"%s\",\"offset\":%s,\"count\":%s}";
 
-        String response = wxClient.post(url, String.format(body, MediaType.mpnews.name(), offset, count));
+        String response = wxClient.post(url, String.format(body, MediaType.news.name(), offset, count));
         logger.debug("list mpnwes: {}", response);
 
         return JsonMapper.defaultMapper().fromJson(response, MpNewsSearchResult.class);
@@ -285,8 +284,9 @@ public class Materials {
         }
     }
 
-    private File download(String mediaId) {
-        return wxClient.download(String.format(WxEndpoint.get("url.material.binary.get"), mediaId));
+    private InputStream download(String mediaId) {
+        String post = "{\"media_id\":\"%s\"}";
+        return wxClient.copyStream(WxEndpoint.get("url.material.binary.get"), String.format(post, mediaId));
     }
 
     private void delete(String mediaId) {
@@ -361,7 +361,7 @@ public class Materials {
             this.items = items;
         }
 
-        public class Material {
+        public static class Material {
 
             @JsonProperty("media_id")
             private String mediaId;

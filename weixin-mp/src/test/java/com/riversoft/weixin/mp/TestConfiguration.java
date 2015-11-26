@@ -1,4 +1,4 @@
-package com.riversoft.weixin.mp.user;
+package com.riversoft.weixin.mp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

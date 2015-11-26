@@ -5,6 +5,7 @@ import com.riversoft.weixin.common.exception.WxError;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -104,6 +105,47 @@ public class WxClient {
 
     public File download(String url) {
         return httpDownload(appendAccessToken(url));
+    }
+
+    public InputStream copyStream(String url, String post) {
+        return httpCopyFromStream(appendAccessToken(url), post);
+    }
+
+    /**
+     * 永久素材下载使用,奇葩的下载方式
+     * @param url
+     * @param post
+     * @return
+     */
+    private InputStream httpCopyFromStream(String url, String post) {
+        HttpPost httpPost = new HttpPost(url);
+
+        if (post != null) {
+            StringEntity entity = new StringEntity(post, Consts.UTF_8);
+            httpPost.setEntity(entity);
+        }
+
+        try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            StatusLine statusLine = response.getStatusLine();
+            HttpEntity entity = response.getEntity();
+            if (statusLine.getStatusCode() >= 300) {
+                EntityUtils.consume(entity);
+                throw new WxRuntimeException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
+            } else {
+                InputStream inputStream = entity.getContent();
+                byte[] binaryContent = IOUtils.toByteArray(inputStream);
+                String content = new String(binaryContent, "UTF-8");
+                if (content.contains("errcode")) {
+                    WxError wxError = WxError.fromJson(content);
+                    throw new WxRuntimeException(wxError);
+                } else {
+                    return inputStream;
+                }
+            }
+        } catch (IOException e) {
+            logger.error("http download: {} failed.", url, e);
+            throw new WxRuntimeException(999, e.getMessage());
+        }
     }
 
     private File httpDownload(String url) {

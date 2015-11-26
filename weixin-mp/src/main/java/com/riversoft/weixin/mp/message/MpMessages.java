@@ -39,6 +39,35 @@ public class MpMessages {
     }
 
     /**
+     * 群发图文消息消息给所有人
+     * @param mpNews
+     * @return
+     */
+    public int mpNews(String mpNews) {
+        return send(new Filter(true, null), null, "mpnews", mpNews);
+    }
+
+    /**
+     * 群发图文消息给指定群组的人
+     * @param group
+     * @param mpNews
+     * @return
+     */
+    public int mpNews(int group, String mpNews) {
+        return send(new Filter(false, String.valueOf(group)), null, "mpnews", mpNews);
+    }
+
+    /**
+     * 群发图文消息给指定的人
+     * @param openIds
+     * @param mpNews
+     * @return
+     */
+    public int mpNews(List<String> openIds, String mpNews) {
+        return send(null, openIds, "mpnews", mpNews);
+    }
+
+    /**
      * 群发文本消息, 所有人
      * @param text
      * @return
@@ -252,9 +281,9 @@ public class MpMessages {
         request.put("msgtype", msgType);
 
         if("wxcard".equalsIgnoreCase(msgType)) {
-            request.put("msgType", new Card(message));
+            request.put(msgType, new Card(message));
         } else {
-            request.put("msgType", new Media(message));
+            request.put(msgType, new Media(message));
         }
 
         String json = JsonMapper.nonEmptyMapper().toJson(request);

@@ -59,7 +59,7 @@ public class MpNewsSearchResult {
         this.items = items;
     }
 
-    public class MpNewsItem {
+    public static class MpNewsItem {
 
         @JsonProperty("media_id")
         private String mediaId;
@@ -94,7 +94,7 @@ public class MpNewsSearchResult {
             this.updateTime = updateTime;
         }
 
-        public class Content{
+        public static class Content{
 
             @JsonProperty("news_item")
             private List<MpNews> news;

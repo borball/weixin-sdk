@@ -8,6 +8,7 @@ public enum MediaType {
     image,
     voice,
     video,
+    news,
     mpnews,
 
     /**
