@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.common.util.DateSerializer;
 
@@ -17,17 +18,19 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class XmlMessageHeader implements Serializable {
 
-    @JsonProperty("MsgType")
+    @JacksonXmlProperty(localName = "MsgType")
     @JacksonXmlCData
     protected MsgType msgType;
-    @JsonProperty("ToUserName")
+
+    @JacksonXmlProperty(localName = "ToUserName")
     @JacksonXmlCData
     private String toUser;
-    @JsonProperty("FromUserName")
+
+    @JacksonXmlProperty(localName = "FromUserName")
     @JacksonXmlCData
     private String fromUser;
 
-    @JsonProperty("CreateTime")
+    @JacksonXmlProperty(localName = "CreateTime")
     @JsonDeserialize(using = DateDeserializer.class)
     @JsonSerialize(using = DateSerializer.class)
     private Date createTime;
@@ -58,6 +61,10 @@ public class XmlMessageHeader implements Serializable {
 
     public MsgType getMsgType() {
         return msgType;
+    }
+
+    public void setMsgType(MsgType msgType) {
+        this.msgType = msgType;
     }
 
     public XmlMessageHeader fromUser(String fromUser) {

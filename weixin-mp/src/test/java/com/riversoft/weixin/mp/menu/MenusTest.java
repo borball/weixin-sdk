@@ -40,8 +40,8 @@ public class MenusTest {
         menuService.add(menuComplain);
         menu.add(menuService);
 
-        MenuItem menuAbout = new MenuItem().key("about").type(MenuType.click).name("\ue418关于");
-        MenuItem menuItem = new MenuItem().key("ask").type(MenuType.click).name("条款");
+        MenuItem menuAbout = new MenuItem().key("about").type(MenuType.click).name("\ue418客服");
+        MenuItem menuItem = new MenuItem().key("item").type(MenuType.click).name("条款");
         MenuItem menuContact = new MenuItem().key("contact").type(MenuType.click).name("联系");
         menuAbout.add(menuItem);
         menuAbout.add(menuContact);
