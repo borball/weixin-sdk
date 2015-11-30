@@ -71,6 +71,39 @@ public class WxClient {
         return httpGet(appendAccessToken(url));
     }
 
+    public InputStream getBinary(String url, boolean needToken) {
+        return httpGetBinary(needToken ? appendAccessToken(url) : url);
+    }
+
+    private InputStream httpGetBinary(String url) {
+        HttpGet httpGet = new HttpGet(url);
+
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            StatusLine statusLine = response.getStatusLine();
+            HttpEntity entity = response.getEntity();
+            if (statusLine.getStatusCode() >= 300) {
+                EntityUtils.consume(entity);
+                throw new WxRuntimeException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
+            }
+
+            Header[] contentTypeHeader = response.getHeaders("Content-Type");
+            if (contentTypeHeader != null && contentTypeHeader.length > 0) {
+                if (ContentType.TEXT_PLAIN.getMimeType().equals(contentTypeHeader[0].getValue())) {
+                    String responseContent = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
+                    WxError wxError = WxError.fromJson(responseContent);
+                    if (wxError.getErrorCode() != 0) {
+                        throw new WxRuntimeException(wxError);
+                    }
+                }
+            }
+            return response.getEntity().getContent();
+        } catch (IOException ex) {
+            logger.error("http get: {} failed.", url, ex);
+            throw new WxRuntimeException(999, ex.getMessage());
+        }
+    }
+
+
     private String httpGet(String url) {
         HttpGet httpGet = new HttpGet(url);
 

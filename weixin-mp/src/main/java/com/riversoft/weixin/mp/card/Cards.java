@@ -42,7 +42,7 @@ public class Cards {
      * @param groupon
      * @return
      */
-    public String createGroupOn(Groupon groupon) {
+    public String createGroupon(Groupon groupon) {
         Card card = new Card();
         card.setCardType("GROUPON");
         card.setCard("groupon", groupon);
@@ -94,7 +94,7 @@ public class Cards {
      * @param coupon
      * @return
      */
-    public String createGift(Coupon coupon) {
+    public String createCoupon(Coupon coupon) {
         Card card = new Card();
         card.setCardType("GENERAL_COUPON");
         card.setCard("general_coupon", coupon);
