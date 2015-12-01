@@ -12,6 +12,11 @@ import java.util.Date;
 public class BaseInfo {
 
     /**
+     * 卡券ID，创建的时候无，读取的时候有
+     */
+    private String id;
+
+    /**
      * 状态
      * CARD_STATUS_NOT_VERIFY”,待审核；
      * “CARD_STATUS_VERIFY_FALL”,审核失败；
@@ -68,6 +73,7 @@ public class BaseInfo {
     /**
      * 客服电话
      */
+    @JsonProperty("service_phone")
     private String servicePhone;
 
     /**
@@ -478,6 +484,12 @@ public class BaseInfo {
          */
         private int quantity;
 
+        @JsonProperty("total_quantity")
+        private int totalQuantity;
+
+        public Sku(){
+        }
+
         public Sku(int quantity) {
             this.quantity = quantity;
         }
@@ -488,6 +500,14 @@ public class BaseInfo {
 
         public void setQuantity(int quantity) {
             this.quantity = quantity;
+        }
+
+        public int getTotalQuantity() {
+            return totalQuantity;
+        }
+
+        public void setTotalQuantity(int totalQuantity) {
+            this.totalQuantity = totalQuantity;
         }
     }
 }

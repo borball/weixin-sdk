@@ -41,7 +41,7 @@ public class Member extends AbstractCard {
     private Map<String, Object> customField3;
 
     @JsonProperty("bonus_cleared")
-    private boolean bonusClear;
+    private String bonusCleared;
 
     @JsonProperty("bonus_rules")
     private String bonusRules;
@@ -153,12 +153,12 @@ public class Member extends AbstractCard {
         this.customField3 = customField3;
     }
 
-    public boolean isBonusClear() {
-        return bonusClear;
+    public String getBonusCleared() {
+        return bonusCleared;
     }
 
-    public void setBonusClear(boolean bonusClear) {
-        this.bonusClear = bonusClear;
+    public void setBonusCleared(String bonusCleared) {
+        this.bonusCleared = bonusCleared;
     }
 
     public String getBonusRules() {
