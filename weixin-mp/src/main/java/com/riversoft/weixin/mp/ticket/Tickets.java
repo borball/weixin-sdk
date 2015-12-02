@@ -1,7 +1,6 @@
 package com.riversoft.weixin.mp.ticket;
 
 import com.riversoft.weixin.common.WxClient;
-import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.common.util.URLEncoder;
 import com.riversoft.weixin.mp.MpWxClientFactory;
@@ -10,9 +9,6 @@ import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.ticket.bean.Ticket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.InputStream;
-import java.util.Map;
 
 /**
  * Created by exizhai on 11/30/2015.
@@ -45,7 +41,7 @@ public class Tickets {
         String url = WxEndpoint.get("url.ticket.create");
         String json = "{\"expire_seconds\":%s,\"action_name\":\"QR_SCENE\",\"action_info\":{\"scene\":{\"scene_id\":%s}}}";
 
-        logger.debug("add temporary ticket : {}", String.format(json, expires, sceneId));
+        logger.debug("create temporary ticket : {}", String.format(json, expires, sceneId));
         String response = wxClient.post(url, String.format(json, expires, sceneId));
         return JsonMapper.nonEmptyMapper().fromJson(response, Ticket.class);
     }
@@ -58,8 +54,8 @@ public class Tickets {
         String url = WxEndpoint.get("url.ticket.create");
         String json = "{\"action_name\":\"QR_LIMIT_SCENE\",\"action_info\":{\"scene\":{\"scene_id\":%s}}}";
 
-        logger.debug("add permanent ticket : {}", String.format(json, sceneId));
-        String response = wxClient.post(url, json);
+        logger.debug("create permanent ticket : {}", String.format(json, sceneId));
+        String response = wxClient.post(url, String.format(json, sceneId));
         return JsonMapper.nonEmptyMapper().fromJson(response, Ticket.class);
     }
 
@@ -71,29 +67,9 @@ public class Tickets {
         String url = WxEndpoint.get("url.ticket.create");
         String json = "{\"action_name\":\"QR_LIMIT_STR_SCENE\",\"action_info\":{\"scene\":{\"scene_str\":\"%s\"}}}";
 
-        logger.debug("add permanent ticket : {}", String.format(json, sceneStr));
+        logger.debug("create permanent ticket : {}", String.format(json, sceneStr));
         String response = wxClient.post(url, json);
         return JsonMapper.nonEmptyMapper().fromJson(response, Ticket.class);
-    }
-
-    /**
-     * 长链接转换成短链接
-     * @param longUrl
-     * @return
-     */
-    public String url2short(String longUrl) {
-        String url = WxEndpoint.get("url.url.toshort");
-        String json = "{\"action\":\"long2short\",\"long_url\":\"%s\"}";
-
-        logger.debug("long url to short: {}", String.format(json, longUrl));
-        String response = wxClient.post(url, json);
-
-        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("short_url")) {
-            return result.get("short_url").toString();
-        } else {
-            throw new WxRuntimeException(999, "long url to short failed.");
-        }
     }
 
     /**
@@ -101,7 +77,7 @@ public class Tickets {
      * @param ticket
      * @return
      */
-    public InputStream getQrcode(String ticket) {
+    public byte[] getQrcode(String ticket) {
         String url = WxEndpoint.get("url.ticket.qrcode");
         return wxClient.getBinary(String.format(url, URLEncoder.encode(ticket)), false);
     }

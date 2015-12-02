@@ -23,9 +23,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -43,6 +41,10 @@ public class WxClient {
     private String clientId;
     private String clientSecret;
     private String tokenUrl;
+
+    public WxClient() {
+        httpClient = HttpClients.createDefault();
+    }
 
     public WxClient(String tokenUrl, String clientId, String clientSecret) {
         this.tokenUrl = tokenUrl;
@@ -71,11 +73,11 @@ public class WxClient {
         return httpGet(appendAccessToken(url));
     }
 
-    public InputStream getBinary(String url, boolean needToken) {
+    public byte[] getBinary(String url, boolean needToken) {
         return httpGetBinary(needToken ? appendAccessToken(url) : url);
     }
 
-    private InputStream httpGetBinary(String url) {
+    private byte[] httpGetBinary(String url) {
         HttpGet httpGet = new HttpGet(url);
 
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
@@ -96,7 +98,8 @@ public class WxClient {
                     }
                 }
             }
-            return response.getEntity().getContent();
+            InputStream inputStream = response.getEntity().getContent();
+            return IOUtils.toByteArray(inputStream);
         } catch (IOException ex) {
             logger.error("http get: {} failed.", url, ex);
             throw new WxRuntimeException(999, ex.getMessage());

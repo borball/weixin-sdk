@@ -38,5 +38,10 @@ public enum EventType {
     /**
      * 群发消息结果
      */
-    MASSSENDJOBFINISH
+    MASSSENDJOBFINISH,
+
+    /**
+     * 服务号，订阅号:扫描带参数二维码事件, 用户已关注时的事件推送
+     */
+    SCAN
 }

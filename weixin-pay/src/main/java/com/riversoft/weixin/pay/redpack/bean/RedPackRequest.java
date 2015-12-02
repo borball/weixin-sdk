@@ -1,17 +1,42 @@
-package com.riversoft.weixin.redpack.bean;
+package com.riversoft.weixin.pay.redpack.bean;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Created by exizhai on 11/22/2015.
  */
 public class RedPackRequest {
 
+    @JsonProperty("send_name")
+    private String sendName;
+
+    @JsonProperty("mch_billno")
     private String billNumber;
+
+    @JsonProperty("re_openid")
     private String openId;
+
+    @JsonProperty("total_amount")
     private int amount;
+
+    @JsonProperty("total_num")
     private int number;
+
     private String wishing;
+
+    @JsonProperty("act_name")
     private String activityName;
+
+    @JsonProperty("client_ip")
+    private String clientIp;
+
     private String remark;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("amt_type")
+    private String amtType;
 
     public String getBillNumber() {
         return billNumber;
@@ -67,5 +92,29 @@ public class RedPackRequest {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSendName() {
+        return sendName;
+    }
+
+    public void setSendName(String sendName) {
+        this.sendName = sendName;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getAmtType() {
+        return amtType;
+    }
+
+    public void setAmtType(String amtType) {
+        this.amtType = amtType;
     }
 }

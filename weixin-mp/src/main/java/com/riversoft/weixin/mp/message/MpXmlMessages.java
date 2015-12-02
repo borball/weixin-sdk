@@ -10,6 +10,8 @@ import com.riversoft.weixin.mp.event.MessageSentEvent;
 import com.riversoft.weixin.mp.event.care.SessionCloseEvent;
 import com.riversoft.weixin.mp.event.care.SessionCreateEvent;
 import com.riversoft.weixin.mp.event.care.SessionForwardEvent;
+import com.riversoft.weixin.mp.event.ticket.SceneScanEvent;
+import com.riversoft.weixin.mp.event.ticket.SceneSubEvent;
 import com.riversoft.weixin.mp.request.LinkMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +61,7 @@ public class MpXmlMessages {
             switch (eventRequest.getEventType()) {
                 case subscribe:
                 case unsubscribe:
-                    return (SubscriptionEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SubscriptionEvent.class);
+                    return (SceneSubEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SceneSubEvent.class);
                 case LOCATION:
                     return (LocationReportEvent) XmlObjectMapper.defaultMapper().fromXml(xml, LocationReportEvent.class);
                 case CLICK:
@@ -83,6 +85,8 @@ public class MpXmlMessages {
                     return (SessionForwardEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionForwardEvent.class);
                 case MASSSENDJOBFINISH:
                     return (MessageSentEvent) XmlObjectMapper.defaultMapper().fromXml(xml, MessageSentEvent.class);
+                case SCAN:
+                    return (SceneScanEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SceneScanEvent.class);
                 default:
                     logger.warn("xml to event, unknown event type {}.", eventRequest.getEventType());
                     throw new WxRuntimeException(999, "xml to bean event, unknown event type " + eventRequest.getEventType());
