@@ -61,7 +61,7 @@ public class RedPacks {
         return send(url, redPackRequest);
     }
 
-    public RedPackResult get(String billNumber) {
+    public RedPackResult query(String billNumber) {
         GetRedPackWrapper getRedPackWrapper = new GetRedPackWrapper();
         getRedPackWrapper.setBillNumber(billNumber);
         getRedPackWrapper.setBillType("MCHT");
@@ -77,9 +77,9 @@ public class RedPacks {
         String url = WxEndpoint.get("url.pay.redpack.get");
         try {
             String xml = XmlObjectMapper.defaultMapper().toXml(getRedPackWrapper);
-            logger.info("send get redpack request: {}", xml);
+            logger.info("send query redpack request: {}", xml);
             String response = wxSslClient.post(url, xml);
-            logger.info("got response: {}", response);
+            logger.info("got query response: {}", response);
             RedPackResultWrapper redPackResultWrapper = (RedPackResultWrapper)XmlObjectMapper.defaultMapper().fromXml(response, RedPackResultWrapper.class);
             return redPackResultWrapper.getRedPackResult();
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class RedPacks {
 
         try {
             String xml = XmlObjectMapper.defaultMapper().toXml(redPackRequestWrapper);
-            logger.info("sendSingle request: {}", xml);
+            logger.info("send redpack request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("got response: {}", response);
 

@@ -57,7 +57,7 @@ public class RedPackResult {
     @JsonProperty("hblist")
     private List<RedPackReport> reports;
 
-    public boolean isSuccess() {
+    public boolean success() {
         return "SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode);
     }
 

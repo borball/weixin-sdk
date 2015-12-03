@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class RedPackResponse {
 
+
     @JsonProperty("return_code")
     private String returnCode;
 
@@ -45,7 +46,7 @@ public class RedPackResponse {
     @JsonProperty("send_listid")
     private String sendListId;
 
-    public boolean isSuccess() {
+    public boolean success() {
         return "SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode);
     }
 

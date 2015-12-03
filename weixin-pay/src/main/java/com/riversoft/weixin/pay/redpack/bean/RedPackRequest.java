@@ -29,6 +29,7 @@ public class RedPackRequest {
     @JsonProperty("act_name")
     private String activityName;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("client_ip")
     private String clientIp;
 
