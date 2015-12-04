@@ -89,15 +89,16 @@ public class RedPacks {
     }
 
     private RedPackResponse send(String url, RedPackRequest redPackRequest) {
+        if(redPackRequest.getAppId() == null || "".equals(redPackRequest.getAppId())) {
+            redPackRequest.setAppId(paySetting.getAppId());
+        }
         SortedMap<String, Object> redPackRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(redPackRequest, SortedMap.class);
 
-        redPackRequestMap.put("wxappid", paySetting.getAppId());
         AppSettingMixin appSettingMixin = prepareAppSettingMixin(redPackRequestMap);
 
         RedPackRequestWrapper redPackRequestWrapper = new RedPackRequestWrapper();
         redPackRequestWrapper.setAppSettingMixin(appSettingMixin);
         redPackRequestWrapper.setRedPackRequest(redPackRequest);
-        redPackRequestWrapper.setWxAppId(paySetting.getAppId());
 
         try {
             String xml = XmlObjectMapper.defaultMapper().toXml(redPackRequestWrapper);
@@ -132,9 +133,6 @@ public class RedPacks {
         @JsonUnwrapped
         private RedPackRequest redPackRequest;
 
-        @JsonProperty("wxappid")
-        private String wxAppId;
-
         @JsonUnwrapped
         private AppSettingMixin appSettingMixin;
 
@@ -144,14 +142,6 @@ public class RedPacks {
 
         public void setRedPackRequest(RedPackRequest redPackRequest) {
             this.redPackRequest = redPackRequest;
-        }
-
-        public String getWxAppId() {
-            return wxAppId;
-        }
-
-        public void setWxAppId(String wxAppId) {
-            this.wxAppId = wxAppId;
         }
 
         public AppSettingMixin getAppSettingMixin() {

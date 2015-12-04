@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 public class RedPackRequest {
 
+    @JsonProperty("wxappid")
+    private String appId;
+
     @JsonProperty("send_name")
     private String sendName;
 
@@ -38,6 +41,14 @@ public class RedPackRequest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("amt_type")
     private String amtType;
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
     public String getBillNumber() {
         return billNumber;

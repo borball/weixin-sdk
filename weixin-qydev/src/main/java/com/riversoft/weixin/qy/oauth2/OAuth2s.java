@@ -6,10 +6,14 @@ import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
+import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import com.riversoft.weixin.qy.oauth2.bean.UserInfo;
 import com.riversoft.weixin.common.util.URLEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by exizhai on 10/4/2015.
@@ -52,4 +56,44 @@ public class OAuth2s {
         logger.debug("oauth get user info: {}", userInfo);
         return JsonMapper.nonEmptyMapper().fromJson(userInfo, UserInfo.class);
     }
+
+    public Map<String, String> toOpenId(int agentId, String userId) {
+        String url = WxEndpoint.get("url.oauth.uid2openid");
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("userid", userId);
+        request.put("agentid", agentId);
+
+        logger.debug("agent[{}], userId[{}] to openId", agentId, userId);
+        String response = wxClient.post(url, JsonMapper.defaultMapper().toJson(request));
+
+        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        if(result.containsKey("errcode") && (Integer)result.get("errcode") == 0) {
+            Map<String, String> map = new HashMap<>();
+            map.put("openid", result.get("openid").toString());
+            map.put("appid", result.get("appid").toString());
+            return map;
+        } else {
+            throw new WxRuntimeException(999, "user id to open id failed.");
+        }
+    }
+
+    public String toOpenId(String userId) {
+        String url = WxEndpoint.get("url.oauth.uid2openid");
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("userid", userId);
+
+        logger.debug("userId[{}] to openId", userId);
+        String response = wxClient.post(url, JsonMapper.defaultMapper().toJson(request));
+
+        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        if(result.containsKey("errcode") && (Integer)result.get("errcode") == 0) {
+            Map<String, String> map = new HashMap<>();
+           return result.get("openid").toString();
+        } else {
+            throw new WxRuntimeException(999, "user id to open id failed.");
+        }
+    }
+
 }

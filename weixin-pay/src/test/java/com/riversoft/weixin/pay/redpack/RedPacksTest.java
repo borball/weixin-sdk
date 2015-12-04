@@ -13,24 +13,25 @@ public class RedPacksTest {
 
     @Test
     public void testSendSingle(){
-        String[] users = {"oELhltw0Aq6d_gbd-01W6npGyh70", "oELhlt7Q-lRmLbRsPsaKeVX6pqjg", "oELhlt0b7w9q7TiyRUq7iZ4r3FZM", "oELhlt7JHGmSC47bG0hmm4L1LYzg"};
-        int i = 5;
-        for(String user: users) {
-            RedPackRequest redPackRequest = new RedPackRequest();
-            redPackRequest.setActivityName("土豪发红包");
-            redPackRequest.setAmount(100);
-            redPackRequest.setBillNumber("129206390120151203000000000" + i);
-            redPackRequest.setNumber(1);
-            redPackRequest.setOpenId(user);
-            redPackRequest.setRemark("测试发红包");
-            redPackRequest.setWishing("恭喜发财");
-            redPackRequest.setClientIp("127.0.0.1");
-            redPackRequest.setSendName("创河软件");
+        //woden: oby4gwXNTVGvcroy9ehU7LGWkRtY
+        //cyrus: oby4gwWNM0GkuU1LTS4lqK1qMg1s
+        //borball: oby4gwX7iPPp-lWZ3t7yGsQ0GbHw
+        //ivory:oby4gwRjelcBpbU0s-Dwnovl9xIw
+        //johnny: oby4gwaYRmbfI5LuPLzGtdK6fgnM
+        RedPackRequest redPackRequest = new RedPackRequest();
+        redPackRequest.setActivityName("土豪发红包");
+        redPackRequest.setAmount(100);
+        redPackRequest.setBillNumber("1292063901201512030010000014");
+        redPackRequest.setNumber(1);
+        redPackRequest.setOpenId("oby4gwX7iPPp-lWZ3t7yGsQ0GbHw");
+        redPackRequest.setRemark("测试发红包");
+        redPackRequest.setWishing("恭喜发财");
+        redPackRequest.setClientIp("127.0.0.1");
+        redPackRequest.setSendName("创河软件");
 
-            RedPackResponse redPackResponse = RedPacks.defaultRedPacks().sendSingle(redPackRequest);
-            Assert.assertNotNull(redPackResponse);
-            i++;
-        }
+        RedPackResponse redPackResponse = RedPacks.defaultRedPacks().sendSingle(redPackRequest);
+        Assert.assertNotNull(redPackResponse);
+
     }
 
     @Test
@@ -38,9 +39,9 @@ public class RedPacksTest {
         RedPackRequest redPackRequest = new RedPackRequest();
         redPackRequest.setActivityName("土豪发红包");
         redPackRequest.setAmount(600);
-        redPackRequest.setBillNumber("1292063901201512030000000002");
+        redPackRequest.setBillNumber("1292063901201512030010000016");
         redPackRequest.setNumber(5);
-        redPackRequest.setOpenId("oELhlt7Q-lRmLbRsPsaKeVX6pqjg");
+        redPackRequest.setOpenId("oby4gwX7iPPp-lWZ3t7yGsQ0GbHw");
         redPackRequest.setRemark("测试裂变红包");
         redPackRequest.setWishing("恭喜发财");
         //redPackRequest.setClientIp("127.0.0.1");
