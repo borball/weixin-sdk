@@ -89,11 +89,26 @@ public class OAuth2s {
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
         if(result.containsKey("errcode") && (Integer)result.get("errcode") == 0) {
-            Map<String, String> map = new HashMap<>();
            return result.get("openid").toString();
         } else {
             throw new WxRuntimeException(999, "user id to open id failed.");
         }
     }
 
+    public String toUserId(String openId) {
+        String url = WxEndpoint.get("url.oauth.openid2uid");
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("openid", openId);
+
+        logger.debug("openId[{}] to userid ", openId);
+        String response = wxClient.post(url, JsonMapper.defaultMapper().toJson(request));
+
+        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        if(result.containsKey("errcode") && (Integer)result.get("errcode") == 0) {
+            return result.get("userid").toString();
+        } else {
+            throw new WxRuntimeException(999, "open id to user id failed.");
+        }
+    }
 }
