@@ -11,8 +11,8 @@ public class OAuth2sTest {
 
     @Test
     public void testToOpenId(){
-        Map<String, String> response = OAuth2s.defaultOAuth2s().toOpenId(45, "johnny");
-        System.out.print("johnny|");
+        Map<String, String> response = OAuth2s.defaultOAuth2s().toOpenId(45, "borball");
+        System.out.print("woden|");
         System.out.print(response.get("appid"));
         System.out.print("|");
         System.out.println(response.get("openid"));

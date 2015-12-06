@@ -1,9 +1,6 @@
 package com.riversoft.weixin.mp.card;
 
-import com.riversoft.weixin.mp.card.bean.BaseInfo;
-import com.riversoft.weixin.mp.card.bean.Color;
-import com.riversoft.weixin.mp.card.bean.Discount;
-import com.riversoft.weixin.mp.card.bean.Member;
+import com.riversoft.weixin.mp.card.bean.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +16,7 @@ public class CardsTest {
     public void testCreateMember(){
         Member member = new Member();
         member.setPrerogative("请加班的时候出示");
-        member.setAutoActivate(false);
+        member.setAutoActivate(true);
         member.setWxActivate(false);
         member.setSupplyBonus(false);
         member.setSupplyBalance(false);
@@ -74,8 +71,16 @@ public class CardsTest {
     @Test
     public void testWhiteList(){
         List<String> users = new ArrayList<>();
-        users.add("borball");
-        Cards.defaultCards().setWhiteList(null, users);
+        users.add("o7Tmfs5ezesAcMR-Uu1HrFTm0VPM");
+        users.add("o7Tmfs6Bx0Tw6en7idZabXGG9Di8");
+        users.add("o7Tmfs3EHCndVenva5knKxA4D3XA");
+        users.add("o7Tmfs8y4gBrwzX_YXKAuL7TFrsQ");
+        users.add("o7Tmfs2uEnDbaJ_rs2OejuWZPH2M");
+        users.add("o7Tmfs6gPvhH9FXtFz8JR2jfeL0g");
+        users.add("o7Tmfs0CkrVdq7og3sKWmot55iS8");
+        users.add("o7Tmfs7pE8QMVDj9jF--Y74wjUpE");
+        users.add("o7Tmfs96UDesd920Gzi0jYJPnBzQ");
+        Cards.defaultCards().setWhiteList(users, null);
     }
 
     @Test
@@ -92,7 +97,12 @@ public class CardsTest {
 
     @Test
     public void testGet(){
-        Cards.defaultCards().get("p7Tmfs0e7WUNurXRrEnaagja7SQs");
+        //p7Tmfs0e7WUNurXRrEnaagja7SQs
+        //p7Tmfs2kxdGp2YN7LX2BMzEYCI2Q
+        Card card = Cards.defaultCards().get("p7Tmfs2kxdGp2YN7LX2BMzEYCI2Q");
+        System.out.println(card.getCardType());
+        card = Cards.defaultCards().get("p7Tmfs0e7WUNurXRrEnaagja7SQs");
+        System.out.println(card.getCardType());
     }
 
     @Test

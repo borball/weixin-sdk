@@ -27,10 +27,10 @@ public class MenusTest {
         Menu menu = new Menu();
 
         MenuItem menuWant = new MenuItem().key("want").type(MenuType.click).name("\ue415我要");
+        MenuItem menuRefer = new MenuItem().key("refer").type(MenuType.click).name("推荐");
         MenuItem menuQuery = new MenuItem().key("query").type(MenuType.click).name("查询");
-        MenuItem menuBuy = new MenuItem().key("buy").type(MenuType.click).name("购买");
+        menuWant.add(menuRefer);
         menuWant.add(menuQuery);
-        menuWant.add(menuBuy);
         menu.add(menuWant);
 
         MenuItem menuService = new MenuItem().key("service").type(MenuType.click).name("\ue506服务");

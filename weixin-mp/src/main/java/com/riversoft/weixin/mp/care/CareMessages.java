@@ -9,6 +9,7 @@ import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
+import com.riversoft.weixin.mp.care.bean.Card;
 import com.riversoft.weixin.mp.message.Music;
 import com.riversoft.weixin.mp.care.bean.Video;
 import org.slf4j.Logger;
@@ -197,6 +198,29 @@ public class CareMessages {
     public void mpNews(String openId, String mpNews, String from) {
         Map<String, Object> request = initMessage(openId, "mpnews", from);
         request.put("mpnews", new Media(mpNews));
+
+        String url = WxEndpoint.get("url.care.message.send");
+        wxClient.post(url, JsonMapper.defaultMapper().toJson(request));
+    }
+
+    /**
+     * 发送卡券
+     * @param openId
+     * @param cardId
+     */
+    public void card(String openId, String cardId) {
+        card(openId, cardId, null);
+    }
+
+    /**
+     * 发送卡券
+     * @param openId
+     * @param cardId
+     * @param from 客服账号
+     */
+    public void card(String openId, String cardId, String from) {
+        Map<String, Object> request = initMessage(openId, "wxcard", from);
+        request.put("wxcard", new Card(cardId));
 
         String url = WxEndpoint.get("url.care.message.send");
         wxClient.post(url, JsonMapper.defaultMapper().toJson(request));

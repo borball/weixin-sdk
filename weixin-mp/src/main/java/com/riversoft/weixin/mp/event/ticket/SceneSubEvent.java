@@ -3,6 +3,7 @@ package com.riversoft.weixin.mp.event.ticket;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.riversoft.weixin.common.event.EventRequest;
+import com.riversoft.weixin.common.event.EventType;
 
 /**
  * 用户扫描带场景值二维码时，可能推送以下两种事件
@@ -43,5 +44,9 @@ public class SceneSubEvent extends EventRequest {
 
     public void setTicket(String ticket) {
         this.ticket = ticket;
+    }
+
+    public boolean isSub(){
+        return EventType.subscribe == getEventType();
     }
 }
