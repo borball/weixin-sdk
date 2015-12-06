@@ -10,6 +10,8 @@ weixin-sdk 是对微信公众平台API已经微信支付API的JAVA版封装：
 
 API详情请参考WIKI: [wiki](https://github.com/borball/weixin-sdk/wiki)
 
+或者参考：SDK DEMO: [demo](https://github.com/borball/weixin-sdk-demo)
+
 ##如何获取？
 
  - 服务号，订阅号：
