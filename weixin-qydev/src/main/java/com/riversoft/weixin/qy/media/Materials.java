@@ -11,10 +11,9 @@ import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.media.bean.*;
+import com.riversoft.weixin.qy.media.bean.Counts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,7 @@ public class Materials {
     private WxClient wxClient;
 
     public static Materials defaultMaterials() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Materials with(CorpSetting corpSetting) {
@@ -46,11 +45,7 @@ public class Materials {
         this.wxClient = wxClient;
     }
 
-    public String addMpNews(MpNews mpNews){
-        return addMpNews(DefaultSettings.defaultSettings().getDefaultAgent(), mpNews);
-    }
-
-    public String addMpNews(int agent, MpNews mpNews){
+    public String addMpNews(int agent, MpNews mpNews) {
         String url = WxEndpoint.get("url.material.mpnews.add");
 
         Map<String, Object> request = new HashMap<>();
@@ -62,11 +57,7 @@ public class Materials {
         return wxClient.post(url, json);
     }
 
-    public void updateMpNews(String mediaId, MpNews mpNews){
-        updateMpNews(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId, mpNews);
-    }
-
-    public void updateMpNews(int agent, String mediaId, MpNews mpNews){
+    public void updateMpNews(int agent, String mediaId, MpNews mpNews) {
         String url = WxEndpoint.get("url.material.mpnews.update");
         Map<String, Object> request = new HashMap<>();
         request.put("agentid", agent);
@@ -78,31 +69,19 @@ public class Materials {
         wxClient.post(url, json);
     }
 
-    public MpNews getMpNews(String mediaId){
-        return getMpNews(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
-    }
-
-    public MpNews getMpNews(int agent, String mediaId){
+    public MpNews getMpNews(int agent, String mediaId) {
         String url = WxEndpoint.get("url.material.mpnews.get");
         String response = wxClient.get(String.format(url, agent, mediaId));
         GetMpNewsResponse getMpNewsResponse = JsonMapper.defaultMapper().fromJson(response, GetMpNewsResponse.class);
-        if(getMpNewsResponse != null) {
+        if (getMpNewsResponse != null) {
             return getMpNewsResponse.getMpNews();
         } else {
             return null;
         }
     }
 
-    public void deleteMpNews(int agentId, String mediaId){
+    public void deleteMpNews(int agentId, String mediaId) {
         delete(agentId, mediaId);
-    }
-
-    public void deleteMpNews(String mediaId){
-        delete(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
-    }
-
-    public String upload(MediaType type, InputStream inputStream, String fileName) {
-        return upload(DefaultSettings.defaultSettings().getDefaultAgent(), type, inputStream, fileName);
     }
 
     public String upload(int agent, MediaType type, InputStream inputStream, String fileName) {
@@ -119,16 +98,8 @@ public class Materials {
         }
     }
 
-    public File download(String mediaId) {
-        return download(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
-    }
-
     public File download(int agent, String mediaId) {
         return wxClient.download(String.format(WxEndpoint.get("url.material.binary.get"), agent, mediaId));
-    }
-
-    public void delete(String mediaId) {
-        delete(DefaultSettings.defaultSettings().getDefaultAgent(), mediaId);
     }
 
     public void delete(int agent, String mediaId) {
@@ -136,17 +107,9 @@ public class Materials {
         logger.info("material delete result: {}", response);
     }
 
-    public Counts count() {
-        return count(DefaultSettings.defaultSettings().getDefaultAgent());
-    }
-
     public Counts count(int agent) {
         String response = wxClient.get(String.format(WxEndpoint.get("url.material.count"), agent));
         return JsonMapper.defaultMapper().fromJson(response, Counts.class);
-    }
-
-    public MaterialSearchResult list(MediaType type, int offset, int size) {
-        return list(DefaultSettings.defaultSettings().getDefaultAgent(), type, offset, size);
     }
 
     public MaterialSearchResult list(int agentId, MediaType type, int offset, int size) {
@@ -165,7 +128,7 @@ public class Materials {
         List<QyMaterialSearchResult.Material> qyItems = qyMaterialSearchResult.getItems();
         List<MaterialSearchResult.Material> items = new ArrayList<>();
 
-        for (QyMaterialSearchResult.Material qyItem: qyItems) {
+        for (QyMaterialSearchResult.Material qyItem : qyItems) {
             MaterialSearchResult.Material item = new MaterialSearchResult.Material();
             item.setFileName(qyItem.getFileName());
             item.setMediaId(qyItem.getMediaId());

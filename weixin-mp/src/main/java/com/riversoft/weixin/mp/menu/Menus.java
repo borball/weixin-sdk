@@ -6,7 +6,6 @@ import com.riversoft.weixin.common.menu.MenuWrapper;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
-
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

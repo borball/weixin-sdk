@@ -4,7 +4,6 @@ import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.contact.tag.Tag;
 import com.riversoft.weixin.qy.contact.tag.TagList;
@@ -25,7 +24,7 @@ public class Tags {
     private WxClient wxClient;
 
     public static Tags defaultTags() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Tags with(CorpSetting corpSetting) {

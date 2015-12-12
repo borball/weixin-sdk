@@ -7,7 +7,6 @@ import com.riversoft.weixin.qy.agent.bean.Agent;
 import com.riversoft.weixin.qy.agent.bean.AgentsList;
 import com.riversoft.weixin.qy.agent.bean.WritableAgent;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class Agents {
     private WxClient wxClient;
 
     public static Agents defaultAgents() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Agents with(CorpSetting corpSetting) {

@@ -2,7 +2,7 @@ package com.riversoft.weixin.mp.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.WxClient;
-import com.riversoft.weixin.common.message.Video;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
@@ -40,6 +40,7 @@ public class MpMessages {
 
     /**
      * 群发图文消息消息给所有人
+     *
      * @param mpNews
      * @return
      */
@@ -49,6 +50,7 @@ public class MpMessages {
 
     /**
      * 群发图文消息给指定群组的人
+     *
      * @param group
      * @param mpNews
      * @return
@@ -59,6 +61,7 @@ public class MpMessages {
 
     /**
      * 群发图文消息给指定的人
+     *
      * @param openIds
      * @param mpNews
      * @return
@@ -69,6 +72,7 @@ public class MpMessages {
 
     /**
      * 群发文本消息, 所有人
+     *
      * @param text
      * @return
      */
@@ -78,6 +82,7 @@ public class MpMessages {
 
     /**
      * 指定分组群发文本消息
+     *
      * @param group
      * @param text
      * @return
@@ -88,6 +93,7 @@ public class MpMessages {
 
     /**
      * 发文本消息给指定人
+     *
      * @param openIds
      * @param text
      * @return
@@ -98,6 +104,7 @@ public class MpMessages {
 
     /**
      * 预览文本消息
+     *
      * @param wxName
      * @param openId
      * @param text
@@ -109,6 +116,7 @@ public class MpMessages {
 
     /**
      * 群发语音消息，所有人
+     *
      * @param voice
      * @return
      */
@@ -118,6 +126,7 @@ public class MpMessages {
 
     /**
      * 群发语音消息给指定人
+     *
      * @param openIds
      * @param voice
      * @return
@@ -128,6 +137,7 @@ public class MpMessages {
 
     /**
      * 群发语音消息给指定群组
+     *
      * @param group
      * @param voice
      * @return
@@ -138,6 +148,7 @@ public class MpMessages {
 
     /**
      * 预览语音消息
+     *
      * @param wxName
      * @param openId
      * @param voice
@@ -149,6 +160,7 @@ public class MpMessages {
 
     /**
      * 群发图片消息给所有人
+     *
      * @param image
      * @return
      */
@@ -158,6 +170,7 @@ public class MpMessages {
 
     /**
      * 群发图片消息给指定群组的人
+     *
      * @param group
      * @param image
      * @return
@@ -168,6 +181,7 @@ public class MpMessages {
 
     /**
      * 群发图片消息给指定的人
+     *
      * @param openIds
      * @param image
      * @return
@@ -178,6 +192,7 @@ public class MpMessages {
 
     /**
      * 预览图片消息
+     *
      * @param wxName
      * @param openId
      * @param image
@@ -187,16 +202,74 @@ public class MpMessages {
         return preview(wxName, openId, "image", image);
     }
 
-    public int video(Video video) {
-        return 0;
+    /**
+     * 群发视频消息给所有人
+     *
+     * @param mediaId
+     * @param title
+     * @param desc
+     * @return
+     */
+    public int video(String mediaId, String title, String desc) {
+        return video(new Filter(true, null), null, mediaId, title, desc);
     }
 
-    public int video(int group, Video video) {
-        return 0;
+    /**
+     * 群发视频消息给特定分组的人
+     *
+     * @param group
+     * @param mediaId
+     * @param title
+     * @param desc
+     * @return
+     */
+    public int video(int group, String mediaId, String title, String desc) {
+        return video(new Filter(false, String.valueOf(group)), null, mediaId, title, desc);
+    }
+
+    /**
+     * 群发视频消息给特定用户
+     *
+     * @param openIds
+     * @param mediaId
+     * @param title
+     * @param desc
+     * @return
+     */
+    public int video(List<String> openIds, String mediaId, String title, String desc) {
+        return video(null, openIds, mediaId, title, desc);
+    }
+
+    /**
+     * 群发视频预览给特定用户
+     *
+     * @param wxName
+     * @param openId
+     * @param mediaId
+     * @param title
+     * @param desc
+     * @return
+     */
+    public int videoPreview(String wxName, String openId, String mediaId, String title, String desc) {
+        Map<String, String> uploadRequest = new HashMap<>();
+        uploadRequest.put("media_id", mediaId);
+        uploadRequest.put("title", title);
+        uploadRequest.put("description", desc);
+        String uploadUrl = WxEndpoint.get("url.mass.message.video.upload");
+        String json = JsonMapper.nonEmptyMapper().toJson(uploadUrl);
+
+        String response = wxClient.post(uploadUrl, json);
+        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        if (result.containsKey("media_id")) {
+            return preview(wxName, openId, "mpvideo", (String) result.get("media_id"));
+        } else {
+            throw new WxRuntimeException(999, "send mp video preview failed.");
+        }
     }
 
     /**
      * 群发卡券给所有人
+     *
      * @param wxcard
      * @return
      */
@@ -206,6 +279,7 @@ public class MpMessages {
 
     /**
      * 群发卡券给指定分组的人
+     *
      * @param group
      * @param wxcard
      * @return
@@ -216,6 +290,7 @@ public class MpMessages {
 
     /**
      * 群发卡券给指定的人
+     *
      * @param openIds
      * @param wxcard
      * @return
@@ -226,6 +301,7 @@ public class MpMessages {
 
     /**
      * 预览图片消息
+     *
      * @param wxName
      * @param openId
      * @param wxcard
@@ -254,6 +330,7 @@ public class MpMessages {
 
     /**
      * 查询群发消息状态
+     *
      * @param msgId
      * @return
      */
@@ -270,17 +347,17 @@ public class MpMessages {
     private int send(Filter filter, List<String> openIds, String msgType, String message) {
         String url = WxEndpoint.get("url.mass.message.send");
         Map<String, Object> request = new HashMap<>();
-        if(filter != null) {
+        if (filter != null) {
             request.put("filter", filter);
         }
 
-        if(openIds != null && !openIds.isEmpty()) {
+        if (openIds != null && !openIds.isEmpty()) {
             request.put("touser", openIds);
         }
 
         request.put("msgtype", msgType);
 
-        if("wxcard".equalsIgnoreCase(msgType)) {
+        if ("wxcard".equalsIgnoreCase(msgType)) {
             request.put(msgType, new Card(message));
         } else {
             request.put(msgType, new Media(message));
@@ -288,26 +365,26 @@ public class MpMessages {
 
         String json = JsonMapper.nonEmptyMapper().toJson(request);
         logger.debug("send message: {}", json);
-        String response = wxClient.post(url, json);
-        Response r = JsonMapper.defaultMapper().fromJson(response, Response.class);
+        String result = wxClient.post(url, json);
+        Response response = JsonMapper.defaultMapper().fromJson(result, Response.class);
 
-        return r.getMsgId();
+        return response.getMsgId();
     }
 
     private int preview(String wxName, String openId, String msgType, String message) {
         String url = WxEndpoint.get("url.mass.message.preview");
         Map<String, Object> request = new HashMap<>();
-        if(wxName != null && !"".equals(wxName)) {
+        if (wxName != null && !"".equals(wxName)) {
             request.put("towxname", wxName);
         }
 
-        if(openId != null && !"".equals(openId)) {
+        if (openId != null && !"".equals(openId)) {
             request.put("touser", openId);
         }
 
         request.put("msgtype", msgType);
 
-        if("wxcard".equalsIgnoreCase(msgType)) {
+        if ("wxcard".equalsIgnoreCase(msgType)) {
             request.put("msgType", new Card(message));
         } else {
             request.put("msgType", new Media(message));
@@ -319,6 +396,23 @@ public class MpMessages {
         Response r = JsonMapper.defaultMapper().fromJson(response, Response.class);
 
         return r.getMsgId();
+    }
+
+    private int video(Filter filter, List<String> openIds, String mediaId, String title, String desc) {
+        Map<String, String> uploadRequest = new HashMap<>();
+        uploadRequest.put("media_id", mediaId);
+        uploadRequest.put("title", title);
+        uploadRequest.put("description", desc);
+        String uploadUrl = WxEndpoint.get("url.mass.message.video.upload");
+        String json = JsonMapper.nonEmptyMapper().toJson(uploadUrl);
+
+        String response = wxClient.post(uploadUrl, json);
+        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        if (result.containsKey("media_id")) {
+            return send(filter, openIds, "mpvideo", (String) result.get("media_id"));
+        } else {
+            throw new WxRuntimeException(999, "send mp video failed.");
+        }
     }
 
     public static class Filter {

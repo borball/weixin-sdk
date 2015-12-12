@@ -94,7 +94,7 @@ public class MpNewsSearchResult {
             this.updateTime = updateTime;
         }
 
-        public static class Content{
+        public static class Content {
 
             @JsonProperty("news_item")
             private List<MpNews> news;

@@ -1,13 +1,12 @@
 package com.riversoft.weixin.qy.media;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.common.media.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,7 @@ public class Medias {
     private WxClient wxClient;
 
     public static Medias defaultMedias() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Medias with(CorpSetting corpSetting) {
@@ -41,13 +40,14 @@ public class Medias {
 
     /**
      * 上传临时图片，语音，视频和普通文件
-     * @param type 临时素材类型：只能是 图片，语音，视频和普通文件
+     *
+     * @param type        临时素材类型：只能是 图片，语音，视频和普通文件
      * @param inputStream 临时素材流
-     * @param fileName 临时素材文件名
+     * @param fileName    临时素材文件名
      * @return 返回临时素材metaId
      */
     public String upload(MediaType type, InputStream inputStream, String fileName) {
-        if(type == MediaType.mpnews) {
+        if (type == MediaType.mpnews) {
             throw new com.riversoft.weixin.common.exception.WxRuntimeException(999, "unsupported media type: " + type.name());
         }
         String url = WxEndpoint.get("url.media.upload");
@@ -66,6 +66,7 @@ public class Medias {
 
     /**
      * 下载图片，语音，视频和普通文件
+     *
      * @param mediaId media id
      * @return 文件
      */

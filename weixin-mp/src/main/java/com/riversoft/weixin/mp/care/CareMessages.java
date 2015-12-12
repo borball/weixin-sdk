@@ -10,8 +10,8 @@ import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.care.bean.Card;
-import com.riversoft.weixin.mp.message.Music;
 import com.riversoft.weixin.mp.care.bean.Video;
+import com.riversoft.weixin.mp.message.Music;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +44,7 @@ public class CareMessages {
 
     /**
      * 客服发送文本消息
+     *
      * @param openId
      * @param text
      */
@@ -53,9 +54,10 @@ public class CareMessages {
 
     /**
      * 客服发送文本消息
+     *
      * @param openId
      * @param text
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void text(String openId, String text, String from) {
         Map<String, Object> request = initMessage(openId, "text", from);
@@ -67,6 +69,7 @@ public class CareMessages {
 
     /**
      * 客服发送文本消息
+     *
      * @param openId
      * @param image
      */
@@ -76,9 +79,10 @@ public class CareMessages {
 
     /**
      * 客服发送图片消息
+     *
      * @param openId
      * @param image
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void image(String openId, String image, String from) {
         Map<String, Object> request = initMessage(openId, "image", from);
@@ -90,6 +94,7 @@ public class CareMessages {
 
     /**
      * 客服发送语音消息
+     *
      * @param openId
      * @param voice
      */
@@ -99,9 +104,10 @@ public class CareMessages {
 
     /**
      * 客服发送语音消息
+     *
      * @param openId
      * @param voice
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void voice(String openId, String voice, String from) {
         Map<String, Object> request = initMessage(openId, "voice", from);
@@ -113,6 +119,7 @@ public class CareMessages {
 
     /**
      * 客服发送video消息
+     *
      * @param openId
      * @param video
      */
@@ -122,9 +129,10 @@ public class CareMessages {
 
     /**
      * 客服发送video消息
+     *
      * @param openId
      * @param video
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void video(String openId, Video video, String from) {
         Map<String, Object> request = initMessage(openId, "video", from);
@@ -136,6 +144,7 @@ public class CareMessages {
 
     /**
      * 客服发送music消息
+     *
      * @param openId
      * @param music
      */
@@ -145,9 +154,10 @@ public class CareMessages {
 
     /**
      * 客服发送music消息
+     *
      * @param openId
      * @param music
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void music(String openId, Music music, String from) {
         Map<String, Object> request = initMessage(openId, "music", from);
@@ -159,6 +169,7 @@ public class CareMessages {
 
     /**
      * 客服发送news消息
+     *
      * @param openId
      * @param news
      */
@@ -168,9 +179,10 @@ public class CareMessages {
 
     /**
      * 客服发送news消息
+     *
      * @param openId
      * @param news
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void news(String openId, News news, String from) {
         Map<String, Object> request = initMessage(openId, "news", from);
@@ -182,6 +194,7 @@ public class CareMessages {
 
     /**
      * 客服发送mpNews消息
+     *
      * @param openId
      * @param mpNews
      */
@@ -191,9 +204,10 @@ public class CareMessages {
 
     /**
      * 客服发送mpNews消息
+     *
      * @param openId
      * @param mpNews
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void mpNews(String openId, String mpNews, String from) {
         Map<String, Object> request = initMessage(openId, "mpnews", from);
@@ -205,6 +219,7 @@ public class CareMessages {
 
     /**
      * 发送卡券
+     *
      * @param openId
      * @param cardId
      */
@@ -214,9 +229,10 @@ public class CareMessages {
 
     /**
      * 发送卡券
+     *
      * @param openId
      * @param cardId
-     * @param from 客服账号
+     * @param from   客服账号
      */
     public void card(String openId, String cardId, String from) {
         Map<String, Object> request = initMessage(openId, "wxcard", from);
@@ -231,7 +247,7 @@ public class CareMessages {
         request.put("msgtype", msgType);
         request.put("touser", openId);
 
-        if(from != null && !"".equals(from)) {
+        if (from != null && !"".equals(from)) {
             request.put("customservice", new KfAccount(from));
         }
 
@@ -255,7 +271,6 @@ public class CareMessages {
             this.account = account;
         }
     }
-
 
 
 }

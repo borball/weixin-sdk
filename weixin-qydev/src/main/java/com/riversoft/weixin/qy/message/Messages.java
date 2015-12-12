@@ -4,7 +4,6 @@ import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.message.json.JsonMessage;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ public class Messages {
     private WxClient wxClient;
 
     public static Messages defaultMessages() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Messages with(CorpSetting corpSetting) {
@@ -33,9 +32,6 @@ public class Messages {
     }
 
     public void send(JsonMessage message) {
-        if (message.getAgentId() <= 0) {
-            message.setAgentId(DefaultSettings.defaultSettings().getDefaultAgent());
-        }
         String url = WxEndpoint.get("url.message.send");
         String json = JsonMapper.nonEmptyMapper().toJson(message);
         logger.info("send message: {}", json);

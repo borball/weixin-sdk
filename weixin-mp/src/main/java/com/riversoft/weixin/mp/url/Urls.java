@@ -36,6 +36,7 @@ public class Urls {
 
     /**
      * 长链接转换成短链接
+     *
      * @param longUrl
      * @return
      */
@@ -47,7 +48,7 @@ public class Urls {
         String response = wxClient.post(url, json);
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("short_url")) {
+        if (result.containsKey("short_url")) {
             return result.get("short_url").toString();
         } else {
             throw new WxRuntimeException(999, "long url to short failed.");

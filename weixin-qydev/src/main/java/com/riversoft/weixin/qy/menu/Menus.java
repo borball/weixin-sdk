@@ -6,7 +6,6 @@ import com.riversoft.weixin.common.menu.MenuWrapper;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ public class Menus {
     private WxClient wxClient;
 
     public static Menus defaultMenus() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Menus with(CorpSetting corpSetting) {
@@ -41,14 +40,6 @@ public class Menus {
         wxClient.post(String.format(url, agent), json);
     }
 
-    public void create(Menu menu) {
-        create(DefaultSettings.defaultSettings().getDefaultAgent(), menu);
-    }
-
-    public void delete() {
-        delete(DefaultSettings.defaultSettings().getDefaultAgent());
-    }
-
     public void delete(int agent) {
         String url = WxEndpoint.get("url.menu.delete");
         wxClient.get(String.format(url, agent));
@@ -62,10 +53,6 @@ public class Menus {
 
         MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(content, MenuWrapper.class);
         return menuWrapper.getMenu();
-    }
-
-    public Menu list() {
-        return list(DefaultSettings.defaultSettings().getDefaultAgent());
     }
 
 }

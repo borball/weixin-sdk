@@ -40,6 +40,7 @@ public class Cards {
 
     /**
      * 创建团购券
+     *
      * @param groupon
      * @return
      */
@@ -53,6 +54,7 @@ public class Cards {
 
     /**
      * 创建代金券
+     *
      * @param cash
      * @return
      */
@@ -66,6 +68,7 @@ public class Cards {
 
     /**
      * 创建礼品券
+     *
      * @param gift
      * @return
      */
@@ -79,6 +82,7 @@ public class Cards {
 
     /**
      * 创建折扣券
+     *
      * @param discount
      * @return
      */
@@ -92,6 +96,7 @@ public class Cards {
 
     /**
      * 创建优惠券
+     *
      * @param coupon
      * @return
      */
@@ -120,7 +125,7 @@ public class Cards {
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
 
-        if(result.containsKey("card_id")) {
+        if (result.containsKey("card_id")) {
             return result.get("card_id").toString();
         } else {
             throw new WxRuntimeException(999, "create card failed.");
@@ -129,6 +134,7 @@ public class Cards {
 
     /**
      * 获取卡片总数
+     *
      * @param statusList “CARD_STATUS_NOT_VERIFY”,待审核；
      *                   “CARD_STATUS_VERIFY_FALL”,审核失败；
      *                   “CARD_STATUS_VERIFY_OK”，通过审核；
@@ -136,11 +142,11 @@ public class Cards {
      *                   “CARD_STATUS_USER_DISPATCH”，在公众平台投放过的卡券
      * @return
      */
-    public int count(List<String> statusList){
+    public int count(List<String> statusList) {
         Map<String, Object> request = new HashMap<>();
         request.put("offset", 0);
         request.put("count", 1);
-        if(statusList != null && !statusList.isEmpty()) {
+        if (statusList != null && !statusList.isEmpty()) {
             request.put("status_list", statusList);
         }
 
@@ -149,8 +155,8 @@ public class Cards {
         String response = wxClient.post(url, json);
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("total_num")) {
-            return (Integer)result.get("total_num");
+        if (result.containsKey("total_num")) {
+            return (Integer) result.get("total_num");
         } else {
             throw new WxRuntimeException(999, "create card failed.");
         }
@@ -158,6 +164,7 @@ public class Cards {
 
     /**
      * 获取卡片列表
+     *
      * @param offset
      * @param count
      * @param statusList “CARD_STATUS_NOT_VERIFY”,待审核；
@@ -165,14 +172,13 @@ public class Cards {
      *                   “CARD_STATUS_VERIFY_OK”，通过审核；
      *                   “CARD_STATUS_USER_DELETE”，卡券被用户删除；
      *                   “CARD_STATUS_USER_DISPATCH”，在公众平台投放过的卡券
-     *
      * @return
      */
-    public List<String> list(int offset, int count, List<String> statusList){
+    public List<String> list(int offset, int count, List<String> statusList) {
         Map<String, Object> request = new HashMap<>();
         request.put("offset", offset);
         request.put("count", count);
-        if(statusList != null && !statusList.isEmpty()) {
+        if (statusList != null && !statusList.isEmpty()) {
             request.put("status_list", statusList);
         }
 
@@ -181,8 +187,8 @@ public class Cards {
         String response = wxClient.post(url, json);
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("card_id_list")) {
-            return (List<String>)result.get("card_id_list");
+        if (result.containsKey("card_id_list")) {
+            return (List<String>) result.get("card_id_list");
         } else {
             throw new WxRuntimeException(999, "create card failed.");
         }
@@ -207,10 +213,10 @@ public class Cards {
      */
     public void setWhiteList(List<String> openIds, List<String> userNames) {
         Map<String, Object> request = new HashMap<>();
-        if(openIds != null && !openIds.isEmpty()) {
+        if (openIds != null && !openIds.isEmpty()) {
             request.put("openid", openIds);
         }
-        if(userNames != null && !userNames.isEmpty()) {
+        if (userNames != null && !userNames.isEmpty()) {
             request.put("username", userNames);
         }
 
@@ -235,7 +241,7 @@ public class Cards {
         logger.debug("get mpnews content by card id: {}", json);
         String response = wxClient.post(url, json);
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("content")) {
+        if (result.containsKey("content")) {
             return result.get("content").toString();
         } else {
             throw new WxRuntimeException(999, "get html content by card id failed.");
@@ -247,7 +253,7 @@ public class Cards {
      *
      * @return
      */
-    public List<Color> listColors(){
+    public List<Color> listColors() {
         String url = WxEndpoint.get("url.card.colors.get");
         logger.debug("list colors.");
         String response = wxClient.get(url);
@@ -272,7 +278,7 @@ public class Cards {
 
         private Card card;
 
-        public CardWrapper(){
+        public CardWrapper() {
         }
 
         public CardWrapper(Card card) {

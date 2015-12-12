@@ -18,12 +18,12 @@ import java.util.Map;
 /**
  * 临时素材管理
  * 1、对于临时素材，每个素材（media_id）会在开发者上传或粉丝发送到微信服务器3天后自动删除（
- *    所以用户发送给开发者的素材，若开发者需要，应尽快下载到本地），以节省服务器资源。
+ * 所以用户发送给开发者的素材，若开发者需要，应尽快下载到本地），以节省服务器资源。
  * 2、media_id是可复用的。
  * 3、素材的格式大小等要求与公众平台官网一致。
- *    具体是，图片大小不超过2M，支持bmp/png/jpeg/jpg/gif格式，
- *    语音大小不超过5M，长度不超过60秒，支持mp3/wma/wav/amr格式
- *
+ * 具体是，图片大小不超过2M，支持bmp/png/jpeg/jpg/gif格式，
+ * 语音大小不超过5M，长度不超过60秒，支持mp3/wma/wav/amr格式
+ * <p/>
  * Created by exizhai on 11/12/2015.
  */
 public class Medias {
@@ -48,13 +48,14 @@ public class Medias {
 
     /**
      * 上传临时图片，语音，视频和缩略图
-     * @param type 临时素材类型：只能是 图片，语音，视频和缩略图
+     *
+     * @param type        临时素材类型：只能是 图片，语音，视频和缩略图
      * @param inputStream 临时素材流
-     * @param fileName 临时素材文件名
+     * @param fileName    临时素材文件名
      * @return 返回临时素材meta信息
      */
     public Media upload(MediaType type, InputStream inputStream, String fileName) {
-        if(type == MediaType.file || type == MediaType.mpnews) {
+        if (type == MediaType.file || type == MediaType.mpnews) {
             throw new WxRuntimeException(999, "unsupported media type: " + type.name());
         }
         String url = WxEndpoint.get("url.media.upload");
@@ -72,6 +73,7 @@ public class Medias {
 
     /**
      * 下载图片，语音和缩略图，不支持视频文件的下载
+     *
      * @param mediaId media id
      * @return 文件
      */

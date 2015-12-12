@@ -43,11 +43,12 @@ public class Sessions {
 
     /**
      * 创建回话
-     * @param care 客服账号
+     *
+     * @param care   客服账号
      * @param openId openid
-     * @param text 消息
+     * @param text   消息
      */
-    public void create(String care, String openId, String text){
+    public void create(String care, String openId, String text) {
         String url = WxEndpoint.get("url.care.session.create");
         Map<String, String> request = new HashMap<>();
         request.put("kf_account", care);
@@ -61,9 +62,10 @@ public class Sessions {
 
     /**
      * 关闭回话
-     * @param care 客服账号
+     *
+     * @param care   客服账号
      * @param openId openid
-     * @param text 消息
+     * @param text   消息
      */
     public void close(String care, String openId, String text) {
         String url = WxEndpoint.get("url.care.session.close");
@@ -79,6 +81,7 @@ public class Sessions {
 
     /**
      * 获取客户回话状态
+     *
      * @param openId
      * @return
      */
@@ -92,10 +95,11 @@ public class Sessions {
 
     /**
      * 获取某客服人员会话列表
+     *
      * @param account 客服账号
      * @return
      */
-    public List<Session> getSessionsByAccount(String account){
+    public List<Session> getSessionsByAccount(String account) {
         String url = WxEndpoint.get("url.care.session.list.byaccount");
         String response = wxClient.get(String.format(url, account));
         logger.debug("list care sessions by care account :{}", response);
@@ -105,9 +109,10 @@ public class Sessions {
 
     /**
      * 获取未接入会话列表
+     *
      * @return
      */
-    public WaitingSessions getWaitingSessions(){
+    public WaitingSessions getWaitingSessions() {
         String url = WxEndpoint.get("url.care.session.listwait");
         String response = wxClient.get(url);
         logger.debug("list care waiting sessions :{}", response);
@@ -117,13 +122,14 @@ public class Sessions {
 
     /**
      * 获取客服聊天记录
+     *
      * @param start 开始时间
-     * @param end 结束时间
+     * @param end   结束时间
      * @param index 查询第几页
-     * @param size 每页大小
+     * @param size  每页大小
      * @return 聊天记录
      */
-    public List<SessionLog> listSessionLogs(Date start, Date end, int index, int size){
+    public List<SessionLog> listSessionLogs(Date start, Date end, int index, int size) {
         String url = WxEndpoint.get("url.care.session.logs");
         Map<String, Object> request = new HashMap<>();
         request.put("starttime", start.getTime() / 1000);
@@ -138,7 +144,7 @@ public class Sessions {
         return sessionLogList.getLogs();
     }
 
-    public static class SessionList{
+    public static class SessionList {
 
         @JsonProperty("sessionlist")
         private List<Session> sessions;
@@ -152,7 +158,7 @@ public class Sessions {
         }
     }
 
-    public static class SessionLogList{
+    public static class SessionLogList {
 
         @JsonProperty("sessionlist")
         private List<SessionLog> logs;

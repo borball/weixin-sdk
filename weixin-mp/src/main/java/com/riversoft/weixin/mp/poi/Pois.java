@@ -77,8 +77,8 @@ public class Pois {
         logger.debug("count poi: {}", String.format(json, 0, 1));
         String response = wxClient.post(url, String.format(json, 0, 1));
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
-        if(result.containsKey("total_count")) {
-            return (Integer)result.get("total_count");
+        if (result.containsKey("total_count")) {
+            return (Integer) result.get("total_count");
         } else {
             throw new WxRuntimeException(999, "count pois failed.");
         }
@@ -95,7 +95,7 @@ public class Pois {
         return businessListWrapper.getBusinesses();
     }
 
-    public List<String> getCategories(){
+    public List<String> getCategories() {
         String url = WxEndpoint.get("url.poi.categories.get");
 
         logger.debug("get poi categories.");

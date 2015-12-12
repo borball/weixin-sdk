@@ -1,13 +1,4 @@
-<DefaultSettings>
-    <corpSetting>
-        <corpId>wx1234567890001</corpId>
-        <corpSecret>0000000000000000000000000000000000000000000000000000000000000000</corpSecret>
-    </corpSetting>
-    <agentSetting>
-        <agentId>30</agentId>
-        <name>default</name>
-        <callbackUrl>http://somesite.com</callbackUrl>
-        <token>0000000000000000</token>
-        <aesKey>0000000000000000000000000000000000000000000</aesKey>
-    </agentSetting>
-</DefaultSettings>
+<CorpSetting>
+    <corpId>xxxxx</corpId>
+    <corpSecret>xxx</corpSecret>
+</CorpSetting>

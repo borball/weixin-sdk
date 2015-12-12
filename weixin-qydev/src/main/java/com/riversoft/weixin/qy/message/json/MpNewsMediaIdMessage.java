@@ -12,17 +12,17 @@ public class MpNewsMediaIdMessage extends JsonMessage {
     @JsonProperty("mpnews")
     private Media media;
 
+    public MpNewsMediaIdMessage(String mediaId) {
+        this.msgType = MsgType.mpnews;
+        Media m = new Media(mediaId);
+        this.media = m;
+    }
+
     public Media getMedia() {
         return media;
     }
 
     public void setMedia(Media media) {
         this.media = media;
-    }
-
-    public MpNewsMediaIdMessage(String mediaId) {
-        this.msgType = MsgType.mpnews;
-        Media m = new Media(mediaId);
-        this.media = m;
     }
 }

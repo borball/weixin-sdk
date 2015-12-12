@@ -18,45 +18,45 @@ public class MaterialsTest {
 
     @Test
     public void testLifeCycle() {
-        Counts counts = Materials.defaultMaterials().count();
+        Counts counts = Materials.defaultMaterials().count(45);
         int imageCountBefore = counts.getImage();
 
-        String mediaId = Materials.defaultMaterials().upload(MediaType.image, this.getClass().getClassLoader().getResourceAsStream("media/image.png"), "image.png");
+        String mediaId = Materials.defaultMaterials().upload(45, MediaType.image, this.getClass().getClassLoader().getResourceAsStream("media/image.png"), "image.png");
 
-        counts = Materials.defaultMaterials().count();
+        counts = Materials.defaultMaterials().count(45);
         int imageCountAfter = counts.getImage();
 
         Assert.assertEquals(imageCountAfter, imageCountBefore + 1);
 
-        File image = Materials.defaultMaterials().download(mediaId);
+        File image = Materials.defaultMaterials().download(45, mediaId);
         Assert.assertNotNull(image);
         Assert.assertTrue(image.exists());
 
-        Materials.defaultMaterials().delete(mediaId);
+        Materials.defaultMaterials().delete(45, mediaId);
 
-        counts = Materials.defaultMaterials().count();
+        counts = Materials.defaultMaterials().count(45);
         Assert.assertEquals(imageCountBefore, counts.getImage());
 
     }
 
     @Test
     public void testCount() {
-        Counts counts = Materials.defaultMaterials().count();
+        Counts counts = Materials.defaultMaterials().count(45);
         Assert.assertNotNull(counts);
     }
 
     @Test
     public void testList() {
-        MaterialSearchResult qyMaterialSearchResult = Materials.defaultMaterials().list(MediaType.image, 0, 10);
+        MaterialSearchResult qyMaterialSearchResult = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
 
         Assert.assertNotNull(qyMaterialSearchResult);
 
         for (MaterialSearchResult.Material item : qyMaterialSearchResult.getItems()) {
-            File file = Materials.defaultMaterials().download(item.getMediaId());
+            File file = Materials.defaultMaterials().download(45, item.getMediaId());
             Assert.assertTrue(file.exists());
         }
 
-        qyMaterialSearchResult = Materials.defaultMaterials().list(MediaType.image, 0, 10);
+        qyMaterialSearchResult = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
 
         Assert.assertNotNull(qyMaterialSearchResult);
     }

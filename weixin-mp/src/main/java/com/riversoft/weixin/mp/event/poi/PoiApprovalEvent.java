@@ -31,8 +31,16 @@ public class PoiApprovalEvent extends EventRequest {
         return sid;
     }
 
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
     public String getPoiId() {
         return poiId;
+    }
+
+    public void setPoiId(String poiId) {
+        this.poiId = poiId;
     }
 
     public boolean isSuccess() {
@@ -43,19 +51,11 @@ public class PoiApprovalEvent extends EventRequest {
         return message;
     }
 
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
-    public void setPoiId(String poiId) {
-        this.poiId = poiId;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public void setResult(String result) {
         this.result = result;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

@@ -45,8 +45,8 @@ public class Users {
             String user = wxClient.get(String.format(url, openId, lang));
             logger.debug("get user: {}", user);
             return JsonMapper.nonEmptyMapper().fromJson(user, User.class);
-        }catch (WxRuntimeException e) {
-            if(e.getCode() == 40003) {
+        } catch (WxRuntimeException e) {
+            if (e.getCode() == 40003) {
                 logger.warn("open id: {} not found.", openId);
                 return null;
             }
@@ -60,7 +60,7 @@ public class Users {
 
     public UserPagination list(String nextOpenId) {
         String url = WxEndpoint.get("url.user.list");
-        if(nextOpenId == null || "".equals(nextOpenId)) {
+        if (nextOpenId == null || "".equals(nextOpenId)) {
         } else {
             url = url + "?next_openid=" + nextOpenId;
         }
@@ -73,6 +73,7 @@ public class Users {
 
     /**
      * 备注
+     *
      * @param openId
      * @param remark 长度小于30
      */

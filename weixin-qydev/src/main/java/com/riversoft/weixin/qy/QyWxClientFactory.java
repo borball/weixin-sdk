@@ -2,7 +2,6 @@ package com.riversoft.weixin.qy;
 
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +22,7 @@ public class QyWxClientFactory {
     }
 
     public WxClient defaultWxClient() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public WxClient with(CorpSetting corpSetting) {

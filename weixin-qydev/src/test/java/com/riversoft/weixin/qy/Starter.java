@@ -27,8 +27,8 @@ public class Starter {
         exampleAgent.getAgent().setLogoMediaId(logo);
 
         Agents.defaultAgents().update(exampleAgent.getAgent());
-        Menus.defaultMenus().delete();
-        Menus.defaultMenus().create(exampleAgent.getMenu());
+        Menus.defaultMenus().delete(45);
+        Menus.defaultMenus().create(45, exampleAgent.getMenu());
     }
 
 

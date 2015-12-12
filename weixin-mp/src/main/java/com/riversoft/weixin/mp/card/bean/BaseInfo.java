@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * 基本的卡券数据，所有卡券类型通用
- *
+ * <p/>
  * Created by exizhai on 11/27/2015.
  */
 public class BaseInfo {
@@ -487,7 +487,7 @@ public class BaseInfo {
         @JsonProperty("total_quantity")
         private int totalQuantity;
 
-        public Sku(){
+        public Sku() {
         }
 
         public Sku(int quantity) {

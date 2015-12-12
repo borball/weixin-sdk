@@ -2,7 +2,6 @@ package com.riversoft.weixin.qy;
 
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -18,7 +17,7 @@ public class WxClientTest {
     @BeforeClass
     public static void beforeClass() {
         String url = WxEndpoint.get("url.token.get");
-        CorpSetting corpSetting = DefaultSettings.defaultSettings().getCorpSetting();
+        CorpSetting corpSetting = CorpSetting.defaultSettings();
         wxClient = new WxClient(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
     }
 

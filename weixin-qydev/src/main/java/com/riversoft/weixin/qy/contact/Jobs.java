@@ -5,7 +5,6 @@ import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.contact.job.JobResult;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
@@ -28,7 +27,7 @@ public class Jobs {
     private WxClient wxClient;
 
     public static Jobs defaultJobs() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Jobs with(CorpSetting corpSetting) {

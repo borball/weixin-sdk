@@ -6,11 +6,13 @@ import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.media.*;
 import com.riversoft.weixin.common.util.DateDeserializer;
-import com.riversoft.weixin.mp.media.bean.*;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
+import com.riversoft.weixin.mp.media.bean.Counts;
+import com.riversoft.weixin.mp.media.bean.Material;
+import com.riversoft.weixin.mp.media.bean.MpNewsSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,11 +45,12 @@ public class Materials {
 
     /**
      * 图文消息的content里面如果有图片，该图片需要使用本方法上传，图片仅支持jpg/png格式，大小必须在1MB以下
+     *
      * @param inputStream 图片流
-     * @param fileName 文件名
-     * @return 图片的url,可以在图文消息的content里面使用
+     * @param fileName    文件名
+     * @return 图片的url, 可以在图文消息的content里面使用
      */
-    public String addMpNewsImage(InputStream inputStream, String fileName){
+    public String addMpNewsImage(InputStream inputStream, String fileName) {
         String url = WxEndpoint.get("url.mpnews.image.upload");
         String response = wxClient.post(url, inputStream, fileName);
 
@@ -62,10 +65,11 @@ public class Materials {
 
     /**
      * 上传一个图文素材
+     *
      * @param mpNews 图文素材
      * @return 返回media id
      */
-    public String addMpNews(MpNews mpNews){
+    public String addMpNews(MpNews mpNews) {
         String url = WxEndpoint.get("url.material.mpnews.add");
 
         String json = JsonMapper.nonEmptyMapper().toJson(mpNews);
@@ -75,14 +79,16 @@ public class Materials {
 
     /**
      * 删除图文素材
+     *
      * @param mediaId media id
      */
-    public void deleteMpNews(String mediaId){
+    public void deleteMpNews(String mediaId) {
         delete(mediaId);
     }
 
     /**
      * 获取图文素材
+     *
      * @param mediaId media id
      * @return 图文素材
      */
@@ -92,11 +98,12 @@ public class Materials {
 
     /**
      * 修改图文素材
+     *
      * @param mediaId 图文素材 media id
-     * @param index 要更新的文章在图文素材中的位置
+     * @param index   要更新的文章在图文素材中的位置
      * @param article 文章
      */
-    public void updateMpNews(String mediaId, int index, MpArticle article){
+    public void updateMpNews(String mediaId, int index, MpArticle article) {
         String url = WxEndpoint.get("url.material.mpnews.update");
         Map<String, Object> request = new HashMap<>();
 
@@ -111,16 +118,18 @@ public class Materials {
 
     /**
      * 上传voice
+     *
      * @param inputStream voice
-     * @param fileName 文件名
+     * @param fileName    文件名
      * @return 上传结果
      */
-    public Material addVoice(InputStream inputStream, String fileName){
+    public Material addVoice(InputStream inputStream, String fileName) {
         return upload(MediaType.voice, inputStream, fileName);
     }
 
     /**
      * 获取voice
+     *
      * @param mediaId media id
      * @return voice
      */
@@ -130,7 +139,8 @@ public class Materials {
 
     /**
      * 删除voice
-     * @param mediaId  media id
+     *
+     * @param mediaId media id
      */
     public void deleteVoice(String mediaId) {
         delete(mediaId);
@@ -138,16 +148,18 @@ public class Materials {
 
     /**
      * 上传图片
+     *
      * @param inputStream 图片流
-     * @param fileName 文件名
+     * @param fileName    文件名
      * @return 上传结果
      */
-    public Material addImage(InputStream inputStream, String fileName){
+    public Material addImage(InputStream inputStream, String fileName) {
         return upload(MediaType.image, inputStream, fileName);
     }
 
     /**
      * 获取image
+     *
      * @param mediaId media id
      * @return image
      */
@@ -157,7 +169,8 @@ public class Materials {
 
     /**
      * 删除image
-     * @param mediaId  media id
+     *
+     * @param mediaId media id
      */
     public void deleteImage(String mediaId) {
         delete(mediaId);
@@ -165,16 +178,18 @@ public class Materials {
 
     /**
      * 上传缩略图
+     *
      * @param inputStream 缩略图
-     * @param fileName 文件名
+     * @param fileName    文件名
      * @return 上传结果
      */
-    public Material addThumb(InputStream inputStream, String fileName){
+    public Material addThumb(InputStream inputStream, String fileName) {
         return upload(MediaType.thumb, inputStream, fileName);
     }
 
     /**
      * 获取缩略图
+     *
      * @param mediaId media id
      * @return thumb
      */
@@ -184,7 +199,8 @@ public class Materials {
 
     /**
      * 删除缩略图
-     * @param mediaId  media id
+     *
+     * @param mediaId media id
      */
     public void deleteThumb(String mediaId) {
         delete(mediaId);
@@ -192,9 +208,10 @@ public class Materials {
 
     /**
      * 上传视频
+     *
      * @param inputStream 视频流
-     * @param fileName 文件名
-     * @param title title
+     * @param fileName    文件名
+     * @param title       title
      * @param description 描述
      * @return 上传结果
      */
@@ -216,6 +233,7 @@ public class Materials {
 
     /**
      * 获取视频
+     *
      * @param mediaId media id
      * @return video
      */
@@ -232,7 +250,8 @@ public class Materials {
 
     /**
      * 删除视频文件
-     * @param mediaId  media id
+     *
+     * @param mediaId media id
      */
     public void deleteVideo(String mediaId) {
         delete(mediaId);
@@ -244,7 +263,7 @@ public class Materials {
     }
 
     public MaterialSearchResult list(MediaType mediaType, int offset, int count) {
-        if(mediaType != MediaType.news && mediaType != MediaType.mpnews) {
+        if (mediaType != MediaType.news && mediaType != MediaType.mpnews) {
             String url = WxEndpoint.get("url.material.list");
             String body = "{\"type\":\"%s\",\"offset\":%s,\"count\":%s}";
 
@@ -268,7 +287,7 @@ public class Materials {
     }
 
     private Material upload(MediaType type, InputStream inputStream, String fileName) {
-        if(type == MediaType.mpnews || type == MediaType.video) {
+        if (type == MediaType.mpnews || type == MediaType.video) {
             throw new WxRuntimeException(999, "cannot support mpnews or video upload.");
         } else {
             String url = WxEndpoint.get("url.material.binary.upload");
@@ -304,7 +323,7 @@ public class Materials {
         List<MpMaterialSearchResult.Material> qyItems = mpMaterialSearchResult.getItems();
         List<MaterialSearchResult.Material> items = new ArrayList<>();
 
-        for (MpMaterialSearchResult.Material mpItem: qyItems) {
+        for (MpMaterialSearchResult.Material mpItem : qyItems) {
             MaterialSearchResult.Material item = new MaterialSearchResult.Material();
             item.setFileName(mpItem.getName());
             item.setMediaId(mpItem.getMediaId());

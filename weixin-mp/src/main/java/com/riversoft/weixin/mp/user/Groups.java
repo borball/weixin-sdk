@@ -38,6 +38,7 @@ public class Groups {
 
     /**
      * 创建分组
+     *
      * @param name 分组名
      * @return
      */
@@ -52,6 +53,7 @@ public class Groups {
 
     /**
      * 查询所有分组
+     *
      * @return
      */
     public List<Group> list() {
@@ -64,6 +66,7 @@ public class Groups {
 
     /**
      * 修改分组
+     *
      * @param id
      * @param name
      */
@@ -76,6 +79,7 @@ public class Groups {
 
     /**
      * 删除分组
+     *
      * @param id
      */
     public void delete(int id) {
@@ -99,13 +103,14 @@ public class Groups {
 
         Map<String, Object> map = JsonMapper.nonEmptyMapper().json2Map(response);
         if (map.containsKey("groupid")) {
-            return (Integer)map.get("groupid");
+            return (Integer) map.get("groupid");
         }
         return -1;
     }
 
     /**
      * 用户分组迁移
+     *
      * @param openId
      * @param group
      */
@@ -118,6 +123,7 @@ public class Groups {
 
     /**
      * 批量用户分组迁移
+     *
      * @param openIds
      * @param group
      */

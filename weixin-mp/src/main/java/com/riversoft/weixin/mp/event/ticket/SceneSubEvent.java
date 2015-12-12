@@ -9,9 +9,9 @@ import com.riversoft.weixin.common.event.EventType;
  * 用户扫描带场景值二维码时，可能推送以下两种事件
  * 1. 如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者。
  * 2. 如果用户已经关注公众号，则微信会将带场景值扫描事件推送给开发者。
- *
+ * <p/>
  * 本事件属于第一种
- *
+ * <p/>
  * Created by exizhai on 11/30/2015.
  */
 public class SceneSubEvent extends EventRequest {
@@ -46,7 +46,7 @@ public class SceneSubEvent extends EventRequest {
         this.ticket = ticket;
     }
 
-    public boolean isSub(){
+    public boolean isSub() {
         return EventType.subscribe == getEventType();
     }
 }

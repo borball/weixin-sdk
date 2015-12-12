@@ -40,7 +40,7 @@ public class Accounts {
         this.wxClient = wxClient;
     }
 
-    public void add(String account, String nickName, String password){
+    public void add(String account, String nickName, String password) {
         String url = WxEndpoint.get("url.care.account.add");
         Map<String, String> request = new HashMap<>();
         request.put("kf_account", account);
@@ -52,7 +52,7 @@ public class Accounts {
         wxClient.post(url, json);
     }
 
-    public void update(String account, String nickName, String password){
+    public void update(String account, String nickName, String password) {
         String url = WxEndpoint.get("url.care.account.update");
         Map<String, String> request = new HashMap<>();
         request.put("kf_account", account);
@@ -64,7 +64,7 @@ public class Accounts {
         wxClient.post(url, json);
     }
 
-    public void delete(String account){
+    public void delete(String account) {
         String url = WxEndpoint.get("url.care.account.delete");
         logger.debug("delete care account: {}", account);
         wxClient.get(String.format(url, account));
@@ -76,7 +76,7 @@ public class Accounts {
         wxClient.post(String.format(url, account), inputStream, fileName);
     }
 
-    public List<Account> list(){
+    public List<Account> list() {
         String url = WxEndpoint.get("url.care.account.list");
         String response = wxClient.get(url);
         logger.debug("list care accounts :{}", response);
@@ -84,7 +84,7 @@ public class Accounts {
         return careListResponse.getList();
     }
 
-    public List<AccountStatus> listStatus(){
+    public List<AccountStatus> listStatus() {
         String url = WxEndpoint.get("url.care.account.liststatus");
         String response = wxClient.get(url);
         logger.debug("list care account status :{}", response);
@@ -92,7 +92,7 @@ public class Accounts {
         return careListStatusResponse.getList();
     }
 
-    public static class CareListResponse{
+    public static class CareListResponse {
 
         @JsonProperty("kf_list")
         private List<Account> list;
@@ -106,7 +106,7 @@ public class Accounts {
         }
     }
 
-    public static class CareListStatusResponse{
+    public static class CareListStatusResponse {
 
         @JsonProperty("kf_online_list")
         private List<AccountStatus> list;

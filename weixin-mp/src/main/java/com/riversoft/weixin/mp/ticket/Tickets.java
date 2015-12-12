@@ -35,6 +35,7 @@ public class Tickets {
 
     /**
      * 创建临时二维码
+     *
      * @return
      */
     public Ticket temporary(int expires, int sceneId) {
@@ -48,6 +49,7 @@ public class Tickets {
 
     /**
      * 创建永久二维码
+     *
      * @return
      */
     public Ticket permanent(int sceneId) {
@@ -61,6 +63,7 @@ public class Tickets {
 
     /**
      * 创建永久二维码
+     *
      * @return
      */
     public Ticket permanent(String sceneStr) {
@@ -74,6 +77,7 @@ public class Tickets {
 
     /**
      * 使用ticket换取二维码
+     *
      * @param ticket
      * @return
      */

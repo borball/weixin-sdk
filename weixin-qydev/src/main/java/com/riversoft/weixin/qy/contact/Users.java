@@ -4,7 +4,6 @@ import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
-import com.riversoft.weixin.qy.base.DefaultSettings;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.contact.user.*;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
@@ -25,7 +24,7 @@ public class Users {
     private WxClient wxClient;
 
     public static Users defaultUsers() {
-        return with(DefaultSettings.defaultSettings().getCorpSetting());
+        return with(CorpSetting.defaultSettings());
     }
 
     public static Users with(CorpSetting corpSetting) {
