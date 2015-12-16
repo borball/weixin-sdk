@@ -72,11 +72,11 @@ public class MpXmlMessagesTest {
         XmlMessageHeader xmlRequest = MpXmlMessages.fromXml(xml);
 
         Assert.assertNotNull(xmlRequest);
-        Assert.assertTrue(xmlRequest instanceof LinkMessage);
+        Assert.assertTrue(xmlRequest instanceof LinkRequest);
 
-        Assert.assertEquals("公众平台官网链接", ((LinkMessage) xmlRequest).getTitle());
-        Assert.assertEquals("公众平台官网链接", ((LinkMessage) xmlRequest).getDesc());
-        Assert.assertEquals("url", ((LinkMessage) xmlRequest).getUrl());
+        Assert.assertEquals("公众平台官网链接", ((LinkRequest) xmlRequest).getTitle());
+        Assert.assertEquals("公众平台官网链接", ((LinkRequest) xmlRequest).getDesc());
+        Assert.assertEquals("url", ((LinkRequest) xmlRequest).getUrl());
     }
 
     @Test

@@ -9,7 +9,7 @@ import com.riversoft.weixin.common.message.XmlMessageHeader;
  * Created by exizhai on 11/14/2015.
  */
 @JacksonXmlRootElement(localName = "xml")
-public class LinkMessage extends XmlMessageHeader {
+public class LinkRequest extends XmlMessageHeader {
 
     @JsonProperty("Title")
     @JacksonXmlCData

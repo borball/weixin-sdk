@@ -36,7 +36,7 @@ public class Menus {
     public void create(Menu menu) {
         String url = WxEndpoint.get("url.menu.create");
         String json = JsonMapper.nonEmptyMapper().toJson(menu);
-        logger.info("update menu: {}", json);
+        logger.debug("update menu: {}", json);
         wxClient.post(url, json);
     }
 

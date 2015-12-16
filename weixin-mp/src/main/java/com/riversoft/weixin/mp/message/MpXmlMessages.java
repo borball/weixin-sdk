@@ -10,9 +10,10 @@ import com.riversoft.weixin.mp.event.MessageSentEvent;
 import com.riversoft.weixin.mp.event.care.SessionCloseEvent;
 import com.riversoft.weixin.mp.event.care.SessionCreateEvent;
 import com.riversoft.weixin.mp.event.care.SessionForwardEvent;
+import com.riversoft.weixin.mp.event.template.JobFinishedEvent;
 import com.riversoft.weixin.mp.event.ticket.SceneScanEvent;
 import com.riversoft.weixin.mp.event.ticket.SceneSubEvent;
-import com.riversoft.weixin.mp.request.LinkMessage;
+import com.riversoft.weixin.mp.request.LinkRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class MpXmlMessages {
                 case location:
                     return (LocationRequest) XmlObjectMapper.defaultMapper().fromXml(xml, LocationRequest.class);
                 case link:
-                    return (LinkMessage) XmlObjectMapper.defaultMapper().fromXml(xml, LinkMessage.class);
+                    return (LinkRequest) XmlObjectMapper.defaultMapper().fromXml(xml, LinkRequest.class);
                 case event:
                     return toEvent(xml);
                 default:
@@ -87,6 +88,8 @@ public class MpXmlMessages {
                     return (MessageSentEvent) XmlObjectMapper.defaultMapper().fromXml(xml, MessageSentEvent.class);
                 case SCAN:
                     return (SceneScanEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SceneScanEvent.class);
+                case TEMPLATESENDJOBFINISH:
+                    return (JobFinishedEvent) XmlObjectMapper.defaultMapper().fromXml(xml, JobFinishedEvent.class);
                 default:
                     logger.warn("xml to event, unknown event type {}.", eventRequest.getEventType());
                     throw new WxRuntimeException(999, "xml to bean event, unknown event type " + eventRequest.getEventType());

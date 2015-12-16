@@ -43,5 +43,10 @@ public enum EventType {
     /**
      * 服务号，订阅号:扫描带参数二维码事件, 用户已关注时的事件推送
      */
-    SCAN
+    SCAN,
+
+    /**
+     * 模板消息下发结果通知事件
+     */
+    TEMPLATESENDJOBFINISH
 }
