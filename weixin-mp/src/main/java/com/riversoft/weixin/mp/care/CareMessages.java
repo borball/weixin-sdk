@@ -10,8 +10,8 @@ import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.care.bean.Card;
+import com.riversoft.weixin.mp.care.bean.Music;
 import com.riversoft.weixin.mp.care.bean.Video;
-import com.riversoft.weixin.mp.message.Music;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
