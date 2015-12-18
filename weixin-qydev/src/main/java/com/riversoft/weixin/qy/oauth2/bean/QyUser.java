@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by exizhai on 10/4/2015.
  */
-public class UserInfo {
+public class QyUser {
 
     @JsonProperty("UserId")
     private String userId;

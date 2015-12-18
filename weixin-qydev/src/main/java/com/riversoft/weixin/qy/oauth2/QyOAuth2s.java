@@ -7,7 +7,7 @@ import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.exception.WxRuntimeException;
-import com.riversoft.weixin.qy.oauth2.bean.UserInfo;
+import com.riversoft.weixin.qy.oauth2.bean.QyUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,20 +17,20 @@ import java.util.Map;
 /**
  * Created by exizhai on 10/4/2015.
  */
-public class OAuth2s {
+public class QyOAuth2s {
 
-    private static Logger logger = LoggerFactory.getLogger(OAuth2s.class);
+    private static Logger logger = LoggerFactory.getLogger(QyOAuth2s.class);
 
     private WxClient wxClient;
 
-    public static OAuth2s defaultOAuth2s() {
+    public static QyOAuth2s defaultOAuth2s() {
         return with(CorpSetting.defaultSettings());
     }
 
-    public static OAuth2s with(CorpSetting corpSetting) {
-        OAuth2s oAuth2s = new OAuth2s();
-        oAuth2s.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
-        return oAuth2s;
+    public static QyOAuth2s with(CorpSetting corpSetting) {
+        QyOAuth2s qyOAuth2S = new QyOAuth2s();
+        qyOAuth2S.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
+        return qyOAuth2S;
     }
 
     public void setWxClient(WxClient wxClient) {
@@ -40,20 +40,20 @@ public class OAuth2s {
     public String authenticationUrl(String redirect, String state) {
         if (state == null || "".equals(state)) {
             String url = WxEndpoint.get("url.oauth.authentication");
-            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), state);
+            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect));
         } else {
             String url = WxEndpoint.get("url.oauth.authentication.state");
-            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect));
+            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), state);
         }
     }
 
-    public UserInfo userInfo(String code) {
-        String url = WxEndpoint.get("url.oauth.get");
+    public QyUser userInfo(String code) {
+        String url = WxEndpoint.get("url.oauth.userinfo.get");
 
         //尼玛又不带error code
         String userInfo = wxClient.get(String.format(url, code));
         logger.debug("oauth get user info: {}", userInfo);
-        return JsonMapper.nonEmptyMapper().fromJson(userInfo, UserInfo.class);
+        return JsonMapper.nonEmptyMapper().fromJson(userInfo, QyUser.class);
     }
 
     public Map<String, String> toOpenId(int agentId, String userId) {

@@ -73,6 +73,10 @@ public class WxClient {
         return httpGet(appendAccessToken(url));
     }
 
+    public String get(String url, boolean needToken) {
+        return httpGet(needToken ? appendAccessToken(url) : url);
+    }
+
     public byte[] getBinary(String url, boolean needToken) {
         return httpGetBinary(needToken ? appendAccessToken(url) : url);
     }

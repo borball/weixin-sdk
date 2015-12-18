@@ -14,6 +14,6 @@ public class GenderDeserializer extends JsonDeserializer<Gender> {
 
     @Override
     public Gender deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        return Gender.fromCode(jsonParser.getNumberValue().intValue());
+        return Gender.fromCode(Integer.valueOf(jsonParser.getValueAsString()));
     }
 }

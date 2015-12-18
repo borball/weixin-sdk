@@ -7,11 +7,11 @@ import java.util.Map;
 /**
  * Created by exizhai on 12/2/2015.
  */
-public class OAuth2sTest {
+public class QyOAuth2STest {
 
     @Test
     public void testToOpenId(){
-        Map<String, String> response = OAuth2s.defaultOAuth2s().toOpenId(45, "borball");
+        Map<String, String> response = QyOAuth2s.defaultOAuth2s().toOpenId(45, "borball");
         System.out.print("woden|");
         System.out.print(response.get("appid"));
         System.out.print("|");
