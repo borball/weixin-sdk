@@ -78,15 +78,6 @@ public class Materials {
     }
 
     /**
-     * 删除图文素材
-     *
-     * @param mediaId media id
-     */
-    public void deleteMpNews(String mediaId) {
-        delete(mediaId);
-    }
-
-    /**
      * 获取图文素材
      *
      * @param mediaId media id
@@ -138,15 +129,6 @@ public class Materials {
     }
 
     /**
-     * 删除voice
-     *
-     * @param mediaId media id
-     */
-    public void deleteVoice(String mediaId) {
-        delete(mediaId);
-    }
-
-    /**
      * 上传图片
      *
      * @param inputStream 图片流
@@ -168,15 +150,6 @@ public class Materials {
     }
 
     /**
-     * 删除image
-     *
-     * @param mediaId media id
-     */
-    public void deleteImage(String mediaId) {
-        delete(mediaId);
-    }
-
-    /**
      * 上传缩略图
      *
      * @param inputStream 缩略图
@@ -195,15 +168,6 @@ public class Materials {
      */
     public InputStream getThumb(String mediaId) {
         return download(mediaId);
-    }
-
-    /**
-     * 删除缩略图
-     *
-     * @param mediaId media id
-     */
-    public void deleteThumb(String mediaId) {
-        delete(mediaId);
     }
 
     /**
@@ -246,15 +210,6 @@ public class Materials {
             logger.warn("download video failed: {}", response);
             throw new WxRuntimeException(999, response);
         }
-    }
-
-    /**
-     * 删除视频文件
-     *
-     * @param mediaId media id
-     */
-    public void deleteVideo(String mediaId) {
-        delete(mediaId);
     }
 
     public Counts count() {
@@ -308,11 +263,15 @@ public class Materials {
         return wxClient.copyStream(WxEndpoint.get("url.material.binary.get"), String.format(post, mediaId));
     }
 
-    private void delete(String mediaId) {
+    /**
+     * 删除永久素材
+     * @param mediaId
+     */
+    public void delete(String mediaId) {
         String url = WxEndpoint.get("url.material.delete");
-        String body = "{\"media_id\":\"%s\"}";
-        String response = wxClient.post(String.format(url, mediaId), body);
-        logger.info("material delete result: {}", response);
+        String body = String.format("{\"media_id\":\"%s\"}", mediaId);
+        logger.debug("material delete: {}", body);
+        wxClient.post(url, body);
     }
 
     private MaterialSearchResult toMaterialSearchResult(MpMaterialSearchResult mpMaterialSearchResult) {
