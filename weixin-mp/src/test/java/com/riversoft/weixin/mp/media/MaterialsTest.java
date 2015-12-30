@@ -7,9 +7,12 @@ import com.riversoft.weixin.common.media.MpNews;
 import com.riversoft.weixin.mp.media.bean.Counts;
 import com.riversoft.weixin.mp.media.bean.Material;
 import com.riversoft.weixin.mp.media.bean.MpNewsSearchResult;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -33,7 +36,7 @@ public class MaterialsTest {
     }
 
     @Test
-    public void testAddImage(){
+    public void testAddImage() throws IOException {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/borball.jpg");
         Material material = Materials.defaultMaterials().addImage(inputStream, "borball.jpg");
         Assert.assertNotNull(material);
@@ -42,6 +45,10 @@ public class MaterialsTest {
         String url = material.getUrl();
         System.out.println("图片ID:" + mediaId);
         System.out.println("图片URL:" + url);
+
+        InputStream is = Materials.defaultMaterials().getImage(mediaId);
+
+        FileUtils.copyInputStreamToFile(is, new File("borball.jpg"));
     }
 
     @Test

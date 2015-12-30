@@ -179,7 +179,7 @@ public class WxClient {
                     WxError wxError = WxError.fromJson(content);
                     throw new WxRuntimeException(wxError);
                 } else {
-                    return inputStream;
+                    return new ByteArrayInputStream(binaryContent);
                 }
             }
         } catch (IOException e) {
