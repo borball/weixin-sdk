@@ -9,8 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>weixin-parent</artifactId>
-    <name>weixin SDK parent</name>
-    <description>weixin SDK parent</description>
+    <name>weixin sdk parent</name>
+    <description>weixin sdk parent</description>
 
     <properties>
         <jdk.version>1.7</jdk.version>

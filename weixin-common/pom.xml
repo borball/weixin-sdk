@@ -8,7 +8,7 @@
         <relativePath>../weixin-parent/</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <name>weixin sdk common</name>
     <artifactId>weixin-common</artifactId>
 
     <dependencies>

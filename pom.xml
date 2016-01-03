@@ -6,7 +6,7 @@
     <artifactId>weixin-sdk</artifactId>
     <packaging>pom</packaging>
     <version>0.5.1-SNAPSHOT</version>
-    <name>weixin SDK POM</name>
+    <name>weixin sdk pom</name>
     <description>weixin SDK POM</description>
     <url>https://github.com/borball/weixin-sdk</url>
 
