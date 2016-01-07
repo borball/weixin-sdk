@@ -1,5 +1,6 @@
 package com.riversoft.weixin.mp.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
@@ -11,6 +12,8 @@ import com.riversoft.weixin.mp.user.bean.UserPagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,24 +65,42 @@ public class Users {
     }
 
     /**
-     * 批量获取用户信息，默认lang为zh_CN
+     * 批量获取用户信息，默认lang为zh_CN, 一次最多100个
      * @param openIds
      * @return
      */
     public List<User> batchGet(String... openIds) {
-
-        return null;
+        if(openIds.length > 100) {
+            throw new WxRuntimeException(999, "批量获取用户基本信息。最多支持一次拉取100条");
+        }
+        List<Map<String, String>> list = new ArrayList<>();
+        Map<String, String> map = new HashMap<>();
+        for (String openId: openIds) {
+            map.put("openid", openId);
+            map.put("lang", "zh_CN");
+            list.add(map);
+        }
+        return batchGet(list);
     }
 
     /**
-     * 批量获取用户信息
+     * 批量获取用户信息，一次最多100个
      * @param openIds
      * @return
      */
     public List<User> batchGet(List<Map<String, String>> openIds) {
-        String url = WxEndpoint.get("url.user.batchget");
+        if(openIds.size() > 100) {
+            throw new WxRuntimeException(999, "批量获取用户基本信息。最多支持一次拉取100条");
+        }
 
-        return null;
+        String url = WxEndpoint.get("url.user.batchget");
+        String body = "{\"user_list\":%s}";
+        String json = JsonMapper.defaultMapper().toJson(openIds);
+
+        logger.debug("batch get users.");
+        String response = wxClient.post(url, String.format(body, json));
+        UsersWrapper usersWrapper = JsonMapper.defaultMapper().fromJson(response, UsersWrapper.class);
+        return usersWrapper.getList();
     }
 
     public UserPagination list(String nextOpenId) {
@@ -108,5 +129,17 @@ public class Users {
         wxClient.post(url, json);
     }
 
+    static class UsersWrapper {
 
+        @JsonProperty("user_info_list")
+        private List<User> list;
+
+        public List<User> getList() {
+            return list;
+        }
+
+        public void setList(List<User> list) {
+            this.list = list;
+        }
+    }
 }
