@@ -74,8 +74,8 @@ public class Users {
             throw new WxRuntimeException(999, "批量获取用户基本信息。最多支持一次拉取100条");
         }
         List<Map<String, String>> list = new ArrayList<>();
-        Map<String, String> map = new HashMap<>();
         for (String openId: openIds) {
+            Map<String, String> map = new HashMap<>();
             map.put("openid", openId);
             map.put("lang", "zh_CN");
             list.add(map);

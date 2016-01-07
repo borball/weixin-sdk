@@ -41,6 +41,13 @@ public class UsersTest {
             System.out.println(JsonMapper.defaultMapper().toJson(user));
         }
 
+        String[] openIds = new String[users.size()];
+        List<User> list = Users.defaultUsers().batchGet(users.toArray(openIds));
+
+        for(User user: list) {
+            System.out.println(JsonMapper.defaultMapper().toJson(user));
+        }
+
         String next = userPagination.getNextOpenId();
 
         userPagination = Users.defaultUsers().list(next);
