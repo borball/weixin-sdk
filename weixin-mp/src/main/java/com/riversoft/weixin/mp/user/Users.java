@@ -11,6 +11,9 @@ import com.riversoft.weixin.mp.user.bean.UserPagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 用户管理
  * Created by exizhai on 11/4/2015.
@@ -58,6 +61,27 @@ public class Users {
         return list(null);
     }
 
+    /**
+     * 批量获取用户信息，默认lang为zh_CN
+     * @param openIds
+     * @return
+     */
+    public List<User> batchGet(String... openIds) {
+
+        return null;
+    }
+
+    /**
+     * 批量获取用户信息
+     * @param openIds
+     * @return
+     */
+    public List<User> batchGet(List<Map<String, String>> openIds) {
+        String url = WxEndpoint.get("url.user.batchget");
+
+        return null;
+    }
+
     public UserPagination list(String nextOpenId) {
         String url = WxEndpoint.get("url.user.list");
         if (nextOpenId == null || "".equals(nextOpenId)) {
@@ -83,5 +107,6 @@ public class Users {
         logger.debug("remark user: {}", json);
         wxClient.post(url, json);
     }
+
 
 }
