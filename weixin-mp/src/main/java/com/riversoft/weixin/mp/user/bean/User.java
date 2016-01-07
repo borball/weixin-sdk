@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.riversoft.weixin.common.user.Gender;
-import com.riversoft.weixin.common.util.BooleanDeserializer;
-import com.riversoft.weixin.common.util.BooleanSerializer;
-import com.riversoft.weixin.common.util.GenderDeserializer;
-import com.riversoft.weixin.common.util.GenderSerializer;
+import com.riversoft.weixin.common.util.*;
+
+import java.util.Date;
 
 /**
  * Created by exizhai on 11/4/2015.
@@ -37,7 +36,8 @@ public class User {
     private String headImgUrl;
 
     @JsonProperty(value = "subscribe_time")
-    private long subscribedTime;
+    @JsonDeserialize(using = DateDeserializer.class)
+    private Date subscribedTime;
 
     @JsonProperty(value = "unionid")
     private String unionId;
@@ -118,11 +118,11 @@ public class User {
         this.headImgUrl = headImgUrl;
     }
 
-    public long getSubscribedTime() {
+    public Date getSubscribedTime() {
         return subscribedTime;
     }
 
-    public void setSubscribedTime(long subscribedTime) {
+    public void setSubscribedTime(Date subscribedTime) {
         this.subscribedTime = subscribedTime;
     }
 
