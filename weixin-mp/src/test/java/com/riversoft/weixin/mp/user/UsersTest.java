@@ -54,6 +54,8 @@ public class UsersTest {
         Assert.assertNotNull(userPagination);
     }
 
+
+
     @Test
     public void testRemark() {
         Users.defaultUsers().remark(TestConfiguration.getInstance().testUser(), "borball");

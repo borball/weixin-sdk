@@ -21,7 +21,7 @@ public class MpMessagesTest {
 
     @Test
     public void testSendAll(){
-        int msgId = MpMessages.defaultMpMessages().mpNews("oR82Fct6wNYgjjFMQVNdmi089sdyuSVtovm1DFqG0Wg");
+        long msgId = MpMessages.defaultMpMessages().mpNews("oR82Fct6wNYgjjFMQVNdmi089sdyuSVtovm1DFqG0Wg");
         boolean result = MpMessages.defaultMpMessages().success(msgId);
 
         Assert.assertTrue(result);

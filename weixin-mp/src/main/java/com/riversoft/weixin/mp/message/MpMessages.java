@@ -44,7 +44,7 @@ public class MpMessages {
      * @param mpNews
      * @return
      */
-    public int mpNews(String mpNews) {
+    public long mpNews(String mpNews) {
         return send(new Filter(true, null), null, "mpnews", mpNews);
     }
 
@@ -55,7 +55,7 @@ public class MpMessages {
      * @param mpNews
      * @return
      */
-    public int mpNews(int group, String mpNews) {
+    public long mpNews(int group, String mpNews) {
         return send(new Filter(false, String.valueOf(group)), null, "mpnews", mpNews);
     }
 
@@ -66,7 +66,7 @@ public class MpMessages {
      * @param mpNews
      * @return
      */
-    public int mpNews(List<String> openIds, String mpNews) {
+    public long mpNews(List<String> openIds, String mpNews) {
         return send(null, openIds, "mpnews", mpNews);
     }
 
@@ -76,7 +76,7 @@ public class MpMessages {
      * @param text
      * @return
      */
-    public int text(String text) {
+    public long text(String text) {
         return send(new Filter(true, null), null, "text", text);
     }
 
@@ -87,7 +87,7 @@ public class MpMessages {
      * @param text
      * @return
      */
-    public int text(int group, String text) {
+    public long text(int group, String text) {
         return send(new Filter(false, String.valueOf(group)), null, "text", text);
     }
 
@@ -98,7 +98,7 @@ public class MpMessages {
      * @param text
      * @return
      */
-    public int text(List<String> openIds, String text) {
+    public long text(List<String> openIds, String text) {
         return send(null, openIds, "text", text);
     }
 
@@ -110,7 +110,7 @@ public class MpMessages {
      * @param text
      * @return
      */
-    public int textPreview(String wxName, String openId, String text) {
+    public long textPreview(String wxName, String openId, String text) {
         return preview(wxName, openId, "text", text);
     }
 
@@ -120,7 +120,7 @@ public class MpMessages {
      * @param voice
      * @return
      */
-    public int voice(String voice) {
+    public long voice(String voice) {
         return send(new Filter(true, null), null, "voice", voice);
     }
 
@@ -131,7 +131,7 @@ public class MpMessages {
      * @param voice
      * @return
      */
-    public int voice(List<String> openIds, String voice) {
+    public long voice(List<String> openIds, String voice) {
         return send(null, openIds, "voice", voice);
     }
 
@@ -142,7 +142,7 @@ public class MpMessages {
      * @param voice
      * @return
      */
-    public int voice(int group, String voice) {
+    public long voice(int group, String voice) {
         return send(new Filter(false, String.valueOf(group)), null, "voice", voice);
     }
 
@@ -154,7 +154,7 @@ public class MpMessages {
      * @param voice
      * @return
      */
-    public int voicePreview(String wxName, String openId, String voice) {
+    public long voicePreview(String wxName, String openId, String voice) {
         return preview(wxName, openId, "voice", voice);
     }
 
@@ -164,7 +164,7 @@ public class MpMessages {
      * @param image
      * @return
      */
-    public int image(String image) {
+    public long image(String image) {
         return send(new Filter(true, null), null, "image", image);
     }
 
@@ -175,7 +175,7 @@ public class MpMessages {
      * @param image
      * @return
      */
-    public int image(int group, String image) {
+    public long image(int group, String image) {
         return send(new Filter(false, String.valueOf(group)), null, "image", image);
     }
 
@@ -186,7 +186,7 @@ public class MpMessages {
      * @param image
      * @return
      */
-    public int image(List<String> openIds, String image) {
+    public long image(List<String> openIds, String image) {
         return send(null, openIds, "image", image);
     }
 
@@ -198,7 +198,7 @@ public class MpMessages {
      * @param image
      * @return
      */
-    public int imagePreview(String wxName, String openId, String image) {
+    public long imagePreview(String wxName, String openId, String image) {
         return preview(wxName, openId, "image", image);
     }
 
@@ -210,7 +210,7 @@ public class MpMessages {
      * @param desc
      * @return
      */
-    public int video(String mediaId, String title, String desc) {
+    public long video(String mediaId, String title, String desc) {
         return video(new Filter(true, null), null, mediaId, title, desc);
     }
 
@@ -223,7 +223,7 @@ public class MpMessages {
      * @param desc
      * @return
      */
-    public int video(int group, String mediaId, String title, String desc) {
+    public long video(int group, String mediaId, String title, String desc) {
         return video(new Filter(false, String.valueOf(group)), null, mediaId, title, desc);
     }
 
@@ -236,7 +236,7 @@ public class MpMessages {
      * @param desc
      * @return
      */
-    public int video(List<String> openIds, String mediaId, String title, String desc) {
+    public long video(List<String> openIds, String mediaId, String title, String desc) {
         return video(null, openIds, mediaId, title, desc);
     }
 
@@ -250,7 +250,7 @@ public class MpMessages {
      * @param desc
      * @return
      */
-    public int videoPreview(String wxName, String openId, String mediaId, String title, String desc) {
+    public long videoPreview(String wxName, String openId, String mediaId, String title, String desc) {
         Map<String, String> uploadRequest = new HashMap<>();
         uploadRequest.put("media_id", mediaId);
         uploadRequest.put("title", title);
@@ -273,7 +273,7 @@ public class MpMessages {
      * @param wxcard
      * @return
      */
-    public int card(String wxcard) {
+    public long card(String wxcard) {
         return send(new Filter(true, null), null, "wxcard", wxcard);
     }
 
@@ -284,7 +284,7 @@ public class MpMessages {
      * @param wxcard
      * @return
      */
-    public int card(int group, String wxcard) {
+    public long card(int group, String wxcard) {
         return send(new Filter(false, String.valueOf(group)), null, "wxcard", wxcard);
     }
 
@@ -295,7 +295,7 @@ public class MpMessages {
      * @param wxcard
      * @return
      */
-    public int card(List<String> openIds, String wxcard) {
+    public long card(List<String> openIds, String wxcard) {
         return send(null, openIds, "wxcard", wxcard);
     }
 
@@ -307,7 +307,7 @@ public class MpMessages {
      * @param wxcard
      * @return
      */
-    public int cardPreview(String wxName, String openId, String wxcard) {
+    public long cardPreview(String wxName, String openId, String wxcard) {
         return preview(wxName, openId, "wxcard", wxcard);
     }
 
@@ -320,7 +320,7 @@ public class MpMessages {
      *
      * @param msgId
      */
-    public void delete(int msgId) {
+    public void delete(long msgId) {
         String url = WxEndpoint.get("url.mass.message.delete");
         String request = "{\"msg_id\":%s}";
 
@@ -334,7 +334,7 @@ public class MpMessages {
      * @param msgId
      * @return
      */
-    public boolean success(int msgId) {
+    public boolean success(long msgId) {
         String url = WxEndpoint.get("url.mass.message.status");
         String request = "{\"msg_id\":%s}";
 
@@ -344,7 +344,7 @@ public class MpMessages {
         return map.containsKey("msg_status") && "SEND_SUCCESS".equalsIgnoreCase(map.get("msg_status").toString());
     }
 
-    private int send(Filter filter, List<String> openIds, String msgType, String message) {
+    private long send(Filter filter, List<String> openIds, String msgType, String message) {
         String url = WxEndpoint.get("url.mass.message.send");
         Map<String, Object> request = new HashMap<>();
         if (filter != null) {
@@ -371,7 +371,7 @@ public class MpMessages {
         return response.getMsgId();
     }
 
-    private int preview(String wxName, String openId, String msgType, String message) {
+    private long preview(String wxName, String openId, String msgType, String message) {
         String url = WxEndpoint.get("url.mass.message.preview");
         Map<String, Object> request = new HashMap<>();
         if (wxName != null && !"".equals(wxName)) {
@@ -386,6 +386,8 @@ public class MpMessages {
 
         if ("wxcard".equalsIgnoreCase(msgType)) {
             request.put("msgType", new Card(message));
+        } else if ("text".equalsIgnoreCase(msgType)){
+            request.put("msgType", new Text(message));
         } else {
             request.put("msgType", new Media(message));
         }
@@ -398,7 +400,7 @@ public class MpMessages {
         return r.getMsgId();
     }
 
-    private int video(Filter filter, List<String> openIds, String mediaId, String title, String desc) {
+    private long video(Filter filter, List<String> openIds, String mediaId, String title, String desc) {
         Map<String, String> uploadRequest = new HashMap<>();
         uploadRequest.put("media_id", mediaId);
         uploadRequest.put("title", title);
@@ -482,27 +484,44 @@ public class MpMessages {
 
     }
 
+    public static class Text {
+
+        private String content;
+
+        public Text(String content) {
+            this.content = content;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+
     public static class Response {
 
         @JsonProperty("msg_id")
-        private int msgId;
+        private long msgId;
 
         @JsonProperty("msg_data_id")
-        private int msgDataId;
+        private long msgDataId;
 
-        public int getMsgId() {
+        public long getMsgId() {
             return msgId;
         }
 
-        public void setMsgId(int msgId) {
+        public void setMsgId(long msgId) {
             this.msgId = msgId;
         }
 
-        public int getMsgDataId() {
+        public long getMsgDataId() {
             return msgDataId;
         }
 
-        public void setMsgDataId(int msgDataId) {
+        public void setMsgDataId(long msgDataId) {
             this.msgDataId = msgDataId;
         }
     }

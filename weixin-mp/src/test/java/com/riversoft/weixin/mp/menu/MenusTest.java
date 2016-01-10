@@ -36,8 +36,10 @@ public class MenusTest {
         MenuItem menuService = new MenuItem().key("service").type(MenuType.click).name("\ue506服务");
         MenuItem menuAsk = new MenuItem().key("ask").type(MenuType.click).name("咨询");
         MenuItem menuComplain = new MenuItem().key("complain").type(MenuType.click).name("投诉");
+        MenuItem menuH5 = new MenuItem().key("h5").type(MenuType.view).name("H5").url("http://wxtest.gzriver.com/oS-I8EwVL9X.view");
         menuService.add(menuAsk);
         menuService.add(menuComplain);
+        menuService.add(menuH5);
         menu.add(menuService);
 
         MenuItem menuAbout = new MenuItem().key("about").type(MenuType.click).name("\ue418客服");

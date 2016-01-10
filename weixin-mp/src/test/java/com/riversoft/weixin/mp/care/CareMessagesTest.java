@@ -14,7 +14,7 @@ public class CareMessagesTest {
     public void testText(){
 //        CareMessages.defaultCareMessages().text("o7Tmfs6Bx0Tw6en7idZabXGG9Di8", "使用客服接口发送出来的文本消息.");
 //        CareMessages.defaultCareMessages().text("o7Tmfs44TFi4ewTa-J_0BAeUyrw4", "使用客服接口发送出来的文本消息.");
-          CareMessages.defaultCareMessages().text("o7Tmfs3EHCndVenva5knKxA4D3XA", "使用客服接口发送出来的文本消息.");
+          CareMessages.defaultCareMessages().text("oELhlt7Q-lRmLbRsPsaKeVX6pqjg", "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd1a32e23ee80bf7a&redirect_uri=http%3A%2F%2Fwxtest.gzriver.com%2FoS-I8EwVL9X.view&response_type=code&scope=snsapi_userinfo#wechat_redirect");
 //        CareMessages.defaultCareMessages().text("o7Tmfs8y4gBrwzX_YXKAuL7TFrsQ", "使用客服接口发送出来的文本消息.");
 //        CareMessages.defaultCareMessages().text("o7Tmfs2uEnDbaJ_rs2OejuWZPH2M", "使用客服接口发送出来的文本消息.");
 //        CareMessages.defaultCareMessages().text("o7Tmfs6gPvhH9FXtFz8JR2jfeL0g", "使用客服接口发送出来的文本消息.");

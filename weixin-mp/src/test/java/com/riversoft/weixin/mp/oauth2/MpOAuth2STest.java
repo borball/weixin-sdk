@@ -19,7 +19,7 @@ public class MpOAuth2STest {
 
     @Test
     public void testAuthenticationUrl(){
-        String url = MpOAuth2s.defaultOAuth2s().authenticationUrl("http://wxtest.gzriver.com/wx/mp/service", "snsapi_userinfo");
+        String url = MpOAuth2s.defaultOAuth2s().authenticationUrl("http://wxtest.gzriver.com/oS-I8EwVL9X.view", "snsapi_userinfo");
         System.out.println(url);
         Assert.assertNotNull(url);
     }
