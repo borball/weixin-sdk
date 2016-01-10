@@ -359,6 +359,8 @@ public class MpMessages {
 
         if ("wxcard".equalsIgnoreCase(msgType)) {
             request.put(msgType, new Card(message));
+        } else if ("text".equalsIgnoreCase(msgType)){
+            request.put(msgType, new Text(message));
         } else {
             request.put(msgType, new Media(message));
         }
@@ -385,11 +387,11 @@ public class MpMessages {
         request.put("msgtype", msgType);
 
         if ("wxcard".equalsIgnoreCase(msgType)) {
-            request.put("msgType", new Card(message));
+            request.put(msgType, new Card(message));
         } else if ("text".equalsIgnoreCase(msgType)){
-            request.put("msgType", new Text(message));
+            request.put(msgType, new Text(message));
         } else {
-            request.put("msgType", new Media(message));
+            request.put(msgType, new Media(message));
         }
 
         String json = JsonMapper.nonEmptyMapper().toJson(request);
