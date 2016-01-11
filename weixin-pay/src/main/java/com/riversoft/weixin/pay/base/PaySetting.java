@@ -148,14 +148,14 @@ public class PaySetting {
         PaySetting that = (PaySetting) o;
 
         if (!mchId.equals(that.mchId)) return false;
-        return appId.equals(that.appId);
+        return !(appId != null ? !appId.equals(that.appId) : that.appId != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = mchId.hashCode();
-        result = 31 * result + appId.hashCode();
+        result = 31 * result + (appId != null ? appId.hashCode() : 0);
         return result;
     }
 }
