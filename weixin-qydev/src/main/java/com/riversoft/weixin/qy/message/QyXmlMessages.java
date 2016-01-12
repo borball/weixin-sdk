@@ -2,10 +2,10 @@ package com.riversoft.weixin.qy.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.riversoft.weixin.common.event.EventRequest;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.message.XmlMessageHeader;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
 import com.riversoft.weixin.qy.event.*;
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import com.riversoft.weixin.qy.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

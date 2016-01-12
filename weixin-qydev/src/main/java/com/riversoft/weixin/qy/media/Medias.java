@@ -1,12 +1,12 @@
 package com.riversoft.weixin.qy.media;
 
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

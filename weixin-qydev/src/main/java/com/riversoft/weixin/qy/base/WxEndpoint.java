@@ -1,6 +1,6 @@
 package com.riversoft.weixin.qy.base;
 
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 
 import java.io.IOException;
 import java.io.InputStream;

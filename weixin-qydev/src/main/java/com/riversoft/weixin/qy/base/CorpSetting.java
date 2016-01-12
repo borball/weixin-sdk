@@ -1,7 +1,7 @@
 package com.riversoft.weixin.qy.base;
 
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
-import com.riversoft.weixin.qy.exception.WxRuntimeException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
