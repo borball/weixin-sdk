@@ -53,7 +53,9 @@ public class Sessions {
         Map<String, String> request = new HashMap<>();
         request.put("kf_account", care);
         request.put("openid", openId);
-        request.put("text", text);
+        if(!(text == null || "".equals(text))) {
+            request.put("text", text);
+        }
 
         String json = JsonMapper.nonEmptyMapper().toJson(request);
         logger.debug("create session: {}", json);
@@ -72,7 +74,9 @@ public class Sessions {
         Map<String, String> request = new HashMap<>();
         request.put("kf_account", care);
         request.put("openid", openId);
-        request.put("text", text);
+        if(!(text == null || "".equals(text))) {
+            request.put("text", text);
+        }
 
         String json = JsonMapper.nonEmptyMapper().toJson(request);
         logger.debug("close session: {}", json);
