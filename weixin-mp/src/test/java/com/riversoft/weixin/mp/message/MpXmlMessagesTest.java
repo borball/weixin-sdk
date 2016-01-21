@@ -118,15 +118,18 @@ public class MpXmlMessagesTest {
 
     @Test
     public void testKfMessageToXML() throws JsonProcessingException {
-        XmlMessageHeader kfXmlMessage = new Forward2CareXmlMessage();
+        Forward2CareXmlMessage kfXmlMessage = new Forward2CareXmlMessage();
         kfXmlMessage.setFromUser("from user");
         kfXmlMessage.setToUser("to user");
         kfXmlMessage.setCreateTime(new Date());
 
         String xml = MpXmlMessages.toXml(kfXmlMessage);
-
         Assert.assertTrue(xml.contains("<ToUserName><![CDATA[to user]]></ToUserName>"));
         Assert.assertTrue(xml.contains("<FromUserName><![CDATA[from user]]>"));
+
+        kfXmlMessage.setAccount("kfaccount");
+        xml = MpXmlMessages.toXml(kfXmlMessage);
+        Assert.assertTrue(xml.contains("<TransInfo><KfAccount><![CDATA[kfaccount]]></KfAccount>"));
     }
 
 }
