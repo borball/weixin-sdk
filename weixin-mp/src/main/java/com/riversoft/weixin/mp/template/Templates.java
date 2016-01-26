@@ -92,7 +92,7 @@ public class Templates {
      * @param messages
      * @return 消息ID
      */
-    public int send(String toUser, String templateId, String url, Map<String, Item> messages) {
+    public long send(String toUser, String templateId, String url, Map<String, Item> messages) {
         String sendUrl = WxEndpoint.get("url.template.send");
         MessageWrapper messageWrapper = new MessageWrapper();
         messageWrapper.setToUser(toUser);
@@ -107,7 +107,7 @@ public class Templates {
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
 
         if(result.containsKey("msgid")) {
-            return (Integer)result.get("msgid");
+            return ((Number)result.get("msgid")).longValue();
         } else {
             throw new WxRuntimeException(999, "send template message failed.");
         }
