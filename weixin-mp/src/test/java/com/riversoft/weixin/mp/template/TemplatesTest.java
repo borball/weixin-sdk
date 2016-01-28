@@ -36,7 +36,7 @@ public class TemplatesTest {
         data.put("time", new Item("2013年8月20日 20:38", "#173177"));
         data.put("remark", new Item("您可以回复文字或语音对该商品及商家进行评价哦~", "#173177"));
 
-        int messageId = Templates.defaultTemplates().send(openId, templateId, url, data);
+        long messageId = Templates.defaultTemplates().send(openId, templateId, url, data);
         System.out.println(messageId);
         Assert.assertNotNull(messageId);
 
