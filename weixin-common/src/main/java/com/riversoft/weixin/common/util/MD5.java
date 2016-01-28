@@ -1,4 +1,4 @@
-package com.riversoft.weixin.pay.util;
+package com.riversoft.weixin.common.util;
 
 import java.security.MessageDigest;
 

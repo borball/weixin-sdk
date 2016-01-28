@@ -1,6 +1,7 @@
 package com.riversoft.weixin.pay.util;
 
 import com.google.common.base.Joiner;
+import com.riversoft.weixin.common.util.MD5;
 
 import java.util.Map;
 

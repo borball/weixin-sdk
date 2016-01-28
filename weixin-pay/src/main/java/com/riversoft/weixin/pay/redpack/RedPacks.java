@@ -13,7 +13,7 @@ import com.riversoft.weixin.pay.base.WxEndpoint;
 import com.riversoft.weixin.pay.redpack.bean.RedPackRequest;
 import com.riversoft.weixin.pay.redpack.bean.RedPackResponse;
 import com.riversoft.weixin.pay.redpack.bean.RedPackResult;
-import com.riversoft.weixin.pay.util.RandomStringGenerator;
+import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.pay.util.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

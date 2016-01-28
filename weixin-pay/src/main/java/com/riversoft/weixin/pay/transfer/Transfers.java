@@ -14,7 +14,7 @@ import com.riversoft.weixin.pay.base.WxEndpoint;
 import com.riversoft.weixin.pay.transfer.bean.TransferRequest;
 import com.riversoft.weixin.pay.transfer.bean.TransferResponse;
 import com.riversoft.weixin.pay.transfer.bean.TransferResult;
-import com.riversoft.weixin.pay.util.RandomStringGenerator;
+import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.pay.util.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

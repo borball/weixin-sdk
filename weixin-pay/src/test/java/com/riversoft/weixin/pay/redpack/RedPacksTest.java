@@ -21,7 +21,7 @@ public class RedPacksTest {
         RedPackRequest redPackRequest = new RedPackRequest();
         redPackRequest.setActivityName("土豪发红包");
         redPackRequest.setAmount(100);
-        redPackRequest.setBillNumber("1292063901201512030010000014");
+        redPackRequest.setBillNumber("1292063901201512030012300014");
         redPackRequest.setNumber(1);
         redPackRequest.setOpenId("oby4gwX7iPPp-lWZ3t7yGsQ0GbHw");
         redPackRequest.setRemark("测试发红包");

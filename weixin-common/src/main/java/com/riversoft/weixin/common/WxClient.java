@@ -328,15 +328,15 @@ public class WxClient {
             refreshToken();
         }
         String token = accessToken.getAccessToken();
-        logger.debug("access token: {}", token);
+        logger.debug("[{}]:access token: {}", clientId, token);
         return url + (url.indexOf('?') == -1 ? "?access_token=" + token : "&access_token=" + token);
     }
 
     public synchronized void refreshToken() {
-        logger.debug("requesting a new access token.");
+        logger.debug("[{}]:requesting a new access token.", clientId);
         String content = httpGet(String.format(tokenUrl, clientId, clientSecret));
         AccessToken accessToken = AccessToken.fromJson(content);
-        logger.debug("requested a new access token: {}", accessToken.accessToken);
+        logger.debug("[{}]:requested a new access token: {}", clientId, accessToken.accessToken);
         this.accessToken = accessToken;
     }
 

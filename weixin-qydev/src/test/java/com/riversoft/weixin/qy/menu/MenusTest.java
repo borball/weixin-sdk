@@ -14,7 +14,7 @@ public class MenusTest {
 
     @Test
     public void testList() {
-        Menu menu = Menus.defaultMenus().list(45);
+        Menu menu = Menus.defaultMenus().list(71);
         Assert.assertNotNull(menu);
     }
 
