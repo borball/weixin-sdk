@@ -74,11 +74,43 @@ public class WxClient {
     }
 
     public String get(String url, boolean needToken) {
-        return httpGet(needToken ? appendAccessToken(url) : url);
+        if(needToken) {
+            try {
+                return httpGet(appendAccessToken(url));
+            } catch (Exception e) {
+                if(e instanceof WxRuntimeException) {
+                    WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
+                    if(invalidToken(wxRuntimeException.getCode())) {
+                        logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
+                        refreshToken();
+                        return httpGet(appendAccessToken(url));
+                    }
+                }
+                throw e;
+            }
+        } else {
+            return httpGet(url);
+        }
     }
 
     public byte[] getBinary(String url, boolean needToken) {
-        return httpGetBinary(needToken ? appendAccessToken(url) : url);
+        if(needToken) {
+            try {
+                return httpGetBinary(appendAccessToken(url));
+            } catch (Exception e) {
+                if(e instanceof WxRuntimeException) {
+                    WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
+                    if(invalidToken(wxRuntimeException.getCode())) {
+                        logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
+                        refreshToken();
+                        return httpGetBinary(appendAccessToken(url));
+                    }
+                }
+                throw e;
+            }
+        } else {
+            return httpGetBinary(url);
+        }
     }
 
     private byte[] httpGetBinary(String url) {
@@ -125,10 +157,6 @@ public class WxClient {
 
             WxError wxError = WxError.fromJson(responseContent);
 
-            if (invalidToken(wxError.getErrorCode())) {
-                refreshToken();
-            }
-
             if (wxError.getErrorCode() != 0) {
                 throw new WxRuntimeException(wxError);
             }
@@ -139,16 +167,36 @@ public class WxClient {
         }
     }
 
-    private boolean invalidToken(int code) {
-        return code == 42001 || code == 40001 || code == 40014;
-    }
-
     public File download(String url) {
-        return httpDownload(appendAccessToken(url));
+        try {
+            return httpDownload(appendAccessToken(url));
+        } catch (Exception e) {
+            if(e instanceof WxRuntimeException) {
+                WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
+                if(invalidToken(wxRuntimeException.getCode())) {
+                    logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
+                    refreshToken();
+                    return httpDownload(appendAccessToken(url));
+                }
+            }
+            throw e;
+        }
     }
 
     public InputStream copyStream(String url, String post) {
-        return httpCopyFromStream(appendAccessToken(url), post);
+        try {
+            return httpCopyFromStream(appendAccessToken(url), post);
+        } catch (Exception e) {
+            if(e instanceof WxRuntimeException) {
+                WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
+                if(invalidToken(wxRuntimeException.getCode())) {
+                    logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
+                    refreshToken();
+                    return httpCopyFromStream(appendAccessToken(url), post);
+                }
+            }
+            throw e;
+        }
     }
 
     /**
@@ -235,7 +283,19 @@ public class WxClient {
 
 
     public String post(String url, String content) {
-        return httpPost(appendAccessToken(url), content);
+        try {
+            return httpPost(appendAccessToken(url), content);
+        } catch (Exception e) {
+            if(e instanceof WxRuntimeException) {
+                WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
+                if(invalidToken(wxRuntimeException.getCode())) {
+                    logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
+                    refreshToken();
+                    return httpPost(appendAccessToken(url), content);
+                }
+            }
+            throw e;
+        }
     }
 
     public String post(String url, InputStream inputStream, String fileName, Map<String, String> form) {
@@ -275,10 +335,6 @@ public class WxClient {
             String responseContent = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
 
             WxError wxError = WxError.fromJson(responseContent);
-
-            if (invalidToken(wxError.getErrorCode())) {
-                refreshToken();
-            }
 
             if (wxError.getErrorCode() != 0) {
                 throw new WxRuntimeException(wxError);
@@ -345,6 +401,10 @@ public class WxClient {
             refreshToken();
         }
         return accessToken;
+    }
+
+    private boolean invalidToken(int code) {
+        return code == 42001 || code == 40001 || code == 40014;
     }
 
     public static class AccessToken {
