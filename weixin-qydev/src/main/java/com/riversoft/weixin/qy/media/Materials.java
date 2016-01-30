@@ -107,6 +107,26 @@ public class Materials {
         logger.info("material delete result: {}", response);
     }
 
+    /**
+     * 图文消息的content里面如果有图片，该图片需要使用本方法上传，图片仅支持jpg/png格式，大小必须在2MB以下，每天最多200张
+     *
+     * @param inputStream 图片流
+     * @param fileName    文件名
+     * @return 图片的url, 可以在图文消息的content里面使用
+     */
+    public String addMpNewsImage(InputStream inputStream, String fileName) {
+        String url = WxEndpoint.get("url.mpnews.image.upload");
+        String response = wxClient.post(url, inputStream, fileName);
+
+        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        if (result.containsKey("url")) {
+            return result.get("url").toString();
+        } else {
+            logger.warn("mpnews image upload failed: {}", response);
+            throw new WxRuntimeException(999, response);
+        }
+    }
+
     public Counts count(int agent) {
         String response = wxClient.get(String.format(WxEndpoint.get("url.material.count"), agent));
         return JsonMapper.defaultMapper().fromJson(response, Counts.class);

@@ -81,4 +81,10 @@ public class MaterialsTest {
         System.out.println(mpNewsMedia);
     }
 
+    @Test
+    public void testAddMpNewsImage() {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/image.png");
+        String url = Materials.defaultMaterials().addMpNewsImage(inputStream, "testMpNewsImage.png");
+        Assert.assertNotNull(url);
+    }
 }
