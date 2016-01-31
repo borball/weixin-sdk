@@ -15,7 +15,7 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 
 ## 如何获取
 
-### maven central repository
+### Maven
 
  - 服务号，订阅号：
 
