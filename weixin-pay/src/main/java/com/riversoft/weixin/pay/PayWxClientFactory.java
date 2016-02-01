@@ -1,6 +1,5 @@
 package com.riversoft.weixin.pay;
 
-import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.WxSslClient;
 import com.riversoft.weixin.pay.base.PaySetting;
 
@@ -12,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PayWxClientFactory {
 
     private static PayWxClientFactory instance = null;
-    private static ConcurrentHashMap<PaySetting, WxSslClient> wxClients = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, WxSslClient> wxClients = new ConcurrentHashMap<>();
 
     public static PayWxClientFactory getInstance() {
         if (instance == null) {
@@ -26,13 +25,17 @@ public class PayWxClientFactory {
     }
 
     public WxSslClient with(PaySetting paySetting) {
-        if (!wxClients.containsKey(paySetting)) {
+        if (!wxClients.containsKey(key(paySetting))) {
             WxSslClient wxClient = new WxSslClient(paySetting.getCertPath(), paySetting.getCertPassword());
-            wxClients.putIfAbsent(paySetting, wxClient);
+            wxClients.putIfAbsent(key(paySetting), wxClient);
         }
 
-        return wxClients.get(paySetting);
+        return wxClients.get(key(paySetting));
     }
 
+
+    private String key(PaySetting paySetting) {
+        return paySetting.getAppId() + ":" + paySetting.getMchId();
+    }
 }
 

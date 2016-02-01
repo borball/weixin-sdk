@@ -12,9 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class QyWxClientFactory {
 
     private static QyWxClientFactory instance = null;
-    private static ConcurrentHashMap<CorpSetting, WxClient> wxClients = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, WxClient> wxClients = new ConcurrentHashMap<>();
 
-    public static QyWxClientFactory getInstance() {
+    private QyWxClientFactory(){
+    }
+
+    public synchronized static QyWxClientFactory getInstance() {
         if (instance == null) {
             instance = new QyWxClientFactory();
         }
@@ -26,14 +29,17 @@ public class QyWxClientFactory {
     }
 
     public WxClient with(CorpSetting corpSetting) {
-        if (!wxClients.containsKey(corpSetting)) {
+        if (!wxClients.containsKey(key(corpSetting))) {
             String url = WxEndpoint.get("url.token.get");
             WxClient wxClient = new WxClient(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
-            wxClients.putIfAbsent(corpSetting, wxClient);
+            wxClients.putIfAbsent(key(corpSetting), wxClient);
         }
 
-        return wxClients.get(corpSetting);
+        return wxClients.get(key(corpSetting));
     }
 
+    private String key(CorpSetting corpSetting) {
+        return corpSetting.getCorpId() + ":" + corpSetting.getCorpSecret();
+    }
 }
 

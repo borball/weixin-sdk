@@ -12,9 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MpWxClientFactory {
 
     private static MpWxClientFactory instance = null;
-    private static ConcurrentHashMap<AppSetting, WxClient> wxClients = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, WxClient> wxClients = new ConcurrentHashMap<>();
 
-    public static MpWxClientFactory getInstance() {
+    private MpWxClientFactory() {
+    }
+
+    public synchronized static MpWxClientFactory getInstance() {
         if (instance == null) {
             instance = new MpWxClientFactory();
         }
@@ -26,14 +29,17 @@ public class MpWxClientFactory {
     }
 
     public WxClient with(AppSetting appSetting) {
-        if (!wxClients.containsKey(appSetting)) {
+        if (!wxClients.containsKey(key(appSetting))) {
             String url = WxEndpoint.get("url.token.get");
             WxClient wxClient = new WxClient(url, appSetting.getAppId(), appSetting.getSecret());
-            wxClients.putIfAbsent(appSetting, wxClient);
+            wxClients.putIfAbsent(key(appSetting), wxClient);
         }
 
-        return wxClients.get(appSetting);
+        return wxClients.get(key(appSetting));
     }
 
+    private String key(AppSetting appSetting) {
+        return appSetting.getAppId() + ":" + appSetting.getSecret();
+    }
 }
 
