@@ -9,6 +9,14 @@ import java.io.Serializable;
  */
 public class Tag implements Serializable {
 
+    public Tag() {
+    }
+
+    public Tag(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @JsonProperty("tagid")
     private int id;
 
