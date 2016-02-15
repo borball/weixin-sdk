@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
-import com.riversoft.weixin.common.media.MaterialSearchResult;
+import com.riversoft.weixin.qy.media.bean.MaterialPagination;
 import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.common.message.MpNews;
 import com.riversoft.weixin.common.util.DateDeserializer;
@@ -14,6 +14,7 @@ import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.media.bean.Counts;
+import com.riversoft.weixin.qy.media.bean.MpNewsPagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,7 +133,7 @@ public class Materials {
         return JsonMapper.defaultMapper().fromJson(response, Counts.class);
     }
 
-    public MaterialSearchResult list(int agentId, MediaType type, int offset, int size) {
+    public MaterialPagination list(int agentId, MediaType type, int offset, int size) {
         String request = "{\"type\":\"%s\",\"agentid\":%s,\"offset\":%s,\"count\":%s}";
         String url = WxEndpoint.get("url.material.list");
         String response = wxClient.post(url, String.format(request, type.name(), agentId, offset, size));
@@ -140,16 +141,26 @@ public class Materials {
         return toMaterialSearchResult(JsonMapper.defaultMapper().fromJson(response, QyMaterialSearchResult.class));
     }
 
-    private MaterialSearchResult toMaterialSearchResult(QyMaterialSearchResult qyMaterialSearchResult) {
-        MaterialSearchResult result = new MaterialSearchResult();
+    public MpNewsPagination listMpNews(int agentId, int offset, int size) {
+        String request = "{\"type\":\"%s\",\"agentid\":%s,\"offset\":%s,\"count\":%s}";
+        String url = WxEndpoint.get("url.material.list");
+        String response = wxClient.post(url, String.format(request, MediaType.mpnews.name(), agentId, offset, size));
+
+        logger.debug("list mpnews: {}", response);
+
+        return JsonMapper.defaultMapper().fromJson(response, MpNewsPagination.class);
+    }
+
+    private MaterialPagination toMaterialSearchResult(QyMaterialSearchResult qyMaterialSearchResult) {
+        MaterialPagination result = new MaterialPagination();
         result.setTotalCount(qyMaterialSearchResult.getTotalCount());
         result.setCurrentCount(qyMaterialSearchResult.getCurrentCount());
 
         List<QyMaterialSearchResult.Material> qyItems = qyMaterialSearchResult.getItems();
-        List<MaterialSearchResult.Material> items = new ArrayList<>();
+        List<MaterialPagination.Material> items = new ArrayList<>();
 
         for (QyMaterialSearchResult.Material qyItem : qyItems) {
-            MaterialSearchResult.Material item = new MaterialSearchResult.Material();
+            MaterialPagination.Material item = new MaterialPagination.Material();
             item.setFileName(qyItem.getFileName());
             item.setMediaId(qyItem.getMediaId());
             item.setUpdateTime(qyItem.updateTime);

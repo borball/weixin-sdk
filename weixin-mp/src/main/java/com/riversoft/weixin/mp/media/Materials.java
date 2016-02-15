@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
-import com.riversoft.weixin.common.media.*;
+import com.riversoft.weixin.common.media.MediaType;
+import com.riversoft.weixin.common.media.MpArticle;
+import com.riversoft.weixin.common.media.MpNews;
+import com.riversoft.weixin.common.media.Video;
 import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
@@ -12,7 +15,8 @@ import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import com.riversoft.weixin.mp.media.bean.Counts;
 import com.riversoft.weixin.mp.media.bean.Material;
-import com.riversoft.weixin.mp.media.bean.MpNewsSearchResult;
+import com.riversoft.weixin.mp.media.bean.MaterialPagination;
+import com.riversoft.weixin.mp.media.bean.MpNewsPagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -217,7 +221,7 @@ public class Materials {
         return JsonMapper.defaultMapper().fromJson(response, Counts.class);
     }
 
-    public MaterialSearchResult list(MediaType mediaType, int offset, int count) {
+    public MaterialPagination list(MediaType mediaType, int offset, int count) {
         if (mediaType != MediaType.news && mediaType != MediaType.mpnews) {
             String url = WxEndpoint.get("url.material.list");
             String body = "{\"type\":\"%s\",\"offset\":%s,\"count\":%s}";
@@ -231,14 +235,14 @@ public class Materials {
         }
     }
 
-    public MpNewsSearchResult listMpNews(int offset, int count) {
+    public MpNewsPagination listMpNews(int offset, int count) {
         String url = WxEndpoint.get("url.material.list");
         String body = "{\"type\":\"%s\",\"offset\":%s,\"count\":%s}";
 
         String response = wxClient.post(url, String.format(body, MediaType.news.name(), offset, count));
         logger.debug("list mpnwes: {}", response);
 
-        return JsonMapper.defaultMapper().fromJson(response, MpNewsSearchResult.class);
+        return JsonMapper.defaultMapper().fromJson(response, MpNewsPagination.class);
     }
 
     private Material upload(MediaType type, InputStream inputStream, String fileName) {
@@ -274,16 +278,16 @@ public class Materials {
         wxClient.post(url, body);
     }
 
-    private MaterialSearchResult toMaterialSearchResult(MpMaterialSearchResult mpMaterialSearchResult) {
-        MaterialSearchResult result = new MaterialSearchResult();
+    private MaterialPagination toMaterialSearchResult(MpMaterialSearchResult mpMaterialSearchResult) {
+        MaterialPagination result = new MaterialPagination();
         result.setTotalCount(mpMaterialSearchResult.getTotalCount());
         result.setCurrentCount(mpMaterialSearchResult.getCurrentCount());
 
         List<MpMaterialSearchResult.Material> qyItems = mpMaterialSearchResult.getItems();
-        List<MaterialSearchResult.Material> items = new ArrayList<>();
+        List<MaterialPagination.Material> items = new ArrayList<>();
 
         for (MpMaterialSearchResult.Material mpItem : qyItems) {
-            MaterialSearchResult.Material item = new MaterialSearchResult.Material();
+            MaterialPagination.Material item = new MaterialPagination.Material();
             item.setFileName(mpItem.getName());
             item.setMediaId(mpItem.getMediaId());
             item.setUpdateTime(mpItem.updateTime);

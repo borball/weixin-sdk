@@ -1,12 +1,10 @@
 package com.riversoft.weixin.mp.media;
 
-import com.riversoft.weixin.common.media.MaterialSearchResult;
-import com.riversoft.weixin.common.media.MediaType;
-import com.riversoft.weixin.common.media.MpArticle;
-import com.riversoft.weixin.common.media.MpNews;
+import com.riversoft.weixin.common.media.*;
 import com.riversoft.weixin.mp.media.bean.Counts;
 import com.riversoft.weixin.mp.media.bean.Material;
-import com.riversoft.weixin.mp.media.bean.MpNewsSearchResult;
+import com.riversoft.weixin.mp.media.bean.MaterialPagination;
+import com.riversoft.weixin.mp.media.bean.MpNewsPagination;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,11 +26,11 @@ public class MaterialsTest {
 
     @Test
     public void testList() {
-        MaterialSearchResult materialSearchResult = Materials.defaultMaterials().list(MediaType.image, 0, 10);
-        Assert.assertNotNull(materialSearchResult);
+        MaterialPagination materialPagination = Materials.defaultMaterials().list(MediaType.image, 0, 10);
+        Assert.assertNotNull(materialPagination);
 
-        MpNewsSearchResult mpNewsSearchResult = Materials.defaultMaterials().listMpNews(0, 10);
-        Assert.assertNotNull(mpNewsSearchResult);
+        MpNewsPagination mpNewsPagination = Materials.defaultMaterials().listMpNews(0, 10);
+        Assert.assertNotNull(mpNewsPagination);
     }
 
     @Test
@@ -69,6 +67,16 @@ public class MaterialsTest {
 
         String mpNewsMedia = Materials.defaultMaterials().addMpNews(mpNews);
         System.out.println(mpNewsMedia);
+    }
+
+    @Test
+    public void testVoice() {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/test.mp3");
+        Material material = Materials.defaultMaterials().addVoice(inputStream, "test.mp3");
+        Assert.assertNotNull(material);
+
+        InputStream is = Materials.defaultMaterials().getVoice(material.getMediaId());
+        Assert.assertNotNull(is);
     }
 
 }

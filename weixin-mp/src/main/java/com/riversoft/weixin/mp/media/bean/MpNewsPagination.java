@@ -2,6 +2,7 @@ package com.riversoft.weixin.mp.media.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.riversoft.weixin.common.media.MpArticle;
 import com.riversoft.weixin.common.media.MpNews;
 import com.riversoft.weixin.common.util.DateDeserializer;
 
@@ -13,9 +14,9 @@ import java.util.List;
  */
 
 /**
- * 图片，语音和视频
+ * 图文素材
  */
-public class MpNewsSearchResult {
+public class MpNewsPagination {
 
     /**
      * 总素材数
@@ -97,13 +98,13 @@ public class MpNewsSearchResult {
         public static class Content {
 
             @JsonProperty("news_item")
-            private List<MpNews> news;
+            private List<MpArticle> news;
 
-            public List<MpNews> getNews() {
+            public List<MpArticle> getNews() {
                 return news;
             }
 
-            public void setNews(List<MpNews> news) {
+            public void setNews(List<MpArticle> news) {
                 this.news = news;
             }
         }

@@ -1,4 +1,4 @@
-package com.riversoft.weixin.common.media;
+package com.riversoft.weixin.mp.media.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by exizhai on 10/2/2015.
  */
-public class MaterialSearchResult {
+public class MaterialPagination {
 
     @JsonProperty("total_count")
     private int totalCount;
@@ -17,7 +17,7 @@ public class MaterialSearchResult {
     @JsonProperty("item_count")
     private int currentCount;
 
-    @JsonProperty("itemlist")
+    @JsonProperty("item")
     @JsonUnwrapped()
     private List<Material> items;
 

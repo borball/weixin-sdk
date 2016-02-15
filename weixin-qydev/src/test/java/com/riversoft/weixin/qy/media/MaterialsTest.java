@@ -1,6 +1,6 @@
 package com.riversoft.weixin.qy.media;
 
-import com.riversoft.weixin.common.media.MaterialSearchResult;
+import com.riversoft.weixin.qy.media.bean.MaterialPagination;
 import com.riversoft.weixin.common.media.MediaType;
 import com.riversoft.weixin.common.message.MpArticle;
 import com.riversoft.weixin.common.message.MpNews;
@@ -47,18 +47,24 @@ public class MaterialsTest {
 
     @Test
     public void testList() {
-        MaterialSearchResult qyMaterialSearchResult = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
+        MaterialPagination qyMaterialPagination = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
 
-        Assert.assertNotNull(qyMaterialSearchResult);
+        Assert.assertNotNull(qyMaterialPagination);
 
-        for (MaterialSearchResult.Material item : qyMaterialSearchResult.getItems()) {
+        for (MaterialPagination.Material item : qyMaterialPagination.getItems()) {
             File file = Materials.defaultMaterials().download(45, item.getMediaId());
             Assert.assertTrue(file.exists());
         }
 
-        qyMaterialSearchResult = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
+        qyMaterialPagination = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
 
-        Assert.assertNotNull(qyMaterialSearchResult);
+        Assert.assertNotNull(qyMaterialPagination);
+    }
+
+    @Test
+    public void testlistMpNews() {
+        MpNewsPagination mpNewsPagination = Materials.defaultMaterials().listMpNews(88, 0, 10);
+        Assert.assertNotNull(mpNewsPagination);
     }
 
     @Test
