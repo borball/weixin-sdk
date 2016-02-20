@@ -40,10 +40,12 @@ public class JsAPIs {
         this.wxClient = wxClient;
     }
 
-    private void getJsAPITicket(){
-        String url = WxEndpoint.get("url.jsapi.ticket.get");
-        String response = wxClient.get(url);
-        this.jsAPITicket = APITicket.fromJson(response);
+    private synchronized void getJsAPITicket(){
+        if(jsAPITicket == null || jsAPITicket.expired()) {//double check
+            String url = WxEndpoint.get("url.jsapi.ticket.get");
+            String response = wxClient.get(url);
+            this.jsAPITicket = APITicket.fromJson(response);
+        }
     }
 
     /**
