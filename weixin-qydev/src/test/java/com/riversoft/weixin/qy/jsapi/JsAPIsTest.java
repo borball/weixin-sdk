@@ -1,4 +1,4 @@
-package com.riversoft.weixin.mp.jsapi;
+package com.riversoft.weixin.qy.jsapi;
 
 import com.riversoft.weixin.common.jsapi.JsAPISignature;
 import org.junit.Assert;

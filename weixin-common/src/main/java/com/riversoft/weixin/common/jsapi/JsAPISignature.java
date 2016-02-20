@@ -1,4 +1,4 @@
-package com.riversoft.weixin.mp.jsapi.bean;
+package com.riversoft.weixin.common.jsapi;
 
 /**
  * Created by exizhai on 1/28/2016.

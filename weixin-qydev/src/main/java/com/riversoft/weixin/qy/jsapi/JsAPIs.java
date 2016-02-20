@@ -1,4 +1,4 @@
-package com.riversoft.weixin.mp.jsapi;
+package com.riversoft.weixin.qy.jsapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.WxClient;
@@ -8,9 +8,9 @@ import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.jsapi.JsAPISignature;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.common.util.RandomStringGenerator;
-import com.riversoft.weixin.mp.MpWxClientFactory;
-import com.riversoft.weixin.mp.base.AppSetting;
-import com.riversoft.weixin.mp.base.WxEndpoint;
+import com.riversoft.weixin.qy.QyWxClientFactory;
+import com.riversoft.weixin.qy.base.CorpSetting;
+import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +27,12 @@ public class JsAPIs {
     private WxClient wxClient;
 
     public static JsAPIs defaultJsAPIs() {
-        return with(AppSetting.defaultSettings());
+        return with(CorpSetting.defaultSettings());
     }
 
-    public static JsAPIs with(AppSetting appSetting) {
+    public static JsAPIs with(CorpSetting corpSetting) {
         JsAPIs jsAPIs = new JsAPIs();
-        jsAPIs.setWxClient(MpWxClientFactory.getInstance().with(appSetting));
+        jsAPIs.setWxClient(QyWxClientFactory.getInstance().with(corpSetting));
         return jsAPIs;
     }
 
