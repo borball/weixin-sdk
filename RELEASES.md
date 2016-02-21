@@ -16,6 +16,8 @@
 ## release
 
     mvn clean deploy -Prelease -Dmaven.test.skip=true
+    
+    Go to https://oss.sonatype.org/#stagingRepositories, publish the release
 
 ## set next snapshot version
 
