@@ -36,7 +36,6 @@ public class WxSslClient {
     RequestConfig requestConfig;
 
     public WxSslClient(String certPath, String certPassword) {
-
         KeyStore keyStore = null;
         SSLContext sslcontext = null;
         try {

@@ -389,11 +389,13 @@ public class WxClient {
     }
 
     public synchronized void refreshToken() {
-        logger.debug("[{}]:requesting a new access token.", clientId);
-        String content = httpGet(String.format(tokenUrl, clientId, clientSecret));
-        AccessToken accessToken = AccessToken.fromJson(content);
-        logger.debug("[{}]:requested a new access token: {}", clientId, accessToken.accessToken);
-        this.accessToken = accessToken;
+        if (accessToken == null || accessToken.expired()) {
+            logger.debug("[{}]:requesting a new access token.", clientId);
+            String content = httpGet(String.format(tokenUrl, clientId, clientSecret));
+            AccessToken accessToken = AccessToken.fromJson(content);
+            logger.debug("[{}]:requested a new access token: {}", clientId, accessToken.accessToken);
+            this.accessToken = accessToken;
+        }
     }
 
     public AccessToken getAccessToken() {
