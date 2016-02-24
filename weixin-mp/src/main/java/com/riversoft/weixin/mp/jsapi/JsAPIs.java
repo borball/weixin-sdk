@@ -63,10 +63,7 @@ public class JsAPIs {
         String ticket = jsAPITicket.getTicket();
 
         try {
-            String signature = SHA1.getSHA1("jsapi_ticket=" + ticket,
-                    "&noncestr=" + nonce,
-                    "&timestamp=" + timestamp,
-                    "&url=" + url);
+            String signature = SHA1.getSHA1("jsapi_ticket=" + ticket + "&noncestr=" + nonce + "&timestamp=" + timestamp + "&url=" + url);
 
             JsAPISignature jsAPISignature = new JsAPISignature();
             jsAPISignature.setAppId(wxClient.getClientId());

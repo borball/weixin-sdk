@@ -26,18 +26,20 @@ public class SHA1 {
      * @throws AesException
      */
     public static String getSHA1(String... array) throws AesException {
-        try {
-            StringBuffer sb = new StringBuffer();
-            // 字符串排序
-            Arrays.sort(array);
-            for(String item: array) {
-                sb.append(item);
-            }
+        StringBuffer sb = new StringBuffer();
+        // 字符串排序
+        Arrays.sort(array);
+        for(String item: array) {
+            sb.append(item);
+        }
+        return getSHA1(sb.toString());
+    }
 
-            String str = sb.toString();
-            // SHA1签名生成
+    public static String getSHA1(String string) throws AesException {
+        // SHA1签名生成
+        try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(str.getBytes());
+            md.update(string.getBytes());
             byte[] digest = md.digest();
 
             StringBuffer hexstr = new StringBuffer();
