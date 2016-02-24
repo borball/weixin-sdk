@@ -64,9 +64,9 @@ public class JsAPIs {
 
         try {
             String signature = SHA1.getSHA1("jsapi_ticket=" + ticket,
-                    "noncestr=" + nonce,
-                    "timestamp=" + timestamp,
-                    "url=" + url);
+                    "&noncestr=" + nonce,
+                    "&timestamp=" + timestamp,
+                    "&url=" + url);
 
             JsAPISignature jsAPISignature = new JsAPISignature();
             jsAPISignature.setAppId(wxClient.getClientId());
