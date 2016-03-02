@@ -53,6 +53,9 @@ public class Tickets {
      * @return
      */
     public Ticket permanent(int sceneId) {
+        if(sceneId < 1 || sceneId > 100000) {
+            throw new IllegalArgumentException("sceneId shall be between 1 and 100000.");
+        }
         String url = WxEndpoint.get("url.ticket.create");
         String json = "{\"action_name\":\"QR_LIMIT_SCENE\",\"action_info\":{\"scene\":{\"scene_id\":%s}}}";
 
@@ -67,11 +70,15 @@ public class Tickets {
      * @return
      */
     public Ticket permanent(String sceneStr) {
+        if(sceneStr == null || sceneStr.length() == 0 || sceneStr.length() > 64) {
+            throw new IllegalArgumentException("sceneStr shall not be empty and the length shall be less than 64.");
+        }
+
         String url = WxEndpoint.get("url.ticket.create");
         String json = "{\"action_name\":\"QR_LIMIT_STR_SCENE\",\"action_info\":{\"scene\":{\"scene_str\":\"%s\"}}}";
 
         logger.debug("create permanent ticket : {}", String.format(json, sceneStr));
-        String response = wxClient.post(url, json);
+        String response = wxClient.post(url, String.format(json, sceneStr));
         return JsonMapper.nonEmptyMapper().fromJson(response, Ticket.class);
     }
 
