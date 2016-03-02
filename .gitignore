@@ -14,4 +14,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 
+wx-mp-settings-test.xml
+wx-qy-settings-test.xml
+
 .mvn/timing.properties
