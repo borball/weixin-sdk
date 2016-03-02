@@ -16,7 +16,7 @@ public class UsersTest {
 
     @Test
     public void testGet() {
-        User user = Users.defaultUsers().get(TestConfiguration.getInstance().testUser());
+        User user = Users.defaultUsers().get("o3AeGt4ap-Z5J0O2CbTfjcNMR-kE");
         Assert.assertNotNull(user);
     }
 
