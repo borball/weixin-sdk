@@ -1,12 +1,13 @@
 package com.riversoft.weixin.qy.contact;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.contact.department.Department;
-import com.riversoft.weixin.qy.contact.department.DepartmentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,5 +77,23 @@ public class Departments {
         logger.debug("list departments: {}", response);
         DepartmentList departmentList = JsonMapper.nonEmptyMapper().fromJson(response, DepartmentList.class);
         return departmentList.getDepartments();
+    }
+
+    /**
+     * Created by exizhai on 10/12/2015.
+     */
+    public static class DepartmentList {
+
+        private List<Department> departments;
+
+        @JsonProperty("department")
+        @JsonUnwrapped
+        public List<Department> getDepartments() {
+            return departments;
+        }
+
+        public void setDepartments(List<Department> departments) {
+            this.departments = departments;
+        }
     }
 }

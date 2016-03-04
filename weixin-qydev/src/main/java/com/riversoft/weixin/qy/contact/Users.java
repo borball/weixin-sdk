@@ -1,5 +1,7 @@
 package com.riversoft.weixin.qy.contact;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
@@ -141,4 +143,41 @@ public class Users {
 
     }
 
+    /**
+     * Created by exizhai on 10/4/2015.
+     */
+    public static class ReadUserList {
+
+
+        @JsonProperty("userlist")
+        @JsonUnwrapped
+        private List<ReadUser> users;
+
+        public List<ReadUser> getUsers() {
+            return users;
+        }
+
+        public void setUsers(List<ReadUser> users) {
+            this.users = users;
+        }
+    }
+
+    /**
+     * Created by exizhai on 10/4/2015.
+     */
+    public static class SimpleUserList {
+
+        @JsonProperty("userlist")
+        @JsonUnwrapped
+        private List<SimpleUser> users;
+
+        public List<SimpleUser> getUsers() {
+            return users;
+        }
+
+        public void setUsers(List<SimpleUser> users) {
+            this.users = users;
+        }
+
+    }
 }

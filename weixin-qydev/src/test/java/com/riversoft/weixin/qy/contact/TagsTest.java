@@ -10,6 +10,6 @@ public class TagsTest {
 
     @Test
     public void testGetUsers() {
-        TagUsers tagUsers = Tags.defaultTags().getUsers(100);
+        TagUsers tagUsers = Tags.defaultTags().getUsers(200);
     }
 }

@@ -1,10 +1,10 @@
 package com.riversoft.weixin.qy.agent;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.agent.bean.Agent;
-import com.riversoft.weixin.qy.agent.bean.AgentsList;
 import com.riversoft.weixin.qy.agent.bean.WritableAgent;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
@@ -70,5 +70,22 @@ public class Agents {
         String json = JsonMapper.nonEmptyMapper().toJson(writableAgent);
         logger.info("update agent: {}", json);
         wxClient.post(url, json);
+    }
+
+    /**
+     * Created by exizhai on 9/26/2015.
+     */
+    public static class AgentsList {
+
+        @JsonProperty("agentlist")
+        private List<Agent> agents;
+
+        public List<Agent> getAgents() {
+            return agents;
+        }
+
+        public void setAgents(List<Agent> agents) {
+            this.agents = agents;
+        }
     }
 }
