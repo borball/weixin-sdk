@@ -1,6 +1,7 @@
 package com.riversoft.weixin.qy.contact.tag;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.riversoft.weixin.qy.contact.user.SimpleUser;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class TagUsers {
     private int tagId;
 
     @JsonProperty("userlist")
-    private List<String> users;
+    private List<SimpleUser> users;
 
     @JsonProperty("partylist")
     private List<Integer> departments;
@@ -26,11 +27,11 @@ public class TagUsers {
         this.tagId = tagId;
     }
 
-    public List<String> getUsers() {
+    public List<SimpleUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<String> users) {
+    public void setUsers(List<SimpleUser> users) {
         this.users = users;
     }
 

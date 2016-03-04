@@ -16,7 +16,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 
-wx-mp-settings-test.xml
-wx-qy-settings-test.xml
+/weixin-qydev/src/test/resources/wx-qy-settings-test.xml
+/weixin-mp/src/test/resources/wx-mp-settings-test.xml
 
 .mvn/timing.properties

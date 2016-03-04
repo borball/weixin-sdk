@@ -1,12 +1,12 @@
 package com.riversoft.weixin.qy.contact;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import com.riversoft.weixin.qy.contact.tag.Tag;
-import com.riversoft.weixin.qy.contact.tag.TagList;
 import com.riversoft.weixin.qy.contact.tag.TagUsers;
 import com.riversoft.weixin.qy.contact.tag.TagUsersResult;
 import org.slf4j.Logger;
@@ -67,7 +67,7 @@ public class Tags {
 
     public TagUsersResult addUsers(int tagId, List<String> users, List<Integer> departments) {
         String url = WxEndpoint.get("url.tag.user.add");
-        TagUsers tagUsers = new TagUsers();
+        TagUsersWrapper tagUsers = new TagUsersWrapper();
         tagUsers.setTagId(tagId);
         tagUsers.setUsers(users);
         tagUsers.setDepartments(departments);
@@ -79,7 +79,7 @@ public class Tags {
 
     public TagUsersResult deleteUsers(int tagId, List<String> users, List<Integer> departments) {
         String url = WxEndpoint.get("url.tag.user.delete");
-        TagUsers tagUsers = new TagUsers();
+        TagUsersWrapper tagUsers = new TagUsersWrapper();
         tagUsers.setTagId(tagId);
         tagUsers.setUsers(users);
         tagUsers.setDepartments(departments);
@@ -96,5 +96,58 @@ public class Tags {
         TagUsers tagUsers = JsonMapper.defaultMapper().fromJson(response, TagUsers.class);
         tagUsers.setTagId(id);
         return tagUsers;
+    }
+
+    /**
+     * Created by exizhai on 10/5/2015.
+     */
+    public static class TagList {
+
+        @JsonProperty("taglist")
+        private List<Tag> tags;
+
+        public List<Tag> getTags() {
+            return tags;
+        }
+
+        public void setTags(List<Tag> tags) {
+            this.tags = tags;
+        }
+    }
+
+    public static class TagUsersWrapper {
+
+        @JsonProperty("tagid")
+        private int tagId;
+
+        @JsonProperty("userlist")
+        private List<String> users;
+
+        @JsonProperty("partylist")
+        private List<Integer> departments;
+
+        public int getTagId() {
+            return tagId;
+        }
+
+        public void setTagId(int tagId) {
+            this.tagId = tagId;
+        }
+
+        public List<String> getUsers() {
+            return users;
+        }
+
+        public void setUsers(List<String> users) {
+            this.users = users;
+        }
+
+        public List<Integer> getDepartments() {
+            return departments;
+        }
+
+        public void setDepartments(List<Integer> departments) {
+            this.departments = departments;
+        }
     }
 }
