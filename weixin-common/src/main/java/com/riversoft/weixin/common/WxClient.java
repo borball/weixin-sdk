@@ -406,7 +406,11 @@ public class WxClient {
     }
 
     private boolean invalidToken(int code) {
-        return code == 42001 || code == 40001 || code == 40014;
+        boolean result = code == 42001 || code == 40001 || code == 40014;
+        if(result) {
+            accessToken.setAccessToken(null);//强制设置为无效
+        }
+        return result;
     }
 
     public static class AccessToken {
