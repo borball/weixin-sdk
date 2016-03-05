@@ -16,8 +16,8 @@ public class Counts {
     @JsonProperty("video_count")
     private int video;
 
-    @JsonProperty("mpnews_count")
-    private int mpNews;
+    @JsonProperty("news_count")
+    private int news;
 
     public int getImage() {
         return image;
@@ -43,11 +43,11 @@ public class Counts {
         this.video = video;
     }
 
-    public int getMpNews() {
-        return mpNews;
+    public int getNews() {
+        return news;
     }
 
-    public void setMpNews(int mpNews) {
-        this.mpNews = mpNews;
+    public void setNews(int news) {
+        this.news = news;
     }
 }
