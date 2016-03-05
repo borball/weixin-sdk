@@ -70,7 +70,7 @@ public class WxClient {
     }
 
     public String get(String url) {
-        return httpGet(appendAccessToken(url));
+        return get(url, true);
     }
 
     public String get(String url, boolean needToken) {
@@ -303,11 +303,23 @@ public class WxClient {
 
         try {
             FileUtils.copyInputStreamToFile(inputStream, tempFile);
-
-            return httpPost(appendAccessToken(url), tempFile, form);
         } catch (IOException e) {
             logger.error("http post: {} failed", url, e);
             throw new WxRuntimeException(999, "Copy stream to file failed:" + e.getMessage());
+        }
+
+        try {
+            return httpPost(appendAccessToken(url), tempFile, form);
+        } catch (Exception e) {
+            if(e instanceof WxRuntimeException) {
+                WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
+                if(invalidToken(wxRuntimeException.getCode())) {
+                    logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
+                    refreshToken();
+                    return httpPost(appendAccessToken(url), tempFile, form);
+                }
+            }
+            throw e;
         } finally {
             FileUtils.deleteQuietly(tempFile);
         }
