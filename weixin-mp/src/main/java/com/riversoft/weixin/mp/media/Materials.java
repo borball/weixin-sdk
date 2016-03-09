@@ -88,7 +88,12 @@ public class Materials {
      * @return 图文素材
      */
     public MpNews getMpNews(String mediaId) {
-        return null;
+        String url = WxEndpoint.get("url.material.mpnews.get");
+
+        String json = String.format("{\"media_id\":\"%s\"}", mediaId);
+        logger.info("get mpnews: {}", json);
+        String response = wxClient.post(url, json);
+        return JsonMapper.defaultMapper().fromJson(response, MpNews.class);
     }
 
     /**

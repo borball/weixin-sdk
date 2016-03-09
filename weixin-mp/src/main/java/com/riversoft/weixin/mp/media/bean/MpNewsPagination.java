@@ -3,7 +3,6 @@ package com.riversoft.weixin.mp.media.bean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.media.MpArticle;
-import com.riversoft.weixin.common.media.MpNews;
 import com.riversoft.weixin.common.util.DateDeserializer;
 
 import java.util.Date;
