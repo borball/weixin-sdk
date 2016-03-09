@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,6 +15,12 @@ public class TemplatesTest {
     @Test
     public void testSetIndustry(){
         Templates.defaultTemplates().setIndustries("1", "2");
+    }
+
+    @Test
+    public void testGetIndustry(){
+        Industry industry = Templates.defaultTemplates().getIndustries();
+        Assert.assertNotNull(industry);
     }
 
     @Test
@@ -40,6 +47,17 @@ public class TemplatesTest {
         System.out.println(messageId);
         Assert.assertNotNull(messageId);
 
+    }
+
+    @Test
+     public void testList(){
+        List<Template> list = Templates.defaultTemplates().list();
+        Assert.assertNotNull(list);
+    }
+
+    @Test
+    public void testDelete(){
+        Templates.defaultTemplates().delete("3v146u0xli7fBnkdjExqwEo9mjhs0hn3LjQ0JgcgtDU");
     }
 
 }

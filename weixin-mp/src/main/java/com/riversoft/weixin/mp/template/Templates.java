@@ -10,6 +10,7 @@ import com.riversoft.weixin.mp.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,27 +40,27 @@ public class Templates {
 
     /**
      * 设置所属行业
-     * @param id1 众号模板消息所属行业编号1
-     * @param id2 众号模板消息所属行业编号2
+     * @param primary 众号模板消息所属行业编号1(主业)
+     * @param secondary 众号模板消息所属行业编号2(副业)
      */
-    public void setIndustries(String id1, String id2) {
+    public void setIndustries(String primary, String secondary) {
         String url = WxEndpoint.get("url.template.industry.set");
-        String json = String.format("{\"industry_id1\":\"%s\", \"industry_id2\":\"%s\"}", id1, id2);
+        String json = String.format("{\"industry_id1\":\"%s\", \"industry_id2\":\"%s\"}", primary, secondary);
 
         logger.debug("template message, set industry: {}", json);
         wxClient.post(url, json);
     }
 
     /**
-     * 设置所属行业
-     * @param id1 众号模板消息所属行业编号1
+     * 获取所属行业
      */
-    public void setIndustry(String id1) {
-        String url = WxEndpoint.get("url.template.industry.set");
-        String json = String.format("{\"industry_id1\":\"%s\"}", id1);
+    public Industry getIndustries() {
+        String url = WxEndpoint.get("url.template.industry.get");
 
-        logger.debug("template message, set industry: {}", json);
-        wxClient.post(url, json);
+        logger.debug("template message, get industry.");
+        String response = wxClient.get(url);
+        IndustryWrapper industryWrapper = JsonMapper.defaultMapper().fromJson(response, IndustryWrapper.class);
+        return new Industry(industryWrapper.getPrimary().toString(), industryWrapper.getSecondary().toString());
     }
 
     /**
@@ -83,6 +84,28 @@ public class Templates {
         }
     }
 
+    /**
+     * 获取所有的模板
+     * @return
+     */
+    public List<Template> list(){
+        String url = WxEndpoint.get("url.template.list");
+        logger.debug("template message, list templates.");
+        String response = wxClient.get(url);
+        TemplateListWrapper templateListWrapper = JsonMapper.defaultMapper().fromJson(response, TemplateListWrapper.class);
+        return templateListWrapper.getTemplateList();
+    }
+
+    /**
+     * 删除模板
+     * @param templateId
+     */
+    public void delete(String templateId) {
+        String url = WxEndpoint.get("url.template.delete");
+        String json = String.format("{\"template_id\":\"%s\"}", templateId);
+        logger.debug("template message, delete template: {}", json);
+        wxClient.post(url, json);
+    }
     /**
      * 发送模板消息
      *
@@ -156,6 +179,74 @@ public class Templates {
 
         public void setData(Map<String, Item> data) {
             this.data = data;
+        }
+    }
+
+    public static class TemplateListWrapper {
+
+        @JsonProperty("template_list")
+        private List<Template> templateList;
+
+        public List<Template> getTemplateList() {
+            return templateList;
+        }
+
+        public void setTemplateList(List<Template> templateList) {
+            this.templateList = templateList;
+        }
+    }
+
+    public static class IndustryWrapper {
+
+        @JsonProperty("primary_industry")
+        private IndustryClassWrapper primary;
+
+        @JsonProperty("secondary_industry")
+        private IndustryClassWrapper secondary;
+
+        public IndustryClassWrapper getPrimary() {
+            return primary;
+        }
+
+        public void setPrimary(IndustryClassWrapper primary) {
+            this.primary = primary;
+        }
+
+        public IndustryClassWrapper getSecondary() {
+            return secondary;
+        }
+
+        public void setSecondary(IndustryClassWrapper secondary) {
+            this.secondary = secondary;
+        }
+    }
+
+    public static class IndustryClassWrapper {
+
+        @JsonProperty("first_class")
+        private String first;
+        @JsonProperty("second_class")
+        private String second;
+
+        public String getFirst() {
+            return first;
+        }
+
+        public void setFirst(String first) {
+            this.first = first;
+        }
+
+        public String getSecond() {
+            return second;
+        }
+
+        public void setSecond(String second) {
+            this.second = second;
+        }
+
+        @Override
+        public String toString() {
+            return first + "|" + second;
         }
     }
 }
