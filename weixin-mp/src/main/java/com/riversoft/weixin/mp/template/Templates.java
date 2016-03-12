@@ -115,7 +115,7 @@ public class Templates {
      * @param messages
      * @return 消息ID
      */
-    public long send(String toUser, String templateId, String url, Map<String, Item> messages) {
+    public long send(String toUser, String templateId, String url, Map<String, Data> messages) {
         String sendUrl = WxEndpoint.get("url.template.send");
         MessageWrapper messageWrapper = new MessageWrapper();
         messageWrapper.setToUser(toUser);
@@ -147,7 +147,7 @@ public class Templates {
 
         private String url;
 
-        private Map<String, Item> data;
+        private Map<String, Data> data;
 
         public String getToUser() {
             return toUser;
@@ -173,11 +173,11 @@ public class Templates {
             this.url = url;
         }
 
-        public Map<String, Item> getData() {
+        public Map<String, Data> getData() {
             return data;
         }
 
-        public void setData(Map<String, Item> data) {
+        public void setData(Map<String, Data> data) {
             this.data = data;
         }
     }

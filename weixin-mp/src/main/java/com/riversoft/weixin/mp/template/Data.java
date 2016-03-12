@@ -3,15 +3,15 @@ package com.riversoft.weixin.mp.template;
 /**
  * Created by exizhai on 12/16/2015.
  */
-public class Item {
+public class Data {
 
     private String value;
     private String color;
 
-    public Item() {
+    public Data() {
     }
 
-    public Item(String value, String color) {
+    public Data(String value, String color) {
         this.value = value;
         this.color = color;
     }
