@@ -57,6 +57,6 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 	<dependency>
 	    <groupId>com.github.borball.weixin-sdk</groupId>
 	    <artifactId>weixin-mp</artifactId>
-	    <version>0.7.1</version>
+	    <version>0.8.0</version>
 	</dependency>
 

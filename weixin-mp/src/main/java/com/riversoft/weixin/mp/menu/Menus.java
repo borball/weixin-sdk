@@ -83,6 +83,20 @@ public class Menus {
     }
 
     /**
+     * 获取匹配的菜单
+     * @param userId 用户openId或者微信号
+     * @return
+     */
+    public Menu match(String userId) {
+        String url = WxEndpoint.get("url.menu.match");
+        String request = String.format("{\"user_id\":\"%s\"}", userId);
+        String response = wxClient.post(url, request);
+        logger.debug("matched menu: {}", response);
+        MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(response, MenuWrapper.class);
+        return menuWrapper.getMenu();
+    }
+
+    /**
      * 获取所有的菜单，包括默认的和个性化的菜单
      * @return
      */
