@@ -14,13 +14,13 @@ public class MenusTest {
 
     @Test
     public void testList() {
-        Menu menu = Menus.defaultMenus().list(71);
+        Menu menu = Menus.defaultMenus().get(71);
         Assert.assertNotNull(menu);
     }
 
     @Ignore
     public void testCreate() {
-        Menu menu = Menus.defaultMenus().list(45);
+        Menu menu = Menus.defaultMenus().get(45);
         MenuItem menuItem = new MenuItem().key("test-click").type(MenuType.click).name("点我");
         menu.add(menuItem);
         Menus.defaultMenus().create(45, menu);

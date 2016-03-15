@@ -2,13 +2,14 @@ package com.riversoft.weixin.qy.menu;
 
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.common.menu.Menu;
-import com.riversoft.weixin.common.menu.MenuWrapper;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.qy.QyWxClientFactory;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
 
 /**
  * Created by exizhai on 9/25/2015.
@@ -45,14 +46,30 @@ public class Menus {
         wxClient.get(String.format(url, agent));
     }
 
-    public Menu list(int agent) {
-        String url = WxEndpoint.get("url.menu.list");
+    public Menu get(int agent) {
+        String url = WxEndpoint.get("url.menu.get");
         String content = wxClient.get(String.format(url, agent));
 
-        logger.debug("list menu: {}", content);
+        logger.debug("get menu: {}", content);
 
         MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(content, MenuWrapper.class);
         return menuWrapper.getMenu();
+    }
+
+    /**
+     * Created by exizhai on 9/27/2015.
+     */
+    public static class MenuWrapper implements Serializable {
+
+        private Menu menu;
+
+        public Menu getMenu() {
+            return menu;
+        }
+
+        public void setMenu(Menu menu) {
+            this.menu = menu;
+        }
     }
 
 }
