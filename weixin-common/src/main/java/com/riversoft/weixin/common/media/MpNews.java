@@ -1,5 +1,7 @@
 package com.riversoft.weixin.common.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,11 @@ public class MpNews implements Serializable {
     }
 
     public void setArticles(List<MpArticle> articles) {
+        this.articles = articles;
+    }
+
+    @JsonProperty("news_item")
+    public void setItems(List<MpArticle> articles) {
         this.articles = articles;
     }
 
