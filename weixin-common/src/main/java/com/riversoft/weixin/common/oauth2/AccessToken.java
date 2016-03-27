@@ -1,4 +1,4 @@
-package com.riversoft.weixin.mp.oauth2.bean;
+package com.riversoft.weixin.common.oauth2;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

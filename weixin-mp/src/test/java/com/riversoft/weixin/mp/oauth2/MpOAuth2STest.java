@@ -1,7 +1,7 @@
 package com.riversoft.weixin.mp.oauth2;
 
 import com.riversoft.weixin.common.util.JsonMapper;
-import com.riversoft.weixin.mp.oauth2.bean.OpenUser;
+import com.riversoft.weixin.common.oauth2.OpenUser;
 import org.junit.Assert;
 import org.junit.Test;
 

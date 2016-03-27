@@ -36,6 +36,7 @@
         <module>weixin-mp</module>
         <module>weixin-common</module>
         <module>weixin-pay</module>
+		<module>weixin-open</module>
     </modules>
 
     <distributionManagement>
