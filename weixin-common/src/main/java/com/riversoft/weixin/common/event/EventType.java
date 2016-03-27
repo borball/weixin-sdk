@@ -48,5 +48,10 @@ public enum EventType {
     /**
      * 模板消息下发结果通知事件
      */
-    TEMPLATESENDJOBFINISH
+    TEMPLATESENDJOBFINISH,
+
+    /**
+     * 订单事件
+     */
+    ORDER
 }
