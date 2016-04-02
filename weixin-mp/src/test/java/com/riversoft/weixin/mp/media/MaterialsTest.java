@@ -70,6 +70,13 @@ public class MaterialsTest {
     }
 
     @Test
+    public void testAddMpNewsImage() throws IOException {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/tetstt.jpg");
+        String url = Materials.defaultMaterials().addMpNewsImage(inputStream, "tetstt.jpg");
+        System.out.println("图片URL:" + url);
+    }
+
+    @Test
     public void testVoice() {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/test.mp3");
         Material material = Materials.defaultMaterials().addVoice(inputStream, "test.mp3");

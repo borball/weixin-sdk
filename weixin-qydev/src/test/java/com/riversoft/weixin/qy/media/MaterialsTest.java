@@ -1,9 +1,9 @@
 package com.riversoft.weixin.qy.media;
 
+import com.riversoft.weixin.common.media.MpArticle;
+import com.riversoft.weixin.common.media.MpNews;
 import com.riversoft.weixin.qy.media.bean.MaterialPagination;
 import com.riversoft.weixin.common.media.MediaType;
-import com.riversoft.weixin.common.message.MpArticle;
-import com.riversoft.weixin.common.message.MpNews;
 import com.riversoft.weixin.qy.media.bean.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,52 +18,52 @@ public class MaterialsTest {
 
     @Test
     public void testLifeCycle() {
-        Counts counts = Materials.defaultMaterials().count(45);
+        Counts counts = Materials.defaultMaterials().count(84);
         int imageCountBefore = counts.getImage();
 
-        String mediaId = Materials.defaultMaterials().upload(45, MediaType.image, this.getClass().getClassLoader().getResourceAsStream("media/image.png"), "image.png");
+        String mediaId = Materials.defaultMaterials().upload(84, MediaType.image, this.getClass().getClassLoader().getResourceAsStream("media/image.png"), "image.png");
 
-        counts = Materials.defaultMaterials().count(45);
+        counts = Materials.defaultMaterials().count(84);
         int imageCountAfter = counts.getImage();
 
         Assert.assertEquals(imageCountAfter, imageCountBefore + 1);
 
-        File image = Materials.defaultMaterials().download(45, mediaId);
+        File image = Materials.defaultMaterials().download(84, mediaId);
         Assert.assertNotNull(image);
         Assert.assertTrue(image.exists());
 
-        Materials.defaultMaterials().delete(45, mediaId);
+        Materials.defaultMaterials().delete(84, mediaId);
 
-        counts = Materials.defaultMaterials().count(45);
+        counts = Materials.defaultMaterials().count(84);
         Assert.assertEquals(imageCountBefore, counts.getImage());
 
     }
 
     @Test
     public void testCount() {
-        Counts counts = Materials.defaultMaterials().count(45);
+        Counts counts = Materials.defaultMaterials().count(84);
         Assert.assertNotNull(counts);
     }
 
     @Test
     public void testList() {
-        MaterialPagination qyMaterialPagination = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
+        MaterialPagination qyMaterialPagination = Materials.defaultMaterials().list(84, MediaType.image, 0, 10);
 
         Assert.assertNotNull(qyMaterialPagination);
 
         for (MaterialPagination.Material item : qyMaterialPagination.getItems()) {
-            File file = Materials.defaultMaterials().download(45, item.getMediaId());
+            File file = Materials.defaultMaterials().download(84, item.getMediaId());
             Assert.assertTrue(file.exists());
         }
 
-        qyMaterialPagination = Materials.defaultMaterials().list(45, MediaType.image, 0, 10);
+        qyMaterialPagination = Materials.defaultMaterials().list(84, MediaType.image, 0, 10);
 
         Assert.assertNotNull(qyMaterialPagination);
     }
 
     @Test
-    public void testlistMpNews() {
-        MpNewsPagination mpNewsPagination = Materials.defaultMaterials().listMpNews(88, 0, 10);
+    public void testListMpNews() {
+        MpNewsPagination mpNewsPagination = Materials.defaultMaterials().listMpNews(84, 0, 10);
         Assert.assertNotNull(mpNewsPagination);
     }
 
@@ -83,7 +83,7 @@ public class MaterialsTest {
         mpArticle2.content("这里是内容，据说可以支持html").contentSourceUrl("http://www.blogchong.com/post/127.html");
         mpNews.add(mpArticle2);
 
-        String mpNewsMedia = Materials.defaultMaterials().addMpNews(45, mpNews);
+        String mpNewsMedia = Materials.defaultMaterials().addMpNews(84, mpNews);
         System.out.println(mpNewsMedia);
     }
 
