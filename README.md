@@ -33,6 +33,14 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 	      <version>${weixin-sdk.version}</version>
 	    </dependency>
 
+ - 开放平台：
+ 
+	    <dependency>
+	      <groupId>cn.com.riversoft</groupId>
+	      <artifactId>weixin-open</artifactId>
+	      <version>${weixin-sdk.version}</version>
+	    </dependency>
+
  - 支付：
 
 		<dependency>
@@ -57,6 +65,6 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 	<dependency>
 	    <groupId>com.github.borball.weixin-sdk</groupId>
 	    <artifactId>weixin-mp</artifactId>
-	    <version>0.8.0</version>
+	    <version>0.8.2</version>
 	</dependency>
 
