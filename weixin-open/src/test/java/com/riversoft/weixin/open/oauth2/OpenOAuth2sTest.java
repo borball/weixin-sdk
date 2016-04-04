@@ -10,7 +10,7 @@ public class OpenOAuth2sTest {
 
     @Test
     public void testAuthenticationUrl(){
-        String url = OpenOAuth2s.defaultOpenOAuth2s().authenticationUrl("http://management.gzriver.com");
+        String url = OpenOAuth2s.defaultOpenOAuth2s().authenticationUrl("http://hostname.com");
         Assert.assertNotNull(url);
     }
 }

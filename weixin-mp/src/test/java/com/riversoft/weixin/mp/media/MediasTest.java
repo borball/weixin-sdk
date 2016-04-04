@@ -15,8 +15,8 @@ public class MediasTest {
 
     @Test
     public void testImage() {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/image.png");
-        Media media = Medias.defaultMedias().upload(MediaType.image, inputStream, "image.png");
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/高中物理第二册电场总复习3-0027.jpg");
+        Media media = Medias.defaultMedias().upload(MediaType.image, inputStream, "高中物理第二册电场总复习3-0027.jpg");
         Assert.assertNotNull(media);
 
         File file = Medias.defaultMedias().download(media.getMediaId());
