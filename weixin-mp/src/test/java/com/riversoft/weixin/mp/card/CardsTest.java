@@ -39,7 +39,7 @@ public class CardsTest {
         baseInfo.setServicePhone("020-38556299");
 
         member.setBaseInfo(baseInfo);
-        Cards.defaultCards().createMember(member);
+        Cards.defaultCards().member(member);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CardsTest {
         baseInfo.setServicePhone("020-38556299");
 
         discount.setBaseInfo(baseInfo);
-        Cards.defaultCards().createDiscount(discount);
+        Cards.defaultCards().discount(discount);
     }
 
     @Test

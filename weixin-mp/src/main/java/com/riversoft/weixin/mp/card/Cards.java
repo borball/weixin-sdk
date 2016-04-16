@@ -44,7 +44,7 @@ public class Cards {
      * @param groupon
      * @return
      */
-    public String createGroupon(Groupon groupon) {
+    public String groupon(Groupon groupon) {
         Card card = new Card();
         card.setCardType("GROUPON");
         card.setGroupon(groupon);
@@ -58,7 +58,7 @@ public class Cards {
      * @param cash
      * @return
      */
-    public String createCash(Cash cash) {
+    public String cash(Cash cash) {
         Card card = new Card();
         card.setCardType("CASH");
         card.setCash(cash);
@@ -72,7 +72,7 @@ public class Cards {
      * @param gift
      * @return
      */
-    public String createGift(Gift gift) {
+    public String gift(Gift gift) {
         Card card = new Card();
         card.setCardType("GIFT");
         card.setGift(gift);
@@ -86,7 +86,7 @@ public class Cards {
      * @param discount
      * @return
      */
-    public String createDiscount(Discount discount) {
+    public String discount(Discount discount) {
         Card card = new Card();
         card.setCardType("DISCOUNT");
         card.setDiscount(discount);
@@ -100,7 +100,7 @@ public class Cards {
      * @param coupon
      * @return
      */
-    public String createCoupon(Coupon coupon) {
+    public String coupon(Coupon coupon) {
         Card card = new Card();
         card.setCardType("GENERAL_COUPON");
         card.setCoupon(coupon);
@@ -108,7 +108,7 @@ public class Cards {
         return createCard(card);
     }
 
-    public String createMember(Member member) {
+    public String member(Member member) {
         Card card = new Card();
         card.setCardType("MEMBER_CARD");
         card.setMember(member);
