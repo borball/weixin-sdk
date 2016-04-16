@@ -6,9 +6,9 @@
 weixin-sdk 是对微信公众平台API已经微信支付API的JAVA版封装：
 
  - 服务号，订阅号： 	weixin-mp
- - 企业号： 			weixin-qydev
+ - 企业号： 		weixin-qydev
  - 开放平台： 		weixin-open
- - 支付： 			weixin-pay
+ - 支付： 		weixin-pay
 
 API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 
@@ -68,4 +68,5 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 	    <artifactId>weixin-mp</artifactId>
 	    <version>0.8.2</version>
 	</dependency>
+
 
