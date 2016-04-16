@@ -33,4 +33,14 @@ public class MediasTest {
         Assert.assertTrue(file.exists());
     }
 
+    @Test
+    public void testVideo() {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/test.mp4");
+        Media media = Medias.defaultMedias().upload(MediaType.video, inputStream, "test.mp4");
+        Assert.assertNotNull(media);
+
+        File file = Medias.defaultMedias().download(media.getMediaId());
+        Assert.assertTrue(file.exists());
+    }
+
 }
