@@ -261,7 +261,12 @@ public class WxClient {
                 } else {
                     String errors = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
                     logger.warn("download file : {} failed: {}", url, errors);
-                    throw new WxRuntimeException(999, errors);
+                    if (errors.contains("errcode")) {
+                        WxError wxError = WxError.fromJson(errors);
+                        throw new WxRuntimeException(wxError);
+                    } else {
+                        throw new WxRuntimeException(999, errors);
+                    }
                 }
             }
         } catch (IOException e) {
