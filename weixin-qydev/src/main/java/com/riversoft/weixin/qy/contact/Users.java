@@ -115,6 +115,7 @@ public class Users {
         wxClient.post(url, json);
     }
 
+    @Deprecated
     public Invitation invite(String uid) {
         String url = WxEndpoint.get("url.user.invite");
         String json = "{\"userid\":\"%s\"}";
