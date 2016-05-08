@@ -7,6 +7,7 @@ import com.riversoft.weixin.common.user.Gender;
 import com.riversoft.weixin.common.util.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by exizhai on 11/4/2015.
@@ -45,6 +46,9 @@ public class User {
 
     @JsonProperty(value = "groupid")
     private int group;
+
+    @JsonProperty(value = "tagid_list")
+    private List<Integer> tags;
 
     public boolean isSubscribed() {
         return subscribed;
@@ -148,5 +152,13 @@ public class User {
 
     public void setGroup(int group) {
         this.group = group;
+    }
+
+    public List<Integer> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Integer> tags) {
+        this.tags = tags;
     }
 }
