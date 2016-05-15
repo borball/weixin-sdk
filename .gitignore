@@ -19,5 +19,6 @@ buildNumber.properties
 /weixin-qydev/src/test/resources/wx-qy-settings-test.xml
 /weixin-mp/src/test/resources/wx-mp-settings-test.xml
 /weixin-open/src/test/resources/wx-open-settings-test.xml
+/weixin-pay/src/test/resources/wx-pay-settings-test.xml
 
 .mvn/timing.properties

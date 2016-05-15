@@ -52,20 +52,20 @@ public class Transfers {
     }
 
     public TransferResponse transfer(TransferRequest transferRequest) {
-        TransferRequestWrapper transferRequestWrapper = new TransferRequestWrapper();
-        transferRequestWrapper.setAppId(paySetting.getAppId());
-        transferRequestWrapper.setMchId(paySetting.getMchId());
-        transferRequestWrapper.setTransferRequest(transferRequest);
+        TransferRequestWrapper wrapper = new TransferRequestWrapper();
+        wrapper.setAppId(paySetting.getAppId());
+        wrapper.setMchId(paySetting.getMchId());
+        wrapper.setTransferRequest(transferRequest);
 
         String nonce = RandomStringGenerator.getRandomStringByLength(32);
-        transferRequestWrapper.setNonce(nonce);
+        wrapper.setNonce(nonce);
 
-        SortedMap<String, Object> transferRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(transferRequestWrapper, SortedMap.class);
-        transferRequestWrapper.setSign(Signature.sign(transferRequestMap, paySetting.getKey()));
+        SortedMap<String, Object> transferRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(wrapper, SortedMap.class);
+        wrapper.setSign(Signature.sign(transferRequestMap, paySetting.getKey()));
 
         String url = WxEndpoint.get("url.pay.transfer.do");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(transferRequestWrapper);
+            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
             logger.info("transfer request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("got response: {}", response);
@@ -78,19 +78,19 @@ public class Transfers {
     }
 
     public TransferResult query(String partnerTradeNo) {
-        QueryTransferResultRequestWrapper queryTransferResultRequestWrapper = new QueryTransferResultRequestWrapper();
-        queryTransferResultRequestWrapper.setAppId(paySetting.getAppId());
-        queryTransferResultRequestWrapper.setMchId(paySetting.getMchId());
-        queryTransferResultRequestWrapper.setPartnerTradeNo(partnerTradeNo);
+        QueryTransferResultRequestWrapper wrapper = new QueryTransferResultRequestWrapper();
+        wrapper.setAppId(paySetting.getAppId());
+        wrapper.setMchId(paySetting.getMchId());
+        wrapper.setPartnerTradeNo(partnerTradeNo);
         String nonce = RandomStringGenerator.getRandomStringByLength(32);
-        queryTransferResultRequestWrapper.setNonce(nonce);
+        wrapper.setNonce(nonce);
 
-        SortedMap<String, Object> transferRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(queryTransferResultRequestWrapper, SortedMap.class);
-        queryTransferResultRequestWrapper.setSign(Signature.sign(transferRequestMap, paySetting.getKey()));
+        SortedMap<String, Object> transferRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(wrapper, SortedMap.class);
+        wrapper.setSign(Signature.sign(transferRequestMap, paySetting.getKey()));
 
         String url = WxEndpoint.get("url.pay.transfer.query");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(queryTransferResultRequestWrapper);
+            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
             logger.info("transfer query: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("got response: {}", response);
@@ -167,34 +167,12 @@ public class Transfers {
         @JsonUnwrapped
         private TransferResponse transferResponse;
 
-        @JsonProperty("mch_appid")
-        private String appId;
-
-        @JsonProperty("mchid")
-        private String mchId;
-
         public TransferResponse getTransferResponse() {
             return transferResponse;
         }
 
         public void setTransferResponse(TransferResponse transferResponse) {
             this.transferResponse = transferResponse;
-        }
-
-        public String getAppId() {
-            return appId;
-        }
-
-        public void setAppId(String appId) {
-            this.appId = appId;
-        }
-
-        public String getMchId() {
-            return mchId;
-        }
-
-        public void setMchId(String mchId) {
-            this.mchId = mchId;
         }
     }
 

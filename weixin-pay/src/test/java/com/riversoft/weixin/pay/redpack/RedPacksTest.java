@@ -21,9 +21,9 @@ public class RedPacksTest {
         RedPackRequest redPackRequest = new RedPackRequest();
         redPackRequest.setActivityName("土豪发红包");
         redPackRequest.setAmount(100);
-        redPackRequest.setBillNumber("1292063901201512030012300014");
+        redPackRequest.setBillNumber("1292063901201605150012300014");
         redPackRequest.setNumber(1);
-        redPackRequest.setOpenId("oby4gwX7iPPp-lWZ3t7yGsQ0GbHw");
+        redPackRequest.setOpenId("oELhlt7Q-lRmLbRsPsaKeVX6pqjg");
         redPackRequest.setRemark("测试发红包");
         redPackRequest.setWishing("恭喜发财");
         redPackRequest.setClientIp("127.0.0.1");

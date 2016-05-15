@@ -1,28 +1,14 @@
 package com.riversoft.weixin.pay.transfer.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.riversoft.weixin.pay.base.BaseResponse;
 
 import java.util.Date;
 
 /**
  * Created by exizhai on 12/2/2015.
  */
-public class TransferResult {
-
-    @JsonProperty("return_code")
-    private String returnCode;
-
-    @JsonProperty("return_msg")
-    private String returnMessage;
-
-    @JsonProperty("result_code")
-    private String resultCode;
-
-    @JsonProperty("err_code")
-    private String errorCode;
-
-    @JsonProperty("err_code_des")
-    private String errorCodeDesc;
+public class TransferResult extends BaseResponse {
 
     @JsonProperty("partner_trade_no")
     private String partnerTradeNo;
@@ -47,46 +33,6 @@ public class TransferResult {
     private Date transferTime;
 
     private String desc;
-
-    public String getReturnCode() {
-        return returnCode;
-    }
-
-    public void setReturnCode(String returnCode) {
-        this.returnCode = returnCode;
-    }
-
-    public String getReturnMessage() {
-        return returnMessage;
-    }
-
-    public void setReturnMessage(String returnMessage) {
-        this.returnMessage = returnMessage;
-    }
-
-    public String getResultCode() {
-        return resultCode;
-    }
-
-    public void setResultCode(String resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorCodeDesc() {
-        return errorCodeDesc;
-    }
-
-    public void setErrorCodeDesc(String errorCodeDesc) {
-        this.errorCodeDesc = errorCodeDesc;
-    }
 
     public String getPartnerTradeNo() {
         return partnerTradeNo;
