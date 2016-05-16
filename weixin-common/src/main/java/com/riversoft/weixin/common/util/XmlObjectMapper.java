@@ -41,7 +41,7 @@ public class XmlObjectMapper {
         return xmlMapper.writeValueAsString(o);
     }
 
-    public Object fromXml(String xml, Class clazz) throws IOException {
+    public <T> T fromXml(String xml, Class<T> clazz) throws IOException {
         return xmlMapper.readValue(xml, clazz);
     }
 

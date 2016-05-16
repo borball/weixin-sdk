@@ -37,25 +37,23 @@ public class MenusTest {
         {
             Menu menuMale = new Menu();
 
-            MenuItem menuWant = new MenuItem().key("want").type(MenuType.click).name("男人我要");
-            MenuItem menuRefer = new MenuItem().key("refer").type(MenuType.click).name("男人推荐");
-            MenuItem menuQuery = new MenuItem().key("query").type(MenuType.click).name("男人查询");
-            menuWant.add(menuRefer);
+            MenuItem menuWant = new MenuItem().key("want").type(MenuType.click).name("\ue415我要");
+            MenuItem menuQuery = new MenuItem().key("query").type(MenuType.click).name("查询");
+            MenuItem menuBuy = new MenuItem().key("buy").type(MenuType.click).name("购买");
             menuWant.add(menuQuery);
+            menuWant.add(menuBuy);
             menuMale.add(menuWant);
 
-            MenuItem menuService = new MenuItem().key("service").type(MenuType.click).name("男人服务");
-            MenuItem menuAsk = new MenuItem().key("ask").type(MenuType.click).name("男人咨询");
-            MenuItem menuComplain = new MenuItem().key("complain").type(MenuType.click).name("男人投诉");
-            MenuItem menuH5 = new MenuItem().key("h5").type(MenuType.view).name("H5").url("http://wxtest.gzriver.com/oS-I8EwVL9X.view");
+            MenuItem menuService = new MenuItem().key("service").type(MenuType.click).name("\ue506服务");
+            MenuItem menuAsk = new MenuItem().key("ask").type(MenuType.click).name("\ue418咨询");
+            MenuItem menuComplain = new MenuItem().key("complain").type(MenuType.click).name("投诉");
             menuService.add(menuAsk);
             menuService.add(menuComplain);
-            menuService.add(menuH5);
             menuMale.add(menuService);
 
-            MenuItem menuAbout = new MenuItem().key("about").type(MenuType.click).name("男人客服");
-            MenuItem menuItem = new MenuItem().key("item").type(MenuType.click).name("男人条款");
-            MenuItem menuContact = new MenuItem().key("contact").type(MenuType.click).name("男人联系");
+            MenuItem menuAbout = new MenuItem().key("about").type(MenuType.click).name("\ue418关于");
+            MenuItem menuItem = new MenuItem().key("ask").type(MenuType.click).name("条款");
+            MenuItem menuContact = new MenuItem().key("contact").type(MenuType.click).name("联系");
             menuAbout.add(menuItem);
             menuAbout.add(menuContact);
             menuMale.add(menuAbout);

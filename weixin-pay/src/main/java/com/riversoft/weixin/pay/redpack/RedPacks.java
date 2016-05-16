@@ -80,7 +80,7 @@ public class RedPacks {
             logger.info("send query redpack request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("got query response: {}", response);
-            RedPackResultWrapper redPackResultWrapper = (RedPackResultWrapper)XmlObjectMapper.defaultMapper().fromXml(response, RedPackResultWrapper.class);
+            RedPackResultWrapper redPackResultWrapper = XmlObjectMapper.defaultMapper().fromXml(response, RedPackResultWrapper.class);
             return redPackResultWrapper.getRedPackResult();
         } catch (Exception e) {
             throw new WxRuntimeException(999, " redpack failed:" + e.getMessage());
@@ -106,7 +106,7 @@ public class RedPacks {
             String response = wxSslClient.post(url, xml);
             logger.info("got response: {}", response);
 
-            RedPackResponseWrapper redPackResponseWrapper = (RedPackResponseWrapper)XmlObjectMapper.defaultMapper().fromXml(response, RedPackResponseWrapper.class);
+            RedPackResponseWrapper redPackResponseWrapper = XmlObjectMapper.defaultMapper().fromXml(response, RedPackResponseWrapper.class);
             return redPackResponseWrapper.getRedPackResponse();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "send redpack failed:" + e.getMessage());

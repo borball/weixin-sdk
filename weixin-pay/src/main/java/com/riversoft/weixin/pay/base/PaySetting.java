@@ -48,7 +48,7 @@ public class PaySetting {
                 return;
             } else {
                 try {
-                    PaySetting setting = (PaySetting) XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
+                    PaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
                     paySetting = setting;
                 } catch (IOException e) {
                 }
@@ -66,7 +66,7 @@ public class PaySetting {
 
             if (inputStream != null) {
                 String xml = IOUtils.toString(inputStream);
-                PaySetting setting = (PaySetting) XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
+                PaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
                 paySetting = setting;
             }
         } catch (IOException e) {

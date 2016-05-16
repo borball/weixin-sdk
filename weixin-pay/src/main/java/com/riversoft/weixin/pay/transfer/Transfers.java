@@ -70,7 +70,7 @@ public class Transfers {
             String response = wxSslClient.post(url, xml);
             logger.info("got response: {}", response);
 
-            TransferResponseWrapper transferResponseWrapper = (TransferResponseWrapper)XmlObjectMapper.defaultMapper().fromXml(response, TransferResponseWrapper.class);
+            TransferResponseWrapper transferResponseWrapper = XmlObjectMapper.defaultMapper().fromXml(response, TransferResponseWrapper.class);
             return transferResponseWrapper.getTransferResponse();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "transfer failed:" + e.getMessage());
@@ -95,7 +95,7 @@ public class Transfers {
             String response = wxSslClient.post(url, xml);
             logger.info("got response: {}", response);
 
-            TransferResult transferResult = (TransferResult)XmlObjectMapper.defaultMapper().fromXml(response, TransferResult.class);
+            TransferResult transferResult = XmlObjectMapper.defaultMapper().fromXml(response, TransferResult.class);
             return transferResult;
         } catch (Exception e) {
             throw new WxRuntimeException(999, "query transfer result failed:" + e.getMessage());

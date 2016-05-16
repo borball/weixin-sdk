@@ -57,7 +57,7 @@ public class CorpSetting {
                 return;
             } else {
                 try {
-                    CorpSetting defaultSettings = (CorpSetting) XmlObjectMapper.defaultMapper().fromXml(xml, CorpSetting.class);
+                    CorpSetting defaultSettings = XmlObjectMapper.defaultMapper().fromXml(xml, CorpSetting.class);
                     defaultSetting = defaultSettings;
                 } catch (IOException e) {
                 }
@@ -75,7 +75,7 @@ public class CorpSetting {
 
             if (inputStream != null) {
                 String xml = IOUtils.toString(inputStream);
-                CorpSetting defaultSettings = (CorpSetting) XmlObjectMapper.defaultMapper().fromXml(xml, CorpSetting.class);
+                CorpSetting defaultSettings = XmlObjectMapper.defaultMapper().fromXml(xml, CorpSetting.class);
                 defaultSetting = defaultSettings;
             }
         } catch (IOException e) {

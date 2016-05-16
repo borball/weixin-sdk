@@ -21,20 +21,20 @@ public class QyXmlMessages {
 
     public static XmlMessageHeader fromXml(String xml) {
         try {
-            XmlMessageHeader xmlRequest = (XmlMessageHeader) XmlObjectMapper.defaultMapper().fromXml(xml, XmlMessageHeader.class);
+            XmlMessageHeader xmlRequest = XmlObjectMapper.defaultMapper().fromXml(xml, XmlMessageHeader.class);
             switch (xmlRequest.getMsgType()) {
                 case text:
-                    return (QyTextRequest) XmlObjectMapper.defaultMapper().fromXml(xml, QyTextRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyTextRequest.class);
                 case image:
-                    return (QyImageRequest) XmlObjectMapper.defaultMapper().fromXml(xml, QyImageRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyImageRequest.class);
                 case voice:
-                    return (QyVoiceRequest) XmlObjectMapper.defaultMapper().fromXml(xml, QyVoiceRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyVoiceRequest.class);
                 case video:
-                    return (QyVideoRequest) XmlObjectMapper.defaultMapper().fromXml(xml, QyVideoRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyVideoRequest.class);
                 case shortvideo:
-                    return (QyShortVideoRequest) XmlObjectMapper.defaultMapper().fromXml(xml, QyShortVideoRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyShortVideoRequest.class);
                 case location:
-                    return (QyLocationRequest) XmlObjectMapper.defaultMapper().fromXml(xml, QyLocationRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyLocationRequest.class);
                 case event:
                     return toEvent(xml);
                 default:
@@ -49,30 +49,30 @@ public class QyXmlMessages {
 
     private static EventRequest toEvent(String xml) {
         try {
-            EventRequest qyEventRequest = (EventRequest) XmlObjectMapper.defaultMapper().fromXml(xml, EventRequest.class);
+            EventRequest qyEventRequest = XmlObjectMapper.defaultMapper().fromXml(xml, EventRequest.class);
             switch (qyEventRequest.getEventType()) {
                 case subscribe:
                 case unsubscribe:
-                    return (QySubscriptionEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QySubscriptionEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QySubscriptionEvent.class);
                 case LOCATION:
-                    return (QyLocationReportEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QyLocationReportEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyLocationReportEvent.class);
                 case click:
-                    return (QyClickEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QyClickEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyClickEvent.class);
                 case view:
-                    return (QyViewEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QyViewEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyViewEvent.class);
                 case scancode_push:
                 case scancode_waitmsg:
-                    return (QyScanEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QyScanEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyScanEvent.class);
                 case pic_photo_or_album:
                 case pic_sysphoto:
                 case pic_weixin:
-                    return (QyPhotoEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QyPhotoEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyPhotoEvent.class);
                 case location_select:
-                    return (QyLocationSelectEvent) XmlObjectMapper.defaultMapper().fromXml(xml, QyLocationSelectEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, QyLocationSelectEvent.class);
                 case enter_agent:
-                    return (EnterAgentEvent) XmlObjectMapper.defaultMapper().fromXml(xml, EnterAgentEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, EnterAgentEvent.class);
                 case batch_job_result:
-                    return (BatchJobResultEvent) XmlObjectMapper.defaultMapper().fromXml(xml, BatchJobResultEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, BatchJobResultEvent.class);
                 default:
                     logger.warn("xml to event, unknown event type {}.", qyEventRequest.getEventType());
                     throw new WxRuntimeException(999, "xml to bean event, unknown event type " + qyEventRequest.getEventType());

@@ -29,22 +29,22 @@ public class MpXmlMessages {
 
     public static XmlMessageHeader fromXml(String xml) {
         try {
-            XmlMessageHeader xmlRequest = (XmlMessageHeader) XmlObjectMapper.defaultMapper().fromXml(xml, XmlMessageHeader.class);
+            XmlMessageHeader xmlRequest = XmlObjectMapper.defaultMapper().fromXml(xml, XmlMessageHeader.class);
             switch (xmlRequest.getMsgType()) {
                 case text:
-                    return (TextRequest) XmlObjectMapper.defaultMapper().fromXml(xml, TextRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, TextRequest.class);
                 case image:
-                    return (ImageRequest) XmlObjectMapper.defaultMapper().fromXml(xml, ImageRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, ImageRequest.class);
                 case voice:
-                    return (VoiceRequest) XmlObjectMapper.defaultMapper().fromXml(xml, VoiceRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, VoiceRequest.class);
                 case video:
-                    return (VideoRequest) XmlObjectMapper.defaultMapper().fromXml(xml, VideoRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, VideoRequest.class);
                 case shortvideo:
-                    return (ShortVideoRequest) XmlObjectMapper.defaultMapper().fromXml(xml, ShortVideoRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, ShortVideoRequest.class);
                 case location:
-                    return (LocationRequest) XmlObjectMapper.defaultMapper().fromXml(xml, LocationRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, LocationRequest.class);
                 case link:
-                    return (LinkRequest) XmlObjectMapper.defaultMapper().fromXml(xml, LinkRequest.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, LinkRequest.class);
                 case event:
                     return toEvent(xml);
                 default:
@@ -59,40 +59,40 @@ public class MpXmlMessages {
 
     private static EventRequest toEvent(String xml) {
         try {
-            EventRequest eventRequest = (EventRequest) XmlObjectMapper.defaultMapper().fromXml(xml, EventRequest.class);
+            EventRequest eventRequest = XmlObjectMapper.defaultMapper().fromXml(xml, EventRequest.class);
             switch (eventRequest.getEventType()) {
                 case subscribe:
                 case unsubscribe:
-                    return (SceneSubEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SceneSubEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, SceneSubEvent.class);
                 case LOCATION:
-                    return (LocationReportEvent) XmlObjectMapper.defaultMapper().fromXml(xml, LocationReportEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, LocationReportEvent.class);
                 case CLICK:
-                    return (ClickEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ClickEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, ClickEvent.class);
                 case VIEW:
-                    return (ViewEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ViewEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, ViewEvent.class);
                 case scancode_push:
                 case scancode_waitmsg:
-                    return (ScanEvent) XmlObjectMapper.defaultMapper().fromXml(xml, ScanEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, ScanEvent.class);
                 case pic_photo_or_album:
                 case pic_sysphoto:
                 case pic_weixin:
-                    return (PhotoEvent) XmlObjectMapper.defaultMapper().fromXml(xml, PhotoEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, PhotoEvent.class);
                 case location_select:
-                    return (LocationSelectEvent) XmlObjectMapper.defaultMapper().fromXml(xml, LocationSelectEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, LocationSelectEvent.class);
                 case kf_create_session:
-                    return (SessionCreateEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionCreateEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, SessionCreateEvent.class);
                 case kf_close_session:
-                    return (SessionCloseEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionCloseEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, SessionCloseEvent.class);
                 case kf_switch_session:
-                    return (SessionForwardEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SessionForwardEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, SessionForwardEvent.class);
                 case MASSSENDJOBFINISH:
-                    return (MessageSentEvent) XmlObjectMapper.defaultMapper().fromXml(xml, MessageSentEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, MessageSentEvent.class);
                 case SCAN:
-                    return (SceneScanEvent) XmlObjectMapper.defaultMapper().fromXml(xml, SceneScanEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, SceneScanEvent.class);
                 case TEMPLATESENDJOBFINISH:
-                    return (JobFinishedEvent) XmlObjectMapper.defaultMapper().fromXml(xml, JobFinishedEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, JobFinishedEvent.class);
                 case ORDER:
-                    return (OrderEvent) XmlObjectMapper.defaultMapper().fromXml(xml, OrderEvent.class);
+                    return XmlObjectMapper.defaultMapper().fromXml(xml, OrderEvent.class);
                 default:
                     logger.warn("xml to event, unknown event type {}.", eventRequest.getEventType());
                     throw new WxRuntimeException(999, "xml to bean event, unknown event type " + eventRequest.getEventType());

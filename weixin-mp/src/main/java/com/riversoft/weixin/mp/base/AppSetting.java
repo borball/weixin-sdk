@@ -59,7 +59,7 @@ public class AppSetting {
                 return;
             } else {
                 try {
-                    AppSetting setting = (AppSetting) XmlObjectMapper.defaultMapper().fromXml(xml, AppSetting.class);
+                    AppSetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, AppSetting.class);
                     appSetting = setting;
                 } catch (IOException e) {
                 }
@@ -77,7 +77,7 @@ public class AppSetting {
 
             if (inputStream != null) {
                 String xml = IOUtils.toString(inputStream);
-                AppSetting setting = (AppSetting) XmlObjectMapper.defaultMapper().fromXml(xml, AppSetting.class);
+                AppSetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, AppSetting.class);
                 appSetting = setting;
             }
         } catch (IOException e) {
