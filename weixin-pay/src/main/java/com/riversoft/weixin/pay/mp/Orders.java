@@ -12,10 +12,7 @@ import com.riversoft.weixin.pay.PayWxClientFactory;
 import com.riversoft.weixin.pay.base.BaseResponse;
 import com.riversoft.weixin.pay.base.PaySetting;
 import com.riversoft.weixin.pay.base.WxEndpoint;
-import com.riversoft.weixin.pay.mp.bean.OrderQueryRequest;
-import com.riversoft.weixin.pay.mp.bean.OrderQueryResponse;
-import com.riversoft.weixin.pay.mp.bean.UnifiedOrderRequest;
-import com.riversoft.weixin.pay.mp.bean.UnifiedOrderResponse;
+import com.riversoft.weixin.pay.mp.bean.*;
 import com.riversoft.weixin.pay.util.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +69,7 @@ public class Orders {
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 unified order response: {}", response);
 
-            UnifiedOrderResponseWrapper responseWrapper = (UnifiedOrderResponseWrapper) XmlObjectMapper.defaultMapper().fromXml(response, UnifiedOrderResponseWrapper.class);
+            UnifiedOrderResponseWrapper responseWrapper = XmlObjectMapper.defaultMapper().fromXml(response, UnifiedOrderResponseWrapper.class);
             return responseWrapper.getResponse();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "pre order failed:" + e.getMessage());
@@ -99,7 +96,7 @@ public class Orders {
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 query order response: {}", response);
 
-            OrderQueryResponseWrapper responseWrapper = (OrderQueryResponseWrapper) XmlObjectMapper.defaultMapper().fromXml(response, OrderQueryResponseWrapper.class);
+            OrderQueryResponseWrapper responseWrapper = XmlObjectMapper.defaultMapper().fromXml(response, OrderQueryResponseWrapper.class);
             return responseWrapper.getResponse();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "query order failed:" + e.getMessage());
@@ -127,12 +124,23 @@ public class Orders {
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 close order response: {}", response);
 
-            OrderCloseResponseWrapper responseWrapper = (OrderCloseResponseWrapper) XmlObjectMapper.defaultMapper().fromXml(response, OrderCloseResponseWrapper.class);
+            OrderCloseResponseWrapper responseWrapper = XmlObjectMapper.defaultMapper().fromXml(response, OrderCloseResponseWrapper.class);
             return responseWrapper.getResponse();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "close order failed:" + e.getMessage());
         }
 
+    }
+
+    /**
+     * check if sign is valid
+     * @param notification
+     * @return
+     */
+    public boolean checkSignature(PaymentNotification notification) {
+        SortedMap<String, Object> notificationMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(notification, SortedMap.class);
+        notificationMap.remove("sign");
+        return notification.getSign().equals(Signature.sign(notificationMap, paySetting.getKey()));
     }
 
     private void setBaseSettings(BaseSettings wrapper) {
