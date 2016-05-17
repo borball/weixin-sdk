@@ -143,6 +143,97 @@ public class Orders {
         return notification.getSign().equals(Signature.sign(notificationMap, paySetting.getKey()));
     }
 
+    /**
+     * 申请退款
+     * @param refundRequest
+     * @return
+     */
+    public RefundResponse refund(RefundRequest refundRequest) {
+        RefundRequestWrapper wrapper = new RefundRequestWrapper();
+        wrapper.setRequest(refundRequest);
+        setBaseSettings(wrapper);
+
+        SortedMap<String, Object> refundRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(wrapper, SortedMap.class);
+        sign(wrapper, refundRequestMap);
+
+        String url = WxEndpoint.get("url.pay.mp.refund.refund");
+        try {
+            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
+            logger.info("公众号支付 refund request: {}", xml);
+            String response = wxSslClient.post(url, xml);
+            logger.info("公众号支付 refund response: {}", response);
+
+            RefundResponseWrapper responseWrapper = XmlObjectMapper.defaultMapper().fromXml(response, RefundResponseWrapper.class);
+            return responseWrapper.getResponse();
+        } catch (Exception e) {
+            throw new WxRuntimeException(999, "refund failed:" + e.getMessage());
+        }
+    }
+
+    /**
+     * 根据transactionId查询退款记录
+     * @param transactionId
+     * @return
+     */
+    public RefundQuery refundQueryByTransactionId(String transactionId) {
+        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
+        refundQueryRequest.setTransactionId(transactionId);
+        return refundQuery(refundQueryRequest);
+    }
+
+    /**
+     * 根据tradeNumber查询退款记录
+     * @param tradeNumber
+     * @return
+     */
+    public RefundQuery refundQueryByTradeNumber(String tradeNumber) {
+        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
+        refundQueryRequest.setTradeNumber(tradeNumber);
+        return refundQuery(refundQueryRequest);
+    }
+
+    /**
+     * 根据refundNumber查询退款记录
+     * @param refundNumber
+     * @return
+     */
+    public RefundQuery refundQueryByRefundNumber(String refundNumber) {
+        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
+        refundQueryRequest.setRefundNumber(refundNumber);
+        return refundQuery(refundQueryRequest);
+    }
+
+    /**
+     * 根据refundId查询退款记录
+     * @param refundId
+     * @return
+     */
+    public RefundQuery refundQueryByRefundId(String refundId) {
+        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
+        refundQueryRequest.setRefundId(refundId);
+        return refundQuery(refundQueryRequest);
+    }
+
+    public RefundQuery refundQuery(RefundQueryRequest refundQueryRequest) {
+        setBaseSettings(refundQueryRequest);
+
+        SortedMap<String, Object> refundQueryRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(refundQueryRequest, SortedMap.class);
+        sign(refundQueryRequest, refundQueryRequestMap);
+
+        String url = WxEndpoint.get("url.pay.mp.refund.query");
+        try {
+            String xml = XmlObjectMapper.defaultMapper().toXml(refundQueryRequest);
+            logger.info("公众号支付 refund query request: {}", xml);
+            String response = wxSslClient.post(url, xml);
+            logger.info("公众号支付 refund query response: {}", response);
+
+            RefundQueryWrapper refundQueryWrapper = XmlObjectMapper.defaultMapper().fromXml(response, RefundQueryWrapper.class);
+            return refundQueryWrapper.getRefundQuery();
+        } catch (Exception e) {
+            throw new WxRuntimeException(999, "refund query failed:" + e.getMessage());
+        }
+    }
+
     private void setBaseSettings(BaseSettings wrapper) {
         wrapper.setAppId(paySetting.getAppId());
         wrapper.setMchId(paySetting.getMchId());
@@ -236,6 +327,95 @@ public class Orders {
 
         public void setResponse(BaseResponse response) {
             this.response = response;
+        }
+    }
+
+    public static class RefundRequestWrapper extends BaseSettings {
+
+        @JsonUnwrapped
+        private RefundRequest request;
+
+        public RefundRequest getRequest() {
+            return request;
+        }
+
+        public void setRequest(RefundRequest request) {
+            this.request = request;
+        }
+    }
+
+    public static class RefundResponseWrapper extends BaseSettings {
+
+        @JsonUnwrapped
+        private RefundResponse response;
+
+        public RefundResponse getResponse() {
+            return response;
+        }
+
+        public void setResponse(RefundResponse response) {
+            this.response = response;
+        }
+    }
+
+    public static class RefundQueryRequest extends BaseSettings {
+
+        @JsonProperty("transaction_id")
+        private String transactionId;
+
+        @JsonProperty("out_trade_no")
+        private String tradeNumber;
+
+        @JsonProperty("out_refund_no")
+        private String refundNumber;
+
+        @JsonProperty("refund_id")
+        private String refundId;
+
+        public String getTransactionId() {
+            return transactionId;
+        }
+
+        public void setTransactionId(String transactionId) {
+            this.transactionId = transactionId;
+        }
+
+        public String getTradeNumber() {
+            return tradeNumber;
+        }
+
+        public void setTradeNumber(String tradeNumber) {
+            this.tradeNumber = tradeNumber;
+        }
+
+        public String getRefundNumber() {
+            return refundNumber;
+        }
+
+        public void setRefundNumber(String refundNumber) {
+            this.refundNumber = refundNumber;
+        }
+
+        public String getRefundId() {
+            return refundId;
+        }
+
+        public void setRefundId(String refundId) {
+            this.refundId = refundId;
+        }
+    }
+
+    public static class RefundQueryWrapper extends BaseSettings {
+
+        @JsonUnwrapped
+        private RefundQuery refundQuery;
+
+        public RefundQuery getRefundQuery() {
+            return refundQuery;
+        }
+
+        public void setRefundQuery(RefundQuery refundQuery) {
+            this.refundQuery = refundQuery;
         }
     }
 
