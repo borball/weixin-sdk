@@ -21,6 +21,9 @@ public class MpArticle implements Serializable {
     @JsonProperty("thumb_media_id")
     private String thumbMediaId;
 
+    @JsonProperty("thumb_url")
+    private String thumbUrl;
+
     @JsonProperty("content_source_url")
     private String contentSourceUrl;
 
@@ -28,6 +31,8 @@ public class MpArticle implements Serializable {
     @JsonDeserialize(using = BooleanDeserializer.class)
     @JsonProperty("show_cover_pic")
     private boolean showCover;
+
+    private String url;
 
     public String getTitle() {
         return title;
@@ -83,6 +88,22 @@ public class MpArticle implements Serializable {
 
     public void setShowCover(boolean showCover) {
         this.showCover = showCover;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public MpArticle title(String title) {
