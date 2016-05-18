@@ -17,6 +17,9 @@ import com.riversoft.weixin.pay.util.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.SortedMap;
 
 /**
@@ -64,7 +67,7 @@ public class Orders {
 
         String url = WxEndpoint.get("url.pay.mp.order.unified");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(wrapper);
             logger.info("公众号支付 unified order request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 unified order response: {}", response);
@@ -91,7 +94,7 @@ public class Orders {
 
         String url = WxEndpoint.get("url.pay.mp.order.query");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(wrapper);
             logger.info("公众号支付 query order request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 query order response: {}", response);
@@ -119,7 +122,7 @@ public class Orders {
 
         String url = WxEndpoint.get("url.pay.mp.order.close");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(wrapper);
             logger.info("公众号支付 close order request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 close order response: {}", response);
@@ -158,7 +161,7 @@ public class Orders {
 
         String url = WxEndpoint.get("url.pay.mp.refund.refund");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(wrapper);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(wrapper);
             logger.info("公众号支付 refund request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 refund response: {}", response);
@@ -222,7 +225,7 @@ public class Orders {
 
         String url = WxEndpoint.get("url.pay.mp.refund.query");
         try {
-            String xml = XmlObjectMapper.defaultMapper().toXml(refundQueryRequest);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(refundQueryRequest);
             logger.info("公众号支付 refund query request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("公众号支付 refund query response: {}", response);
@@ -231,6 +234,55 @@ public class Orders {
             return refundQueryWrapper.getRefundQuery();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "refund query failed:" + e.getMessage());
+        }
+    }
+
+    /**
+     * 获取所有订单
+     * @param date
+     * @return
+     */
+    public String downloadAllBill(Date date){
+        return downloadBill(date, "ALL");
+    }
+
+    /**
+     * 获取所有退款订单
+     * @param date
+     * @return
+     */
+    public String downloadRefundBill(Date date){
+        return downloadBill(date, "REFUND");
+    }
+
+    /**
+     * 获取所有退款订单
+     * @param date
+     * @return
+     */
+    public String downloadSuccessBill(Date date){
+        return downloadBill(date, "SUCCESS");
+    }
+
+    private String downloadBill(Date date, String type){
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        BillRequest billRequest = new BillRequest();
+        billRequest.setDate(dateFormat.format(date));
+        billRequest.setType(type);
+        setBaseSettings(billRequest);
+        SortedMap<String, Object> billRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(billRequest, SortedMap.class);
+        sign(billRequest, billRequestMap);
+
+        String url = WxEndpoint.get("url.pay.mp.bill.download");
+        try {
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(billRequest);
+            logger.info("公众号支付 bill download request: {}", xml);
+            String response = wxSslClient.post(url, xml);
+            logger.info("公众号支付 bill download response: {}", response);
+
+            return response;
+        } catch (Exception e) {
+            throw new WxRuntimeException(999, "bill download failed:" + e.getMessage());
         }
     }
 
@@ -416,6 +468,31 @@ public class Orders {
 
         public void setRefundQuery(RefundQuery refundQuery) {
             this.refundQuery = refundQuery;
+        }
+    }
+
+    public static class BillRequest extends BaseSettings {
+
+        @JsonProperty("bill_date")
+        private String date;
+
+        @JsonProperty("bill_type")
+        private String type;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 

@@ -8,6 +8,8 @@ import com.riversoft.weixin.pay.mp.bean.UnifiedOrderResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Date;
+
 /**
  * @borball on 5/15/2016.
  */
@@ -18,7 +20,7 @@ public class OrdersTest {
         UnifiedOrderRequest unifiedOrderRequest = new UnifiedOrderRequest();
         unifiedOrderRequest.setBody("牛奶 小号");
         unifiedOrderRequest.setDetail("小号牛奶 鲜奶");
-        unifiedOrderRequest.setTradeNumber("1292063901201605160012300015");
+        unifiedOrderRequest.setTradeNumber("1292063901201605160012300016");
         unifiedOrderRequest.setTotalFee(100);
         unifiedOrderRequest.setBillCreatedIp("192.168.1.103");
         unifiedOrderRequest.setNotifyUrl("http://gzriver.com/order/pay/notify");
@@ -43,6 +45,12 @@ public class OrdersTest {
     @Test
     public void testCloseOrder(){
         BaseResponse response = Orders.defaultOrders().close("1292063901201605160012300015");
+        Assert.assertNotNull(response);
+    }
+
+    @Test
+    public void testDownloadBill(){
+        String response = Orders.defaultOrders().downloadAllBill(new Date());
         Assert.assertNotNull(response);
     }
 }

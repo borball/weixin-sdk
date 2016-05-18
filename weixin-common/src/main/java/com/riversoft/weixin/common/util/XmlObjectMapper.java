@@ -1,5 +1,6 @@
 package com.riversoft.weixin.common.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -12,6 +13,8 @@ import java.io.IOException;
 public class XmlObjectMapper {
 
     private static XmlObjectMapper defaultXmlObjectMapper = null;
+    private static XmlObjectMapper nonEmptyXmlObjectMapper = null;
+
     private static XmlObjectMapper prettyFormatXmlObjectMapper = null;
 
     private XmlMapper xmlMapper;
@@ -26,6 +29,14 @@ public class XmlObjectMapper {
         }
 
         return defaultXmlObjectMapper;
+    }
+
+    public synchronized static XmlObjectMapper nonEmptyMapper() {
+        if (nonEmptyXmlObjectMapper == null) {
+            nonEmptyXmlObjectMapper = new XmlObjectMapper();
+            nonEmptyXmlObjectMapper.xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        }
+        return nonEmptyXmlObjectMapper;
     }
 
     public synchronized static XmlObjectMapper prettyFormatMapper() {
