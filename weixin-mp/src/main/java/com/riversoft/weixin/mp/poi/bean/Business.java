@@ -25,7 +25,7 @@ public class Business {
     private String district;
     private String address;
     private String telephone;
-    private String categories;
+    private String[] categories;
 
     @JsonProperty("offset_type")
     private int offsetType;
@@ -116,11 +116,11 @@ public class Business {
         this.telephone = telephone;
     }
 
-    public String getCategories() {
+    public String[] getCategories() {
         return categories;
     }
 
-    public void setCategories(String categories) {
+    public void setCategories(String[] categories) {
         this.categories = categories;
     }
 

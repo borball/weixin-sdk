@@ -11,6 +11,7 @@ import com.riversoft.weixin.mp.poi.bean.Business;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -90,9 +91,13 @@ public class Pois {
         String json = "{\"begin\":%s,\"limit\":%s}";
         logger.debug("list poi: {}", String.format(json, begin, count));
         String response = wxClient.post(url, String.format(json, begin, count));
-
+        logger.debug("list poi response: {}", response);
         BusinessListWrapper businessListWrapper = JsonMapper.defaultMapper().fromJson(response, BusinessListWrapper.class);
-        return businessListWrapper.getBusinesses();
+        List<Business> businesses = new ArrayList<>();
+        for (BusinessWrapper businessWrapper : businessListWrapper.getBusinesses()) {
+            businesses.add(businessWrapper.getBusiness());
+        }
+        return businesses;
     }
 
     public List<String> getCategories() {
@@ -143,13 +148,13 @@ public class Pois {
     public static class BusinessListWrapper {
 
         @JsonProperty("business_list")
-        private List<Business> businesses;
+        private List<BusinessWrapper> businesses;
 
-        public List<Business> getBusinesses() {
+        public List<BusinessWrapper> getBusinesses() {
             return businesses;
         }
 
-        public void setBusinesses(List<Business> businesses) {
+        public void setBusinesses(List<BusinessWrapper> businesses) {
             this.businesses = businesses;
         }
     }
