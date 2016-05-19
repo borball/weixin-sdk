@@ -36,27 +36,38 @@ public class OpenOAuth2s {
     }
 
     /**
-     * 生成授权链接
+     * 生成授权链接, 默认scope: snsapi_base
      * @param redirect 授权后重定向的回调链接地址，请使用urlencode对链接进行处理
      * @return
      */
     public String authenticationUrl(String redirect) {
-        return authenticationUrl(redirect, null);
+        return authenticationUrl(redirect, "snsapi_base");
     }
 
     /**
      * 生成授权链接
      * @param redirect 授权后重定向的回调链接地址，请使用urlencode对链接进行处理
+     * @param scope 应用授权作用域，snsapi_base or snsapi_userinfo
+     * @return
+     */
+    public String authenticationUrl(String redirect, String scope) {
+        return authenticationUrl(redirect, scope, null);
+    }
+
+    /**
+     * 生成授权链接
+     * @param redirect 授权后重定向的回调链接地址，请使用urlencode对链接进行处理
+     * @param scope 应用授权作用域，snsapi_base or snsapi_userinfo
      * @param state 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
      * @return
      */
-    public String authenticationUrl(String redirect, String state) {
+    public String authenticationUrl(String redirect, String scope, String state) {
         if (state == null || "".equals(state)) {
             String url = WxEndpoint.get("url.oauth.authentication");
-            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), "snsapi_login");
+            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), scope);
         } else {
             String url = WxEndpoint.get("url.oauth.authentication.state");
-            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), "snsapi_login", state);
+            return String.format(url, wxClient.getClientId(), URLEncoder.encode(redirect), scope, state);
         }
     }
 
