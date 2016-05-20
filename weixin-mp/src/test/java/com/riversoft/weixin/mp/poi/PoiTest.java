@@ -27,6 +27,11 @@ public class PoiTest {
         business.setAddress("add");
         business.setCategories(new String[]{"1", "2"});
         business.setProvince("pro");
+        Business.Photo photo = new Business.Photo();
+        photo.setUrl("http://ccc.com");
+        List<Business.Photo> photos = new ArrayList<>();
+        photos.add(photo);
+        business.setPhotoList(photos);
         Pois.BusinessWrapper businessWrapper = new Pois.BusinessWrapper();
         businessWrapper.setBusiness(business);
         businesses.add(businessWrapper);

@@ -44,12 +44,16 @@ public class Business {
     @JsonProperty("avg_price")
     private int avgPrice;
 
+    @JsonProperty("poi_id")
+    private String poiId;
+
     //以下字段查询的时候会返回，新增或者修改的时候不用提供
 
     /**
      * 门店是否可用状态。1 表示系统错误、2 表示审核中、3 审核通过、4 审核驳回。当该字段为1、2、4 状态时，poi_id 为空
      */
     @JsonProperty("available_state")
+    @JsonDeserialize(using = StateDeserializer.class)
     private AvailableState availableState;
 
     /**
@@ -220,8 +224,17 @@ public class Business {
         this.updated = updated;
     }
 
+    public String getPoiId() {
+        return poiId;
+    }
+
+    public void setPoiId(String poiId) {
+        this.poiId = poiId;
+    }
+
     public static class Photo {
 
+        @JsonProperty("photo_url")
         private String url;
 
         public Photo() {
