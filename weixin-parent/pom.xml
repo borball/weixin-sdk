@@ -18,9 +18,8 @@
 
         <httpclient.version>4.5</httpclient.version>
         <guava.version>18.0</guava.version>
-        <jackson.version>2.6.2</jackson.version>
-        <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
-        <woodstox-core.version>5.0.1</woodstox-core.version>
+        <jackson.version>2.7.4</jackson.version>
+        <woodstox-core.version>5.0.2</woodstox-core.version>
         <slf4j.version>1.7.12</slf4j.version>
         <commons-io.version>2.4</commons-io.version>
         <jsr105.version>1.0.1</jsr105.version>
@@ -76,11 +75,6 @@
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>${jackson-mapper-asl.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>

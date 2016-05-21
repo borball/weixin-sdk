@@ -1,8 +1,8 @@
 package com.riversoft.weixin.mp.event.template;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.riversoft.weixin.common.event.EventRequest;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * 模板消息事件
