@@ -5,6 +5,7 @@ import com.riversoft.weixin.common.menu.MenuItem;
 import com.riversoft.weixin.common.menu.MenuType;
 import com.riversoft.weixin.common.menu.Rule;
 import com.riversoft.weixin.common.user.Gender;
+import com.riversoft.weixin.mp.menu.bean.SelfMenu;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,6 +24,12 @@ public class MenusTest {
     @Test
     public void testGet() {
         Menu menu = Menus.defaultMenus().get();
+        Assert.assertNotNull(menu);
+    }
+
+    @Test
+    public void testGetSelf() {
+        SelfMenu menu = Menus.defaultMenus().getSelf();
         Assert.assertNotNull(menu);
     }
 

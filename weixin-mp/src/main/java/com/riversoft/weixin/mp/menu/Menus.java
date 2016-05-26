@@ -7,6 +7,7 @@ import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
+import com.riversoft.weixin.mp.menu.bean.SelfMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +81,17 @@ public class Menus {
         logger.debug("get menu: {}", content);
         MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(content, MenuWrapper.class);
         return menuWrapper.getMenu();
+    }
+
+    /**
+     * 获取自定义菜单配置
+     * @return
+     */
+    public SelfMenu getSelf() {
+        String url = WxEndpoint.get("url.menu.get.self");
+        String content = wxClient.get(url);
+        logger.debug("get self menu: {}", content);
+        return JsonMapper.nonEmptyMapper().fromJson(content, SelfMenu.class);
     }
 
     /**
