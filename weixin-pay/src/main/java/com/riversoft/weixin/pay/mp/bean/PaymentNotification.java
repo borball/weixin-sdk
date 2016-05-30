@@ -39,9 +39,6 @@ public class PaymentNotification extends BaseResponse {
     @JsonProperty("trade_type")
     private String tradeType;
 
-    @JsonProperty("trade_state")
-    private String tradeState;
-
     @JsonProperty("bank_type")
     private String bankType;
 
@@ -145,14 +142,6 @@ public class PaymentNotification extends BaseResponse {
 
     public void setTradeType(String tradeType) {
         this.tradeType = tradeType;
-    }
-
-    public String getTradeState() {
-        return tradeState;
-    }
-
-    public void setTradeState(String tradeState) {
-        this.tradeState = tradeState;
     }
 
     public String getBankType() {
