@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.pay.base.BaseResponse;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -43,25 +46,25 @@ public class PaymentNotification extends BaseResponse {
     private String bankType;
 
     @JsonProperty("total_fee")
-    private int totalFee;
+    private Integer totalFee;
 
     @JsonProperty("settlement_total_fee")
-    private int settlementTotalFee;
+    private Integer settlementTotalFee;
 
     @JsonProperty("fee_type")
     private String feeType;
 
     @JsonProperty("cash_fee")
-    private int cashFee;
+    private Integer cashFee;
 
     @JsonProperty("cash_fee_type")
     private String caseFeeType;
 
     @JsonProperty("coupon_fee")
-    private int couponFee;
+    private Integer couponFee;
 
     @JsonProperty("coupon_count")
-    private int couponFeeCount;
+    private Integer couponFeeCount;
 
     @JsonProperty("transaction_id")
     private String transactionId;
@@ -71,9 +74,11 @@ public class PaymentNotification extends BaseResponse {
 
     private String attach;
 
-    @JsonProperty("time_end")
-    @JsonDeserialize(using = DateDeserializer.class)
+    @JsonIgnore
     private Date timeEnd;
+
+    @JsonProperty("time_end")
+    private String timeEndString;
 
     public String getAppId() {
         return appId;
@@ -152,19 +157,19 @@ public class PaymentNotification extends BaseResponse {
         this.bankType = bankType;
     }
 
-    public int getTotalFee() {
+    public Integer getTotalFee() {
         return totalFee;
     }
 
-    public void setTotalFee(int totalFee) {
+    public void setTotalFee(Integer totalFee) {
         this.totalFee = totalFee;
     }
 
-    public int getSettlementTotalFee() {
+    public Integer getSettlementTotalFee() {
         return settlementTotalFee;
     }
 
-    public void setSettlementTotalFee(int settlementTotalFee) {
+    public void setSettlementTotalFee(Integer settlementTotalFee) {
         this.settlementTotalFee = settlementTotalFee;
     }
 
@@ -176,11 +181,11 @@ public class PaymentNotification extends BaseResponse {
         this.feeType = feeType;
     }
 
-    public int getCashFee() {
+    public Integer getCashFee() {
         return cashFee;
     }
 
-    public void setCashFee(int cashFee) {
+    public void setCashFee(Integer cashFee) {
         this.cashFee = cashFee;
     }
 
@@ -192,19 +197,19 @@ public class PaymentNotification extends BaseResponse {
         this.caseFeeType = caseFeeType;
     }
 
-    public int getCouponFee() {
+    public Integer getCouponFee() {
         return couponFee;
     }
 
-    public void setCouponFee(int couponFee) {
+    public void setCouponFee(Integer couponFee) {
         this.couponFee = couponFee;
     }
 
-    public int getCouponFeeCount() {
+    public Integer getCouponFeeCount() {
         return couponFeeCount;
     }
 
-    public void setCouponFeeCount(int couponFeeCount) {
+    public void setCouponFeeCount(Integer couponFeeCount) {
         this.couponFeeCount = couponFeeCount;
     }
 
@@ -236,7 +241,12 @@ public class PaymentNotification extends BaseResponse {
         return timeEnd;
     }
 
-    public void setTimeEnd(Date timeEnd) {
-        this.timeEnd = timeEnd;
+    public void setTimeEndString(String timeEndString) {
+        this.timeEndString = timeEndString;
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmSS");
+        try {
+            this.timeEnd = dateFormat.parse(timeEndString);
+        } catch (ParseException e) {
+        }
     }
 }
