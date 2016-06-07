@@ -10,7 +10,11 @@ import com.riversoft.weixin.mp.stat.bean.UserSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @borball on 5/25/2016.
@@ -41,8 +45,20 @@ public class Stats {
      * @param end
      * @return
      */
-    public UserSummary getUserSummary(Date start, Date end) {
-        return null;
+    public List<UserSummary> getUserSummary(Date start, Date end) {
+        if(diffThan6Days(start, end)) {
+            throw new IllegalArgumentException("start和end相差不能超过6天以上");
+        }
+
+        String url = WxEndpoint.get("url.stats.user.summary");
+        String json = "{\"begin_date\":\"%s\",\"end_date\":\"%s\"}";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String body = String.format(json, dateFormat.format(start), dateFormat.format(end));
+        logger.debug("stats: get user summary: {}", body);
+        String response = wxClient.post(url, body);
+        UserSummaryWrapper userSummaryWrapper = JsonMapper.defaultMapper().fromJson(response, UserSummaryWrapper.class);
+        return userSummaryWrapper.getList();
     }
 
     /**
@@ -50,7 +66,7 @@ public class Stats {
      * @param start
      * @return
      */
-    public UserSummary getUserSummary(Date start) {
+    public List<UserSummary> getUserSummary(Date start) {
         return getUserSummary(start, new Date());
     }
 
@@ -60,8 +76,38 @@ public class Stats {
      * @param end
      * @return
      */
-    public UserCumulative getUserCumulative(Date start, Date end) {
-        return null;
+    public List<UserCumulative> getUserCumulative(Date start, Date end) {
+        if(diffThan6Days(start, end)) {
+            throw new IllegalArgumentException("start和end相差不能超过6天以上");
+        }
+
+        String url = WxEndpoint.get("url.stats.user.cumulative");
+        String json = "{\"begin_date\":\"%s\",\"end_date\":\"%s\"}";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String body = String.format(json, dateFormat.format(start), dateFormat.format(end));
+        logger.debug("stats: get user summary: {}", body);
+        String response = wxClient.post(url, body);
+        UserCumulativeWrapper userCumulativeWrapper = JsonMapper.defaultMapper().fromJson(response, UserCumulativeWrapper.class);
+        return userCumulativeWrapper.getList();
+    }
+
+    private boolean diffThan6Days(Date start, Date end) {
+        Calendar calendarStart = Calendar.getInstance();
+        calendarStart.setTime(start);
+        calendarStart.set(Calendar.HOUR, 0);
+        calendarStart.set(Calendar.MINUTE, 0);
+        calendarStart.set(Calendar.SECOND, 0);
+        calendarStart.set(Calendar.MILLISECOND, 0);
+
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTime(start);
+        calendarEnd.set(Calendar.HOUR, 0);
+        calendarEnd.set(Calendar.MINUTE, 0);
+        calendarEnd.set(Calendar.SECOND, 0);
+        calendarEnd.set(Calendar.MILLISECOND, 0);
+
+        return (calendarStart.getTime().getTime() - calendarEnd.getTime().getTime()) > (1000 * 60 * 60 * 24 * 6);
     }
 
     /**
@@ -69,7 +115,33 @@ public class Stats {
      * @param start
      * @return
      */
-    public UserCumulative getUserCumulative(Date start) {
+    public List<UserCumulative> getUserCumulative(Date start) {
         return getUserCumulative(start, new Date());
+    }
+
+    public static class UserSummaryWrapper {
+
+        private List<UserSummary> list;
+
+        public List<UserSummary> getList() {
+            return list;
+        }
+
+        public void setList(List<UserSummary> list) {
+            this.list = list;
+        }
+    }
+
+    public static class UserCumulativeWrapper {
+
+        private List<UserCumulative> list;
+
+        public List<UserCumulative> getList() {
+            return list;
+        }
+
+        public void setList(List<UserCumulative> list) {
+            this.list = list;
+        }
     }
 }
