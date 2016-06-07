@@ -22,24 +22,8 @@ public class Menu implements Serializable {
         this.menus = menus;
     }
 
-    @JsonProperty("matchrule")
-    private Rule rule;
-
-    public Rule getRule() {
-        return rule;
-    }
-
-    public void setRule(Rule rule) {
-        this.rule = rule;
-    }
-
     public Menu add(MenuItem menuItem) {
         this.menus.add(menuItem);
-        return this;
-    }
-
-    public Menu rule(Rule rule) {
-        this.setRule(rule);
         return this;
     }
 

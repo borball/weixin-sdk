@@ -2,18 +2,21 @@ package com.riversoft.weixin.mp.menu;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.WxClient;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.menu.Menu;
+import com.riversoft.weixin.common.menu.RuleMenu;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.mp.MpWxClientFactory;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
-import com.riversoft.weixin.mp.menu.bean.SelfMenu;
+import com.riversoft.weixin.mp.menu.bean.MenuConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 自定义菜单管理
@@ -39,17 +42,35 @@ public class Menus {
     }
 
     /**
-     * 创建菜单，个性化菜单rule不能为空
+     * 创建菜单
      * @param menu
      */
     public void create(Menu menu) {
         String url = WxEndpoint.get("url.menu.create");
-        if(menu.getRule() != null) {
-            url = WxEndpoint.get("url.menu.create.condition");
-        }
         String json = JsonMapper.nonEmptyMapper().toJson(menu);
         logger.debug("create menu: {}", json);
         wxClient.post(url, json);
+    }
+
+    /**
+     * 创建个性化菜单，菜单rule不能为空
+     * @param menu
+     * @return
+     */
+    public String createRuleMenu(RuleMenu menu) {
+        String url = WxEndpoint.get("url.menu.create.condition");
+        if(menu.getRule() == null) {
+            throw new IllegalArgumentException("个性化菜单rule不能为空");
+        }
+        String json = JsonMapper.nonEmptyMapper().toJson(menu);
+        logger.debug("create rule menu: {}", json);
+        String response = wxClient.post(url, json);
+        Map<String, Object> map = JsonMapper.defaultMapper().json2Map(response);
+        if(map.containsKey("menuid")) {
+            return (String) map.get("menuid");
+        } else {
+            throw new WxRuntimeException(999, "create rule menu failed");
+        }
     }
 
     /**
@@ -78,20 +99,33 @@ public class Menus {
     public Menu get() {
         String url = WxEndpoint.get("url.menu.get");
         String content = wxClient.get(url);
-        logger.debug("get menu: {}", content);
+        logger.debug("get default menu: {}", content);
         MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(content, MenuWrapper.class);
         return menuWrapper.getMenu();
     }
 
     /**
-     * 获取自定义菜单配置
+     * 获取个性化菜单
      * @return
      */
-    public SelfMenu getSelf() {
+    public List<RuleMenu> getRuleMenus() {
+        String url = WxEndpoint.get("url.menu.get");
+        String content = wxClient.get(url);
+        logger.debug("get rule menus: {}", content);
+        MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(content, MenuWrapper.class);
+        return menuWrapper.getRuleMenus();
+    }
+
+    /**
+     * 获取自定义菜单配置
+     * 操蛋的微信，JSON太混乱了；本接口拒绝支持 '公众号是在公众平台官网通过网站功能发布菜单'
+     * @return
+     */
+    public MenuConfig getMenuConfig() {
         String url = WxEndpoint.get("url.menu.get.self");
         String content = wxClient.get(url);
-        logger.debug("get self menu: {}", content);
-        return JsonMapper.nonEmptyMapper().fromJson(content, SelfMenu.class);
+        logger.debug("get menu config: {}", content);
+        return JsonMapper.nonEmptyMapper().fromJson(content, MenuConfig.class);
     }
 
     /**
@@ -119,21 +153,18 @@ public class Menus {
         MenuWrapper menuWrapper = JsonMapper.nonEmptyMapper().fromJson(content, MenuWrapper.class);
         List<Menu> menus = new ArrayList<>();
         menus.add(menuWrapper.getMenu());
-        if (menuWrapper.getConditionalMenus() != null && !menuWrapper.getConditionalMenus().isEmpty()) {
-            menus.addAll(menuWrapper.getConditionalMenus());
+        if (menuWrapper.getRuleMenus() != null && !menuWrapper.getRuleMenus().isEmpty()) {
+            menus.addAll(menuWrapper.getRuleMenus());
         }
         return menus;
     }
 
-    /**
-     * Created by exizhai on 9/27/2015.
-     */
     public static class MenuWrapper implements Serializable {
 
         private Menu menu;
 
         @JsonProperty("conditionalmenu")
-        private List<Menu> conditionalMenus;
+        private List<RuleMenu> ruleMenus;
 
         public Menu getMenu() {
             return menu;
@@ -143,12 +174,12 @@ public class Menus {
             this.menu = menu;
         }
 
-        public List<Menu> getConditionalMenus() {
-            return conditionalMenus;
+        public List<RuleMenu> getRuleMenus() {
+            return ruleMenus;
         }
 
-        public void setConditionalMenus(List<Menu> conditionalMenus) {
-            this.conditionalMenus = conditionalMenus;
+        public void setRuleMenus(List<RuleMenu> ruleMenus) {
+            this.ruleMenus = ruleMenus;
         }
     }
 }
