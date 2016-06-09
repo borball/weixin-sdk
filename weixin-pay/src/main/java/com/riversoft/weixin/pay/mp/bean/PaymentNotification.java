@@ -249,4 +249,20 @@ public class PaymentNotification extends BaseResponse {
         } catch (ParseException e) {
         }
     }
+
+    public boolean isSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        this.subscribed = subscribed;
+    }
+
+    public void setTimeEnd(Date timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public String getTimeEndString() {
+        return timeEndString;
+    }
 }
