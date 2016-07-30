@@ -2,8 +2,6 @@ package com.riversoft.weixin.pay.mp.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.riversoft.weixin.common.util.DateDeserializer;
 import com.riversoft.weixin.pay.base.BaseResponse;
 
 import java.text.DateFormat;
@@ -243,7 +241,7 @@ public class PaymentNotification extends BaseResponse {
 
     public void setTimeEndString(String timeEndString) {
         this.timeEndString = timeEndString;
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmSS");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         try {
             this.timeEnd = dateFormat.parse(timeEndString);
         } catch (ParseException e) {
