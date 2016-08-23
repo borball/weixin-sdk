@@ -3,8 +3,11 @@ package com.riversoft.weixin.mp.card;
 import com.riversoft.weixin.mp.card.bean.*;
 import org.junit.Assert;
 import org.junit.Test;
+import sun.util.resources.CalendarData;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +36,9 @@ public class CardsTest {
         baseInfo.setSku(new BaseInfo.Sku(20));
 
         BaseInfo.DateInfo dateInfo = new BaseInfo.DateInfo();
-        dateInfo.setType(BaseInfo.DateInfo.DateInfoType.DATE_TYPE_PERMANENT);
+        dateInfo.setType(BaseInfo.DateInfo.DateInfoType.DATE_TYPE_FIX_TERM);
+        dateInfo.setFixedTerm(60);
+        dateInfo.setFixedTermBegin(0);
 
         baseInfo.setDateInfo(dateInfo);
         baseInfo.setServicePhone("020-38556299");
@@ -109,5 +114,47 @@ public class CardsTest {
     public void testGetColors(){
         List<Color> colors = Cards.defaultCards().listColors();
         Assert.assertNotNull(colors);
+    }
+
+    @Test
+    public void testCreateCash(){
+        Cash cash = new Cash();
+        BaseInfo baseInfo = new BaseInfo();
+        baseInfo.setLogoUrl("https://mmbiz.qlogo.cn/mmbiz/KicPmFdM4XbnaJkp7SD8rVjyPsoyN4xkuI6luQbMaZqIm48gaMmVojz1wz1MF8m3w2IMfxfnH7ia59UFNphjd0rg/0?wx_fmt=png");
+        baseInfo.setCodeType("CODE_TYPE_BARCODE");
+        baseInfo.setBrandName("创河软件");
+        baseInfo.setTitle("代金券");
+        baseInfo.setColor("Color010");
+        baseInfo.setNotice("请吃饭的时候出示");
+        baseInfo.setDescription("测试使用的代金券");
+        baseInfo.setSku(new BaseInfo.Sku(2));
+
+        BaseInfo.DateInfo dateInfo = new BaseInfo.DateInfo();
+        dateInfo.setType(BaseInfo.DateInfo.DateInfoType.DATE_TYPE_FIX_TIME_RANGE);
+//        dateInfo.setFixedTerm(60);
+//        dateInfo.setFixedTermBegin(0);
+        Calendar now = Calendar.getInstance();
+        dateInfo.setBeginTime(now.getTime());
+        now.add(Calendar.MONTH, 2);
+        dateInfo.setEndTime(now.getTime());
+
+        baseInfo.setDateInfo(dateInfo);
+        baseInfo.setServicePhone("020-38556299");
+
+        cash.setBaseInfo(baseInfo);
+        cash.setLeastCost(500);
+        cash.setReduceCost(500);
+        Cards.defaultCards().cash(cash);
+    }
+
+    @Test
+    public void testDate(){
+        Date date = new Date();
+        long time = date.getTime();
+
+        System.out.println(time);
+
+        System.out.println(String.valueOf(time).substring(0, 9));
+        System.out.println(String.valueOf(time).substring(0, 10));
     }
 }

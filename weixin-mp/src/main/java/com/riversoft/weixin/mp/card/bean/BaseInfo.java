@@ -1,6 +1,8 @@
 package com.riversoft.weixin.mp.card.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.riversoft.weixin.common.util.DateSerializer;
 
 import java.util.Date;
 
@@ -388,6 +390,7 @@ public class BaseInfo {
          * 从1970年1月1日00:00:00至起用时间的秒数，最终需转换为字符串形态传入。（东八区时间，单位为秒）
          */
         @JsonProperty("begin_timestamp")
+        @JsonSerialize(using = DateSerializer.class)
         private Date beginTime;
 
         /**
@@ -395,6 +398,7 @@ public class BaseInfo {
          * 建议设置为截止日期的23:59:59过期。（东八区时间，单位为秒）
          */
         @JsonProperty("end_timestamp")
+        @JsonSerialize(using = DateSerializer.class)
         private Date endTime;
 
         /**
@@ -451,7 +455,7 @@ public class BaseInfo {
 
         public enum DateInfoType {
 
-            DATE_TYPE_FIX_TIME_RANGE(1), DATE_TYPE_FIX_TERM(2), DATE_TYPE_PERMANENT(3);
+            DATE_TYPE_FIX_TIME_RANGE(1), DATE_TYPE_FIX_TERM(2);
 
             private int code;
 
@@ -465,7 +469,7 @@ public class BaseInfo {
                         return dateInfoType;
                     }
                 }
-                return DateInfoType.DATE_TYPE_PERMANENT;
+                return DateInfoType.DATE_TYPE_FIX_TERM;
             }
 
             public int getCode() {

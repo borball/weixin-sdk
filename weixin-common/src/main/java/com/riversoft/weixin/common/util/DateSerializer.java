@@ -16,6 +16,6 @@ public class DateSerializer extends JsonSerializer<Date> {
     public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         //操蛋的微信，为啥不是毫秒
         long time = date.getTime();
-        jsonGenerator.writeString(String.valueOf(time).substring(0, 9));
+        jsonGenerator.writeString(String.valueOf(time).substring(0, 10));
     }
 }

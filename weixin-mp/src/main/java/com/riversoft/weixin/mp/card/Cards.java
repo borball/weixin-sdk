@@ -117,13 +117,13 @@ public class Cards {
     }
 
     private String createCard(Card card) {
-        String json = JsonMapper.nonEmptyMapper().toJson(new CardWrapper(card));
+        String json = JsonMapper.nonDefaultMapper().toJson(new CardWrapper(card));
         logger.debug("create card: {}", json);
 
         String url = WxEndpoint.get("url.card.create");
         String response = wxClient.post(url, json);
 
-        Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
+        Map<String, Object> result = JsonMapper.nonDefaultMapper().json2Map(response);
 
         if (result.containsKey("card_id")) {
             return result.get("card_id").toString();
