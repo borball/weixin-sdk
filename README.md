@@ -3,7 +3,7 @@
 [![Build Status](https://semaphoreci.com/api/v1/projects/5b0c7b61-9b88-4b88-95fa-ea6bbd11e495/617516/badge.svg)](https://semaphoreci.com/borball/weixin-sdk) [![](https://jitpack.io/v/borball/weixin-sdk.svg)](https://jitpack.io/#borball/weixin-sdk) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.com.riversoft/weixin-sdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.com.riversoft/weixin-sdk)
 
 
-weixin-sdk 是对微信公众平台(订阅号、服务号、企业号)、微信开放平台和微信支付的JAVA版封装：
+weixin-sdk 是对微信公众平台(订阅号、服务号、企业号、小程序)、微信开放平台和微信支付的JAVA版封装：
 
  - 服务号，订阅号： 	weixin-mp
  - 企业号： 		weixin-qydev
