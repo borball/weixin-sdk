@@ -1,5 +1,6 @@
 package com.riversoft.weixin.mp;
 
+import com.riversoft.weixin.common.AccessToken;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
@@ -23,7 +24,7 @@ public class WxClientTest {
 
     @Test
     public void testGetToken() {
-        WxClient.AccessToken token = wxClient.getAccessToken();
+        AccessToken token = wxClient.getAccessToken();
         System.out.println(token.getAccessToken() + "," + token.getExpiresTill());
         Assert.assertNotNull(token);
         wxClient.refreshToken();

@@ -20,6 +20,7 @@ public class AppSetting {
 
     private String appId;
     private String secret;
+    private String tokenHolderClass;
 
     public AppSetting() {
     }
@@ -97,6 +98,14 @@ public class AppSetting {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public String getTokenHolderClass() {
+        return tokenHolderClass;
+    }
+
+    public void setTokenHolderClass(String tokenHolderClass) {
+        this.tokenHolderClass = tokenHolderClass;
     }
 
     @Override

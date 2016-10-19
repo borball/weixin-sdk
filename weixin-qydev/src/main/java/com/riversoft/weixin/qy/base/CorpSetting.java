@@ -20,6 +20,7 @@ public class CorpSetting {
 
     private String corpId;
     private String corpSecret;
+    private String tokenHolderClass;
 
     public CorpSetting() {
     }
@@ -97,6 +98,14 @@ public class CorpSetting {
 
     public void setCorpSecret(String corpSecret) {
         this.corpSecret = corpSecret;
+    }
+
+    public String getTokenHolderClass() {
+        return tokenHolderClass;
+    }
+
+    public void setTokenHolderClass(String tokenHolderClass) {
+        this.tokenHolderClass = tokenHolderClass;
     }
 
     @Override

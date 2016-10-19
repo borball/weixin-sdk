@@ -1,5 +1,7 @@
 package com.riversoft.weixin.qy;
 
+import com.riversoft.weixin.common.AccessTokenHolder;
+import com.riversoft.weixin.common.DefaultAccessTokenHolder;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
@@ -31,7 +33,23 @@ public class QyWxClientFactory {
     public WxClient with(CorpSetting corpSetting) {
         if (!wxClients.containsKey(key(corpSetting))) {
             String url = WxEndpoint.get("url.token.get");
-            WxClient wxClient = new WxClient(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
+            String clazz = corpSetting.getTokenHolderClass();
+
+            AccessTokenHolder accessTokenHolder = null;
+            if(clazz == null || "".equals(clazz)) {
+                try {
+                    accessTokenHolder = (AccessTokenHolder)Class.forName(clazz).newInstance();
+                    accessTokenHolder.setClientId(corpSetting.getCorpId());
+                    accessTokenHolder.setClientSecret(corpSetting.getCorpSecret());
+                    accessTokenHolder.setTokenUrl(url);
+                } catch (Exception e) {
+                    accessTokenHolder = new DefaultAccessTokenHolder(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
+                }
+            } else {
+                accessTokenHolder = new DefaultAccessTokenHolder(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
+            }
+
+            WxClient wxClient = new WxClient(corpSetting.getCorpId(), corpSetting.getCorpSecret(), accessTokenHolder);
             wxClients.putIfAbsent(key(corpSetting), wxClient);
         }
 

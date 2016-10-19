@@ -22,6 +22,7 @@ public class AppSetting {
     private String secret;
     private String token;
     private String aesKey;
+    private String tokenHolderClass;
 
     public AppSetting() {
     }
@@ -115,6 +116,14 @@ public class AppSetting {
 
     public void setAesKey(String aesKey) {
         this.aesKey = aesKey;
+    }
+
+    public String getTokenHolderClass() {
+        return tokenHolderClass;
+    }
+
+    public void setTokenHolderClass(String tokenHolderClass) {
+        this.tokenHolderClass = tokenHolderClass;
     }
 
     @Override

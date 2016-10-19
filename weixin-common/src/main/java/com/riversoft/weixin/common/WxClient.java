@@ -1,9 +1,7 @@
 package com.riversoft.weixin.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.common.exception.WxError;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
-import com.riversoft.weixin.common.util.JsonMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
@@ -37,19 +35,22 @@ public class WxClient {
     private static Logger logger = LoggerFactory.getLogger(WxClient.class);
 
     protected CloseableHttpClient httpClient;
-    private AccessToken accessToken;
     private String clientId;
     private String clientSecret;
-    private String tokenUrl;
+    private AccessTokenHolder accessTokenHolder;
 
     public WxClient() {
         httpClient = HttpClients.createDefault();
     }
 
     public WxClient(String tokenUrl, String clientId, String clientSecret) {
-        this.tokenUrl = tokenUrl;
+        this(clientId, clientSecret, new DefaultAccessTokenHolder(tokenUrl, clientId, clientSecret));
+    }
+
+    public WxClient(String clientId, String clientSecret, AccessTokenHolder accessTokenHolder) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
+        this.accessTokenHolder = accessTokenHolder;
         httpClient = HttpClients.createDefault();
     }
 
@@ -397,76 +398,25 @@ public class WxClient {
     }
 
     private String appendAccessToken(String url) {
-        if (accessToken == null || accessToken.expired()) {
-            refreshToken();
-        }
-        String token = accessToken.getAccessToken();
+        String token = accessTokenHolder.getAccessToken().getAccessToken();
         logger.debug("[{}]:access token: {}", clientId, token);
         return url + (url.indexOf('?') == -1 ? "?access_token=" + token : "&access_token=" + token);
     }
 
-    public synchronized void refreshToken() {
-        if (accessToken == null || accessToken.expired()) {
-            logger.debug("[{}]:requesting a new access token.", clientId);
-            String content = httpGet(String.format(tokenUrl, clientId, clientSecret));
-            AccessToken accessToken = AccessToken.fromJson(content);
-            logger.debug("[{}]:requested a new access token: {}", clientId, accessToken.accessToken);
-            this.accessToken = accessToken;
-        }
+    public void refreshToken() {
+        accessTokenHolder.refreshToken();
     }
 
     public AccessToken getAccessToken() {
-        if (accessToken == null) {
-            refreshToken();
-        }
-        return accessToken;
+        return accessTokenHolder.getAccessToken();
     }
 
     private boolean invalidToken(int code) {
         boolean result = code == 42001 || code == 40001 || code == 40014;
         if(result) {
-            accessToken.setExpiresIn(-30);//强制设置为无效
+            accessTokenHolder.expireToken();//强制设置为无效
         }
         return result;
     }
 
-    public static class AccessToken {
-
-        @JsonProperty("access_token")
-        private String accessToken;
-
-        @JsonProperty("expires_in")
-        private long expiresIn;
-
-        private long expiresTill;
-
-        public static AccessToken fromJson(String json) {
-            return JsonMapper.defaultMapper().fromJson(json, AccessToken.class);
-        }
-
-        public String getAccessToken() {
-            return accessToken;
-        }
-
-        public void setAccessToken(String accessToken) {
-            this.accessToken = accessToken;
-        }
-
-        public long getExpiresIn() {
-            return expiresIn;
-        }
-
-        public void setExpiresIn(long expiresIn) {
-            this.expiresIn = expiresIn;
-            this.expiresTill = System.currentTimeMillis() + (expiresIn * 1000) - 300000;
-        }
-
-        public long getExpiresTill() {
-            return expiresTill;
-        }
-
-        public boolean expired() {
-            return System.currentTimeMillis() > expiresTill;
-        }
-    }
 }
