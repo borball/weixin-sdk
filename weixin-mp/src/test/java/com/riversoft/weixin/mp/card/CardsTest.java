@@ -3,7 +3,6 @@ package com.riversoft.weixin.mp.card;
 import com.riversoft.weixin.mp.card.bean.*;
 import org.junit.Assert;
 import org.junit.Test;
-import sun.util.resources.CalendarData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
