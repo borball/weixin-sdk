@@ -9,7 +9,7 @@ weixin-sdk 是对微信公众平台(订阅号、服务号、企业号、小程�
  - 企业号： 		weixin-qydev
  - 开放平台： 		weixin-open
  - 支付： 		weixin-pay
- - 小程序（应用号）： 时刻跟进官方发布进程，将尽快推出
+ - 小程序（应用号）： weixin-app
  
 API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 
@@ -50,6 +50,14 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 	      <artifactId>weixin-pay</artifactId>
 	      <version>${weixin-sdk.version}</version>
 	    </dependency>
+	    
+ - 小程序：
+
+	    <dependency>
+	      <groupId>cn.com.riversoft</groupId>
+	      <artifactId>weixin-app</artifactId>
+	      <version>${weixin-sdk.version}</version>
+	    </dependency>	   
 		
 也可以直接从Maven中央仓库获取SNAPSHOT版本。
 
@@ -67,7 +75,7 @@ API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 	<dependency>
 	    <groupId>com.github.borball.weixin-sdk</groupId>
 	    <artifactId>weixin-mp</artifactId>
-	    <version>0.8.2</version>
+	    <version>0.8.9</version>
 	</dependency>
 
 
