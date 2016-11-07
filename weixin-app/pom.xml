@@ -7,23 +7,14 @@
         <relativePath>../weixin-parent/</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>weixin sdk mp</name>
-    <artifactId>weixin-mp</artifactId>
+    <name>weixin sdk app</name>
+    <artifactId>weixin-app</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.com.riversoft</groupId>
             <artifactId>weixin-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>fluent-hc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
         </dependency>
 
         <dependency>
@@ -57,11 +48,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
         </dependency>
 
         <dependency>
