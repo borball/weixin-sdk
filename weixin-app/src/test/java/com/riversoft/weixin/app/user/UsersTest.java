@@ -11,7 +11,7 @@ public class UsersTest {
 
 	@Test
 	public void testCode2Session() {
-		SessionKey sessionKey = Users.with(new AppSetting("wx924243b01acbccbe", "2d7d9b1a3626f21fc127c4285b321b6f"))
+		SessionKey sessionKey = Users.with(new AppSetting("appid", "screctkey"))
 				.code2Session("011RedXY1NegvX0eLWXY1vVfXY1RedXu");
 		System.out.println(sessionKey.getOpenId());
 		System.out.println(sessionKey.getSessionKey());
