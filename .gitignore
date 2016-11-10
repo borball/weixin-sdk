@@ -4,6 +4,10 @@
 *.iws
 **/*.iml
 
+.project
+.classpath
+.settings/
+
 target/
 */target
 
