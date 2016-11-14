@@ -1,5 +1,8 @@
 package com.riversoft.weixin.app.user;
 
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.riversoft.weixin.app.base.AppSetting;
@@ -10,11 +13,10 @@ import com.riversoft.weixin.app.base.AppSetting;
 public class UsersTest {
 
 	@Test
+	@Ignore
 	public void testCode2Session() {
 		SessionKey sessionKey = Users.with(new AppSetting("appid", "screctkey"))
 				.code2Session("011RedXY1NegvX0eLWXY1vVfXY1RedXu");
-		System.out.println(sessionKey.getOpenId());
-		System.out.println(sessionKey.getSessionKey());
-		System.out.println(sessionKey.getExpiresTill());
+		assertNotNull(sessionKey);
 	}
 }
