@@ -37,6 +37,8 @@ public class QyWxClientFactory {
 
             AccessTokenHolder accessTokenHolder = null;
             if(clazz == null || "".equals(clazz)) {
+                accessTokenHolder = new DefaultAccessTokenHolder(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
+            } else {
                 try {
                     accessTokenHolder = (AccessTokenHolder)Class.forName(clazz).newInstance();
                     accessTokenHolder.setClientId(corpSetting.getCorpId());
@@ -45,8 +47,6 @@ public class QyWxClientFactory {
                 } catch (Exception e) {
                     accessTokenHolder = new DefaultAccessTokenHolder(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
                 }
-            } else {
-                accessTokenHolder = new DefaultAccessTokenHolder(url, corpSetting.getCorpId(), corpSetting.getCorpSecret());
             }
 
             WxClient wxClient = new WxClient(corpSetting.getCorpId(), corpSetting.getCorpSecret(), accessTokenHolder);
