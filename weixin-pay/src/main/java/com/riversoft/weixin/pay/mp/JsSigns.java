@@ -3,11 +3,12 @@ package com.riversoft.weixin.pay.mp;
 import com.riversoft.weixin.common.util.MD5;
 import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.pay.base.PaySetting;
-import com.riversoft.weixin.pay.mp.bean.JSSignature;
+import com.riversoft.weixin.pay.payment.bean.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 公众号支付：签名算法
  * @borball on 6/2/2016.
  */
 public class JsSigns {
@@ -35,7 +36,7 @@ public class JsSigns {
      * @param prepayId
      * @return
      */
-    public JSSignature createJsSignature(String prepayId) {
+    public Signature createSignature(String prepayId) {
         long timestamp = System.currentTimeMillis() / 1000;
         String nonce = RandomStringGenerator.getRandomStringByLength(16);
 
@@ -44,7 +45,7 @@ public class JsSigns {
                 paySetting.getAppId(), nonce, pack, timestamp);
 
         String signature = MD5.MD5Encode(sortString + "&key=" + paySetting.getKey()).toUpperCase();
-        JSSignature jsSignature = new JSSignature();
+        Signature jsSignature = new Signature();
         jsSignature.setAppId(paySetting.getAppId());
         jsSignature.setNonce(nonce);
         jsSignature.setTimestamp(timestamp);

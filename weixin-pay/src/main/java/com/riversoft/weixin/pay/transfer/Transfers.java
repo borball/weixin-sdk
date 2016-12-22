@@ -15,7 +15,7 @@ import com.riversoft.weixin.pay.transfer.bean.TransferRequest;
 import com.riversoft.weixin.pay.transfer.bean.TransferResponse;
 import com.riversoft.weixin.pay.transfer.bean.TransferResult;
 import com.riversoft.weixin.common.util.RandomStringGenerator;
-import com.riversoft.weixin.pay.util.Signature;
+import com.riversoft.weixin.pay.util.SignatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ public class Transfers {
         wrapper.setNonce(nonce);
 
         SortedMap<String, Object> transferRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(wrapper, SortedMap.class);
-        wrapper.setSign(Signature.sign(transferRequestMap, paySetting.getKey()));
+        wrapper.setSign(SignatureUtil.sign(transferRequestMap, paySetting.getKey()));
 
         String url = WxEndpoint.get("url.pay.transfer.do");
         try {
@@ -86,7 +86,7 @@ public class Transfers {
         wrapper.setNonce(nonce);
 
         SortedMap<String, Object> transferRequestMap = JsonMapper.defaultMapper().getMapper().convertValue(wrapper, SortedMap.class);
-        wrapper.setSign(Signature.sign(transferRequestMap, paySetting.getKey()));
+        wrapper.setSign(SignatureUtil.sign(transferRequestMap, paySetting.getKey()));
 
         String url = WxEndpoint.get("url.pay.transfer.query");
         try {

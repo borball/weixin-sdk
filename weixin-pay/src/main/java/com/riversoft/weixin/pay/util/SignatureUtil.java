@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by exizhai on 12/1/2015.
  */
-public class Signature {
+public class SignatureUtil {
 
     public static String sign(Map<String, Object> map, String key){
         String str = Joiner.on("&").withKeyValueSeparator("=").join(map);

@@ -1,6 +1,6 @@
 package com.riversoft.weixin.pay.mp;
 
-import com.riversoft.weixin.pay.mp.bean.JSSignature;
+import com.riversoft.weixin.pay.payment.bean.Signature;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class JsSignsTest {
 
     @Test
     public void testCreate(){
-        JSSignature jsSignature = JsSigns.defaultJsSigns().createJsSignature("1234567890");
-        Assert.assertNotNull(jsSignature);
+        Signature signature = JsSigns.defaultJsSigns().createSignature("1234567890");
+        Assert.assertNotNull(signature);
     }
 }

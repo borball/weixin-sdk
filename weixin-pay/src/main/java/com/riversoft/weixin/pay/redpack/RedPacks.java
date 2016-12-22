@@ -14,7 +14,7 @@ import com.riversoft.weixin.pay.redpack.bean.RedPackRequest;
 import com.riversoft.weixin.pay.redpack.bean.RedPackResponse;
 import com.riversoft.weixin.pay.redpack.bean.RedPackResult;
 import com.riversoft.weixin.common.util.RandomStringGenerator;
-import com.riversoft.weixin.pay.util.Signature;
+import com.riversoft.weixin.pay.util.SignatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,7 +122,7 @@ public class RedPacks {
 
         appSettingMixin.setMchId(paySetting.getMchId());
         appSettingMixin.setNonce(nonce);
-        appSettingMixin.setSign(Signature.sign(generals, paySetting.getKey()));
+        appSettingMixin.setSign(SignatureUtil.sign(generals, paySetting.getKey()));
 
         return appSettingMixin;
     }
