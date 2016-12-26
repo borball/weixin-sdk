@@ -11,6 +11,11 @@ public class JsAPISignature {
     private String signature;
     private String url;
 
+    /**
+     * 可选
+     */
+    private String groupId;
+
     public String getAppId() {
         return appId;
     }
@@ -49,5 +54,13 @@ public class JsAPISignature {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }
