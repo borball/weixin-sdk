@@ -12,7 +12,7 @@ public class DefaultAccessTokenHolder extends AccessTokenHolder {
     }
 
     @Override
-    public AccessToken getAccessToken() {
+    public synchronized AccessToken getAccessToken() {
         if (accessToken == null || accessToken.expired()) {
             refreshToken();
         }
@@ -20,7 +20,7 @@ public class DefaultAccessTokenHolder extends AccessTokenHolder {
     }
 
     @Override
-    public void refreshToken() {
+    public synchronized void refreshToken() {
         if (accessToken == null || accessToken.expired()) {
             String content = fetchAccessToken();
             AccessToken accessToken = AccessToken.fromJson(content);
