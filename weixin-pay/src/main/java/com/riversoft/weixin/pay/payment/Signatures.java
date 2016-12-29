@@ -70,7 +70,7 @@ public class Signatures {
     }
 
     private Signature createSignature(String pack, long timestamp, String nonce, String appId, String key, String sortString) {
-        String signature = MD5.MD5Encode(sortString + "&key=" + key).toUpperCase();
+        String signature = MD5.md5Hex(sortString + "&key=" + key).toUpperCase();
         Signature sign = new Signature();
         sign.setAppId(appId);
         sign.setNonce(nonce);

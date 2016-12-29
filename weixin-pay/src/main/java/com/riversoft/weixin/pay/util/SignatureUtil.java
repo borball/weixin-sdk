@@ -13,6 +13,6 @@ public class SignatureUtil {
     public static String sign(Map<String, Object> map, String key){
         String str = Joiner.on("&").withKeyValueSeparator("=").join(map);
         str += "&key=" + key;
-        return MD5.MD5Encode(str).toUpperCase();
+        return MD5.md5Hex(str).toUpperCase();
     }
 }
