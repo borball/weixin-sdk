@@ -53,5 +53,10 @@ public enum EventType {
     /**
      * 订单事件
      */
-    ORDER
+    ORDER,
+
+    /**
+     * 小程序：进入会话事件
+     */
+    user_enter_tempsession
 }
