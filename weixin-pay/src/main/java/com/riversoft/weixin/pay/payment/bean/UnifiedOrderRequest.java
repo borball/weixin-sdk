@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class UnifiedOrderRequest {
 
+    /**
+     * 终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
+     */
     @JsonProperty("device_info")
     private String deviceInfo;
 
@@ -23,6 +26,9 @@ public class UnifiedOrderRequest {
     @JsonProperty("total_fee")
     private int totalFee;
 
+    /**
+     * APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
+     */
     @JsonProperty("spbill_create_ip")
     private String billCreatedIp;
 
@@ -51,7 +57,7 @@ public class UnifiedOrderRequest {
     private String limitPay;
 
     /**
-     * trade_type=JSAPI时（即公众号支付），此参数必传，此参数为微信用户在商户对应appid下的唯一标识。
+     * trade_type=JSAPI时（即公众号支付或者小程序支付），此参数必传，此参数为微信用户在商户对应appid下的唯一标识。
      */
     @JsonProperty("openid")
     private String openId;
