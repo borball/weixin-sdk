@@ -9,7 +9,7 @@ weixin-sdk 是对微信公众平台(订阅号、服务号、企业号、小程�
  - 企业号： 		weixin-qydev
  - 开放平台： 		weixin-open
  - 支付： 		weixin-pay
- - 小程序（应用号）： weixin-app
+ - 小程序： weixin-app
  
 API详情请参考: [wiki](https://github.com/borball/weixin-sdk/wiki)
 
