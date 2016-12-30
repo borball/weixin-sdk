@@ -35,7 +35,7 @@ public class RefundQuery extends BaseResponse {
     @JsonProperty("refund_count")
     private int refundCount;
 
-    @JsonProperty("refund_count")
+    @JsonProperty("refund_account")
     private String refundAccount;
 
     protected Map<String,Object> others = new HashMap<>();
