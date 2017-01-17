@@ -1,6 +1,7 @@
 package com.riversoft.weixin.pay.payment.bean;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.pay.base.BaseResponse;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * @borball on 5/17/2016.
  */
+@JsonIgnoreProperties
 public class RefundQuery extends BaseResponse {
 
     @JsonProperty("transaction_id")
@@ -40,9 +42,12 @@ public class RefundQuery extends BaseResponse {
 
     protected Map<String,Object> others = new HashMap<>();
 
-    @JsonAnySetter
-    public void set(String name, Object value) {
-        others.put(name, value);
+    public Map<String, Object> getOthers() {
+        return others;
+    }
+
+    public void setOthers(Map<String, Object> others) {
+        this.others = others;
     }
 
     public String getTransactionId() {
@@ -109,6 +114,7 @@ public class RefundQuery extends BaseResponse {
         this.refundAccount = refundAccount;
     }
 
+    @JsonIgnore
     public List<Refund> getRefunds(){
         List<Refund> refunds = new ArrayList<>();
         if(others.size() > 0) {

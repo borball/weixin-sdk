@@ -6,11 +6,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-
 /**
  * @borball on 12/29/2016.
  */
-public class RefundQueryTest {
+public class JacksonTest {
 
     @Test
     public void testXml2Bean() throws IOException {
@@ -18,9 +17,7 @@ public class RefundQueryTest {
         RefundQueryWrapper refundQueryWrapper =  xmlMapper.readValue(getXml(), RefundQueryWrapper.class);
         Assert.assertNotNull(refundQueryWrapper);
         Assert.assertNotNull(refundQueryWrapper.getRefundQuery());
-        refundQueryWrapper.ready();
-        Assert.assertNotNull(refundQueryWrapper.getRefundQuery().getRefunds());
-        Assert.assertEquals(2, refundQueryWrapper.getRefundQuery().getRefunds().size());
+
     }
 
     private String getXml(){
@@ -65,4 +62,5 @@ public class RefundQueryTest {
                 "   <transaction_id><![CDATA[1008450740201411110005820873]]></transaction_id>\n" +
                 "</xml>\n";
     }
+
 }

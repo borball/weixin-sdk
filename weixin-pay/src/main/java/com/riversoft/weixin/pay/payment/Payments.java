@@ -1,8 +1,5 @@
 package com.riversoft.weixin.pay.payment;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.riversoft.weixin.common.WxSslClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
@@ -13,6 +10,7 @@ import com.riversoft.weixin.pay.base.BaseResponse;
 import com.riversoft.weixin.pay.base.PaySetting;
 import com.riversoft.weixin.pay.base.WxEndpoint;
 import com.riversoft.weixin.pay.payment.bean.*;
+import com.riversoft.weixin.pay.payment.wrapper.*;
 import com.riversoft.weixin.pay.util.SignatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +21,7 @@ import java.util.Date;
 import java.util.SortedMap;
 
 /**
- * 支付相关
+ * 支付相关: 小程序或者公众号
  * @borball on 5/15/2016.
  */
 public class Payments {
@@ -86,7 +84,7 @@ public class Payments {
      * @param orderQueryRequest
      * @return
      */
-    public OrderQueryResponse query(OrderQueryRequest orderQueryRequest) {
+    public com.riversoft.weixin.pay.payment.bean.OrderQueryResponse query(com.riversoft.weixin.pay.payment.bean.OrderQueryRequest orderQueryRequest) {
         OrderQueryRequestWrapper wrapper = new OrderQueryRequestWrapper();
         wrapper.setRequest(orderQueryRequest);
         setBaseSettings(wrapper);
@@ -180,9 +178,9 @@ public class Payments {
      * @return
      */
     public RefundQuery refundQueryByTransactionId(String transactionId) {
-        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
-        refundQueryRequest.setTransactionId(transactionId);
-        return refundQuery(refundQueryRequest);
+        RefundQueryRequestWrapper refundQueryRequestWrapper = new RefundQueryRequestWrapper();
+        refundQueryRequestWrapper.setTransactionId(transactionId);
+        return refundQuery(refundQueryRequestWrapper);
     }
 
     /**
@@ -191,9 +189,9 @@ public class Payments {
      * @return
      */
     public RefundQuery refundQueryByTradeNumber(String tradeNumber) {
-        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
-        refundQueryRequest.setTradeNumber(tradeNumber);
-        return refundQuery(refundQueryRequest);
+        RefundQueryRequestWrapper refundQueryRequestWrapper = new RefundQueryRequestWrapper();
+        refundQueryRequestWrapper.setTradeNumber(tradeNumber);
+        return refundQuery(refundQueryRequestWrapper);
     }
 
     /**
@@ -202,9 +200,9 @@ public class Payments {
      * @return
      */
     public RefundQuery refundQueryByRefundNumber(String refundNumber) {
-        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
-        refundQueryRequest.setRefundNumber(refundNumber);
-        return refundQuery(refundQueryRequest);
+        RefundQueryRequestWrapper refundQueryRequestWrapper = new RefundQueryRequestWrapper();
+        refundQueryRequestWrapper.setRefundNumber(refundNumber);
+        return refundQuery(refundQueryRequestWrapper);
     }
 
     /**
@@ -213,25 +211,26 @@ public class Payments {
      * @return
      */
     public RefundQuery refundQueryByRefundId(String refundId) {
-        RefundQueryRequest refundQueryRequest = new RefundQueryRequest();
-        refundQueryRequest.setRefundId(refundId);
-        return refundQuery(refundQueryRequest);
+        RefundQueryRequestWrapper refundQueryRequestWrapper = new RefundQueryRequestWrapper();
+        refundQueryRequestWrapper.setRefundId(refundId);
+        return refundQuery(refundQueryRequestWrapper);
     }
 
-    public RefundQuery refundQuery(RefundQueryRequest refundQueryRequest) {
-        setBaseSettings(refundQueryRequest);
+    public RefundQuery refundQuery(RefundQueryRequestWrapper refundQueryRequestWrapper) {
+        setBaseSettings(refundQueryRequestWrapper);
 
-        SortedMap<String, Object> refundQueryRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(refundQueryRequest, SortedMap.class);
-        sign(refundQueryRequest, refundQueryRequestMap);
+        SortedMap<String, Object> refundQueryRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(refundQueryRequestWrapper, SortedMap.class);
+        sign(refundQueryRequestWrapper, refundQueryRequestMap);
 
         String url = WxEndpoint.get("url.pay.payment.refund.query");
         try {
-            String xml = XmlObjectMapper.nonEmptyMapper().toXml(refundQueryRequest);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(refundQueryRequestWrapper);
             logger.info("支付 refund query request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("支付 refund query response: {}", response);
 
             RefundQueryWrapper refundQueryWrapper = XmlObjectMapper.defaultMapper().fromXml(response, RefundQueryWrapper.class);
+            refundQueryWrapper.ready();
             return refundQueryWrapper.getRefundQuery();
         } catch (Exception e) {
             throw new WxRuntimeException(999, "refund query failed:" + e.getMessage());
@@ -267,16 +266,16 @@ public class Payments {
 
     private String downloadBill(Date date, String type){
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        BillRequest billRequest = new BillRequest();
-        billRequest.setDate(dateFormat.format(date));
-        billRequest.setType(type);
-        setBaseSettings(billRequest);
-        SortedMap<String, Object> billRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(billRequest, SortedMap.class);
-        sign(billRequest, billRequestMap);
+        BillRequestWrapper billRequestWrapper = new BillRequestWrapper();
+        billRequestWrapper.setDate(dateFormat.format(date));
+        billRequestWrapper.setType(type);
+        setBaseSettings(billRequestWrapper);
+        SortedMap<String, Object> billRequestMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(billRequestWrapper, SortedMap.class);
+        sign(billRequestWrapper, billRequestMap);
 
         String url = WxEndpoint.get("url.pay.payment.bill.download");
         try {
-            String xml = XmlObjectMapper.nonEmptyMapper().toXml(billRequest);
+            String xml = XmlObjectMapper.nonEmptyMapper().toXml(billRequestWrapper);
             logger.info("支付 bill download request: {}", xml);
             String response = wxSslClient.post(url, xml);
             logger.info("支付 bill download response: {}", response);
@@ -299,248 +298,6 @@ public class Payments {
 
         wrapper.setNonce(nonce);
         wrapper.setSign(SignatureUtil.sign(generals, paySetting.getKey()));
-    }
-
-    @JacksonXmlRootElement(localName = "xml")
-    public static class UnifiedOrderRequestWrapper extends BaseSettings {
-        @JsonUnwrapped
-        private UnifiedOrderRequest request;
-
-        public void setRequest(UnifiedOrderRequest request) {
-            this.request = request;
-        }
-
-        public UnifiedOrderRequest getRequest() {
-            return request;
-        }
-    }
-
-    public static class UnifiedOrderResponseWrapper extends BaseSettings {
-        @JsonUnwrapped
-        private UnifiedOrderResponse response;
-
-        public UnifiedOrderResponse getResponse() {
-            return response;
-        }
-
-        public void setResponse(UnifiedOrderResponse response) {
-            this.response = response;
-        }
-    }
-
-    @JacksonXmlRootElement(localName = "xml")
-    public static class OrderQueryRequestWrapper extends BaseSettings {
-        @JsonUnwrapped
-        private OrderQueryRequest request;
-
-        public void setRequest(OrderQueryRequest request) {
-            this.request = request;
-        }
-
-        public OrderQueryRequest getRequest() {
-            return request;
-        }
-    }
-
-    public static class OrderQueryResponseWrapper extends BaseSettings {
-        @JsonUnwrapped
-        private OrderQueryResponse response;
-
-        public OrderQueryResponse getResponse() {
-            return response;
-        }
-
-        public void setResponse(OrderQueryResponse response) {
-            this.response = response;
-        }
-    }
-
-    public static class OrderCloseRequestWrapper extends BaseSettings {
-
-        @JsonProperty("out_trade_no")
-        private String tradeNumber;
-
-        public String getTradeNumber() {
-            return tradeNumber;
-        }
-
-        public void setTradeNumber(String tradeNumber) {
-            this.tradeNumber = tradeNumber;
-        }
-    }
-
-    public static class OrderCloseResponseWrapper extends BaseSettings {
-
-        @JsonUnwrapped
-        private BaseResponse response;
-
-        public BaseResponse getResponse() {
-            return response;
-        }
-
-        public void setResponse(BaseResponse response) {
-            this.response = response;
-        }
-    }
-
-    public static class RefundRequestWrapper extends BaseSettings {
-
-        @JsonUnwrapped
-        private RefundRequest request;
-
-        public RefundRequest getRequest() {
-            return request;
-        }
-
-        public void setRequest(RefundRequest request) {
-            this.request = request;
-        }
-    }
-
-    public static class RefundResponseWrapper extends BaseSettings {
-
-        @JsonUnwrapped
-        private RefundResponse response;
-
-        public RefundResponse getResponse() {
-            return response;
-        }
-
-        public void setResponse(RefundResponse response) {
-            this.response = response;
-        }
-    }
-
-    public static class RefundQueryRequest extends BaseSettings {
-
-        @JsonProperty("transaction_id")
-        private String transactionId;
-
-        @JsonProperty("out_trade_no")
-        private String tradeNumber;
-
-        @JsonProperty("out_refund_no")
-        private String refundNumber;
-
-        @JsonProperty("refund_id")
-        private String refundId;
-
-        public String getTransactionId() {
-            return transactionId;
-        }
-
-        public void setTransactionId(String transactionId) {
-            this.transactionId = transactionId;
-        }
-
-        public String getTradeNumber() {
-            return tradeNumber;
-        }
-
-        public void setTradeNumber(String tradeNumber) {
-            this.tradeNumber = tradeNumber;
-        }
-
-        public String getRefundNumber() {
-            return refundNumber;
-        }
-
-        public void setRefundNumber(String refundNumber) {
-            this.refundNumber = refundNumber;
-        }
-
-        public String getRefundId() {
-            return refundId;
-        }
-
-        public void setRefundId(String refundId) {
-            this.refundId = refundId;
-        }
-    }
-
-    public static class RefundQueryWrapper extends BaseSettings {
-
-        @JsonUnwrapped
-        private RefundQuery refundQuery;
-
-        public RefundQuery getRefundQuery() {
-            return refundQuery;
-        }
-
-        public void setRefundQuery(RefundQuery refundQuery) {
-            this.refundQuery = refundQuery;
-        }
-    }
-
-    public static class BillRequest extends BaseSettings {
-
-        @JsonProperty("bill_date")
-        private String date;
-
-        @JsonProperty("bill_type")
-        private String type;
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-    }
-
-    public static class BaseSettings {
-
-        @JsonProperty("appid")
-        private String appId;
-
-        @JsonProperty("mch_id")
-        private String mchId;
-
-        @JsonProperty("nonce_str")
-        private String nonce;
-
-        private String sign;
-
-        public String getMchId() {
-            return mchId;
-        }
-
-        public void setMchId(String mchId) {
-            this.mchId = mchId;
-        }
-
-        public String getNonce() {
-            return nonce;
-        }
-
-        public void setNonce(String nonce) {
-            this.nonce = nonce;
-        }
-
-        public String getSign() {
-            return sign;
-        }
-
-        public void setSign(String sign) {
-            this.sign = sign;
-        }
-
-        public String getAppId() {
-            return appId;
-        }
-
-        public void setAppId(String appId) {
-            this.appId = appId;
-        }
     }
 
 }
