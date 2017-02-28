@@ -6,6 +6,7 @@ import com.riversoft.weixin.common.decrypt.AesException;
 import com.riversoft.weixin.common.decrypt.SHA1;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.jsapi.JsAPISignature;
+import com.riversoft.weixin.common.jsapi.WxCardAPISignature;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.mp.MpWxClientFactory;
@@ -13,6 +14,9 @@ import com.riversoft.weixin.mp.base.AppSetting;
 import com.riversoft.weixin.mp.base.WxEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 微信JSAPI
@@ -23,6 +27,7 @@ public class JsAPIs {
     private static Logger logger = LoggerFactory.getLogger(JsAPIs.class);
 
     private APITicket jsAPITicket;
+    private APITicket wxCardAPITicket;
 
     private WxClient wxClient;
 
@@ -45,6 +50,15 @@ public class JsAPIs {
             String url = WxEndpoint.get("url.jsapi.ticket.get");
             String response = wxClient.get(url);
             this.jsAPITicket = APITicket.fromJson(response);
+        }
+    }
+
+
+    private synchronized void getWxCardAPITicket(){
+        if(wxCardAPITicket == null || wxCardAPITicket.expired()) {//double check
+            String url = WxEndpoint.get("url.wxcard.jsapi.ticket.get");
+            String response = wxClient.get(url);
+            this.wxCardAPITicket = APITicket.fromJson(response);
         }
     }
 
@@ -74,6 +88,53 @@ public class JsAPIs {
             return jsAPISignature;
         } catch (AesException e) {
             logger.error("createJsAPISignature failed", e);
+            throw new WxRuntimeException(999, e.getMessage());
+        }
+    }
+
+    /**
+     * 创建微信卡券JSAPI签名
+     * @param wxCardAPISignature
+     * @return
+     */
+    public WxCardAPISignature createWxCardJsAPISignature(WxCardAPISignature wxCardAPISignature){
+        if(wxCardAPITicket == null || wxCardAPITicket.expired()) {
+            getWxCardAPITicket();
+        }
+
+        long timestamp = System.currentTimeMillis() / 1000;
+        String nonce = RandomStringGenerator.getRandomStringByLength(16);
+        String ticket = wxCardAPITicket.getTicket();
+
+        List<String> parameters = new ArrayList<>();
+        parameters.add(ticket);
+        parameters.add(wxCardAPISignature.getCardId());
+
+        if(!(wxCardAPISignature.getCardType() == null || "".equals(wxCardAPISignature.getCardType()))) {
+            parameters.add(wxCardAPISignature.getCardType());
+        }
+        if(!(wxCardAPISignature.getCode() == null || "".equals(wxCardAPISignature.getCode()))) {
+            parameters.add(wxCardAPISignature.getCode());
+        }
+        if(!(wxCardAPISignature.getBalance() == null || "".equals(wxCardAPISignature.getBalance()))) {
+            parameters.add(wxCardAPISignature.getBalance());
+        }
+        if(!(wxCardAPISignature.getOpenId() == null || "".equals(wxCardAPISignature.getOpenId()))) {
+            parameters.add(wxCardAPISignature.getOpenId());
+        }
+        if(!(wxCardAPISignature.getLocationId() == null || "".equals(wxCardAPISignature.getLocationId()))) {
+            parameters.add(wxCardAPISignature.getLocationId());
+        }
+
+        try {
+            String signature = SHA1.getSHA1((String[])parameters.toArray());
+
+            wxCardAPISignature.setNonce(nonce);
+            wxCardAPISignature.setTimestamp(timestamp);
+            wxCardAPISignature.setSignature(signature);
+            return wxCardAPISignature;
+        } catch (AesException e) {
+            logger.error("createWxCardJsAPISignature failed", e);
             throw new WxRuntimeException(999, e.getMessage());
         }
     }
