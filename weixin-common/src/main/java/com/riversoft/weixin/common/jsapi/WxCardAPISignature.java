@@ -5,6 +5,14 @@ package com.riversoft.weixin.common.jsapi;
  */
 public class WxCardAPISignature {
 
+    /**
+     * 是否是拉起卡券接口，
+     * 两种API可以支持：拉起卡券和添加到卡包
+     *
+     * 拉起卡券接口appID会参与签名
+     */
+    private boolean chooseCard;
+
     private long timestamp;
     private String nonce;
 
@@ -37,6 +45,14 @@ public class WxCardAPISignature {
     private String balance;
 
     private String signature;
+
+    public boolean isChooseCard() {
+        return chooseCard;
+    }
+
+    public void setChooseCard(boolean chooseCard) {
+        this.chooseCard = chooseCard;
+    }
 
     public long getTimestamp() {
         return timestamp;

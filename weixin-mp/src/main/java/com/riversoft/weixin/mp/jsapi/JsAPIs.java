@@ -107,8 +107,14 @@ public class JsAPIs {
         String ticket = wxCardAPITicket.getTicket();
 
         List<String> parameters = new ArrayList<>();
+        if(wxCardAPISignature.isChooseCard()) {
+            parameters.add(wxClient.getClientId());
+        }
+
         parameters.add(ticket);
         parameters.add(wxCardAPISignature.getCardId());
+        parameters.add(nonce);
+        parameters.add(String.valueOf(timestamp));
 
         if(!(wxCardAPISignature.getCardType() == null || "".equals(wxCardAPISignature.getCardType()))) {
             parameters.add(wxCardAPISignature.getCardType());
