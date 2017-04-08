@@ -19,10 +19,14 @@ public class MenuItem implements Serializable {
     private String url;
 
     //media_id,view_limited 必须
+    @JsonProperty("media_id")
     private String mediaId;
 
     //小程序必须
+    @JsonProperty("appid")
     private String appId;
+
+    @JsonProperty("pagepath")
     private String pagePath;
 
     @JsonProperty("sub_button")
