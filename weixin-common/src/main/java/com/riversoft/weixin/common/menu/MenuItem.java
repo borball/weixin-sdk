@@ -14,7 +14,16 @@ public class MenuItem implements Serializable {
     private MenuType type;
     private String name;
     private String key;
+
+    //view, miniprogram 必须
     private String url;
+
+    //media_id,view_limited 必须
+    private String mediaId;
+
+    //小程序必须
+    private String appId;
+    private String pagePath;
 
     @JsonProperty("sub_button")
     private List<MenuItem> subItems = new ArrayList<MenuItem>();
@@ -49,6 +58,30 @@ public class MenuItem implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getPagePath() {
+        return pagePath;
+    }
+
+    public void setPagePath(String pagePath) {
+        this.pagePath = pagePath;
     }
 
     public List<MenuItem> getSubItems() {

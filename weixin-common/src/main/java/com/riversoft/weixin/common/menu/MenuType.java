@@ -21,6 +21,11 @@ public enum MenuType {
      * 订阅号和服务号支持
      */
     media_id,
-    view_limited
+    view_limited,
+
+    /**
+     * 小程序
+     */
+    miniprogram
 
 }
