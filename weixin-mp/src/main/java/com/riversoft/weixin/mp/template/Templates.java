@@ -106,6 +106,7 @@ public class Templates {
         logger.debug("template message, delete template: {}", json);
         wxClient.post(url, json);
     }
+
     /**
      * 发送模板消息
      *
@@ -117,6 +118,18 @@ public class Templates {
      */
     public long send(String toUser, String templateId, String url, Map<String, Data> messages) {
         return send(toUser, templateId, url, null, messages);
+    }
+
+    /**
+     * 发送模板消息
+     * @param toUser
+     * @param templateId
+     * @param miniProgram
+     * @param messages
+     * @return
+     */
+    public long send(String toUser, String templateId, MiniProgram miniProgram, Map<String, Data> messages) {
+        return send(toUser, templateId, null, miniProgram, messages);
     }
 
     /**
@@ -139,7 +152,10 @@ public class Templates {
         MessageWrapper messageWrapper = new MessageWrapper();
         messageWrapper.setToUser(toUser);
         messageWrapper.setTemplateId(templateId);
-        messageWrapper.setUrl(url);
+
+        if(url != null) {
+            messageWrapper.setUrl(url);
+        }
         if(miniProgram != null) {
             messageWrapper.setMiniProgram(miniProgram);
         }
