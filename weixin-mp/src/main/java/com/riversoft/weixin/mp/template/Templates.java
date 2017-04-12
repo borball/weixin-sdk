@@ -116,11 +116,33 @@ public class Templates {
      * @return 消息ID
      */
     public long send(String toUser, String templateId, String url, Map<String, Data> messages) {
+        return send(toUser, templateId, url, null, messages);
+    }
+
+    /**
+     * 发送模板消息
+     *
+     * url和miniprogram都是非必填字段，若都不传则模板无跳转；
+     * 若都传，会优先跳转至小程序。
+     * 开发者可根据实际需要选择其中一种跳转方式即可。
+     * 当用户的微信客户端版本不支持跳小程序时，将会跳转至url
+     *
+     * @param toUser
+     * @param templateId
+     * @param url
+     * @param miniProgram
+     * @param messages
+     * @return 消息ID
+     */
+    public long send(String toUser, String templateId, String url, MiniProgram miniProgram, Map<String, Data> messages) {
         String sendUrl = WxEndpoint.get("url.template.send");
         MessageWrapper messageWrapper = new MessageWrapper();
         messageWrapper.setToUser(toUser);
         messageWrapper.setTemplateId(templateId);
         messageWrapper.setUrl(url);
+        if(miniProgram != null) {
+            messageWrapper.setMiniProgram(miniProgram);
+        }
         messageWrapper.setData(messages);
 
         String json = JsonMapper.defaultMapper().toJson(messageWrapper);
@@ -136,7 +158,6 @@ public class Templates {
         }
     }
 
-
     public static class MessageWrapper {
 
         @JsonProperty("touser")
@@ -146,6 +167,9 @@ public class Templates {
         private String templateId;
 
         private String url;
+
+        @JsonProperty("miniprogram")
+        private MiniProgram miniProgram;
 
         private Map<String, Data> data;
 
@@ -171,6 +195,14 @@ public class Templates {
 
         public void setUrl(String url) {
             this.url = url;
+        }
+
+        public MiniProgram getMiniProgram() {
+            return miniProgram;
+        }
+
+        public void setMiniProgram(MiniProgram miniProgram) {
+            this.miniProgram = miniProgram;
         }
 
         public Map<String, Data> getData() {
