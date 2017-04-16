@@ -34,6 +34,6 @@ public class SignatureUtilTest {
                 "  <trade_type><![CDATA[JSAPI]]></trade_type>\n" +
                 "  <transaction_id><![CDATA[4009722001201606036693604419]]></transaction_id>\n" +
                 "</xml>\n", PaymentNotification.class);
-        Assert.assertTrue(Payments.defaultOrders().checkSignature(paymentNotification));
+        Assert.assertTrue(Payments.defaultPayments().checkSignature(paymentNotification));
     }
 }

@@ -36,7 +36,7 @@ public class Payments {
 
     private WxSslClient wxSslClient;
 
-    public static Payments defaultOrders() {
+    public static Payments defaultPayments() {
         return with(PaySetting.defaultSetting());
     }
 

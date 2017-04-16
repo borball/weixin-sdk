@@ -27,7 +27,7 @@ public class PaymentsTest {
         unifiedOrderRequest.setTradeType("JSAPI");
         unifiedOrderRequest.setOpenId("oELhlt7Q-lRmLbRsPsaKeVX6pqjg");
 
-        UnifiedOrderResponse response = Payments.defaultOrders().unifiedOrder(unifiedOrderRequest);
+        UnifiedOrderResponse response = Payments.defaultPayments().unifiedOrder(unifiedOrderRequest);
 
         Assert.assertNotNull(response);
 
@@ -38,19 +38,19 @@ public class PaymentsTest {
         OrderQueryRequest orderQueryRequest = new OrderQueryRequest();
         orderQueryRequest.setTradeNumber("1292063901201605160012300015");
 
-        OrderQueryResponse response = Payments.defaultOrders().query(orderQueryRequest);
+        OrderQueryResponse response = Payments.defaultPayments().query(orderQueryRequest);
         Assert.assertNotNull(response);
     }
 
     @Test
     public void testCloseOrder(){
-        BaseResponse response = Payments.defaultOrders().close("1292063901201605160012300015");
+        BaseResponse response = Payments.defaultPayments().close("1292063901201605160012300015");
         Assert.assertNotNull(response);
     }
 
     @Test
     public void testDownloadBill(){
-        String response = Payments.defaultOrders().downloadAllBill(new Date());
+        String response = Payments.defaultPayments().downloadAllBill(new Date());
         Assert.assertNotNull(response);
     }
 }
