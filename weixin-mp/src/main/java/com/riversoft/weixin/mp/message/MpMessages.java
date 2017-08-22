@@ -67,7 +67,7 @@ public class MpMessages {
      * @return
      */
     public long mpNews(List<String> openIds, String mpNews) {
-        return send(new Filter(true, null), openIds, "mpnews", mpNews);
+        return send(new Filter(false, null), openIds, "mpnews", mpNews);
     }
 
     /**
@@ -99,7 +99,7 @@ public class MpMessages {
      * @return
      */
     public long text(List<String> openIds, String text) {
-        return send(new Filter(true, null), openIds, "text", text);
+        return send(new Filter(false, null), openIds, "text", text);
     }
 
     /**
@@ -132,7 +132,7 @@ public class MpMessages {
      * @return
      */
     public long voice(List<String> openIds, String voice) {
-        return send(new Filter(true, null), openIds, "voice", voice);
+        return send(new Filter(false, null), openIds, "voice", voice);
     }
 
     /**
@@ -187,7 +187,7 @@ public class MpMessages {
      * @return
      */
     public long image(List<String> openIds, String image) {
-        return send(new Filter(true, null), openIds, "image", image);
+        return send(new Filter(false, null), openIds, "image", image);
     }
 
     /**
@@ -237,7 +237,7 @@ public class MpMessages {
      * @return
      */
     public long video(List<String> openIds, String mediaId, String title, String desc) {
-        return video(new Filter(true, null), openIds, mediaId, title, desc);
+        return video(new Filter(false, null), openIds, mediaId, title, desc);
     }
 
     /**
@@ -296,7 +296,7 @@ public class MpMessages {
      * @return
      */
     public long card(List<String> openIds, String wxcard) {
-        return send(new Filter(true, null), openIds, "wxcard", wxcard);
+        return send(new Filter(false, null), openIds, "wxcard", wxcard);
     }
 
     /**
