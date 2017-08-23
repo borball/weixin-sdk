@@ -1,17 +1,20 @@
 package com.riversoft.weixin.pay.payment.bean;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.pay.base.BaseResponse;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @borball on 5/15/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentNotification extends BaseResponse {
 
     @JsonProperty("appid")
@@ -273,5 +276,20 @@ public class PaymentNotification extends BaseResponse {
 
     public String getTimeEndString() {
         return timeEndString;
+    }
+
+    protected Map<String,Object> others = new HashMap<>();
+
+    public Map<String, Object> getOthers() {
+        return others;
+    }
+
+    public void setOthers(Map<String, Object> others) {
+        this.others = others;
+    }
+
+    @JsonAnySetter
+    public void set(String name, Object value) {
+        others.put(name, value);
     }
 }

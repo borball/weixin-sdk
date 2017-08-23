@@ -141,6 +141,7 @@ public class Payments {
      */
     public boolean checkSignature(PaymentNotification notification) {
         SortedMap<String, Object> notificationMap = JsonMapper.nonEmptyMapper().getMapper().convertValue(notification, SortedMap.class);
+        notificationMap.putAll(notification.getOthers());
         notificationMap.remove("sign");
         return notification.getSign().equals(SignatureUtil.sign(notificationMap, paySetting.getKey()));
     }
