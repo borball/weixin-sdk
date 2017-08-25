@@ -49,4 +49,13 @@ public class VoiceRequest extends XmlMessageHeader {
     public void setFormat(String format) {
         this.format = format;
     }
+    
+
+    public String getRecognition() {
+        return format;
+    }
+
+    public void setRecognition(String recognition) {
+        this.recognition = recognition;
+    }
 }
