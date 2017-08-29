@@ -52,7 +52,7 @@ public class VoiceRequest extends XmlMessageHeader {
     
 
     public String getRecognition() {
-        return format;
+        return recognition;
     }
 
     public void setRecognition(String recognition) {
