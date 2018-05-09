@@ -1,6 +1,6 @@
 package com.riversoft.weixin.common;
 
-import com.riversoft.weixin.common.exception.WxError;
+import com.riversoft.weixin.common.cert.CertContent;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -10,7 +10,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -34,6 +33,28 @@ public class WxSslClient {
 
     protected CloseableHttpClient httpClient;
     RequestConfig requestConfig;
+
+    public WxSslClient(CertContent certContent, String certPassword) {
+        KeyStore keyStore = null;
+        SSLContext sslcontext = null;
+        try {
+            keyStore = KeyStore.getInstance("PKCS12");
+            certContent.load(keyStore,certPassword);
+            sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, certPassword.toCharArray()).build();
+        } catch (Exception e) {
+            logger.error("initializing WxHttpsClient failed.", e);
+            throw new WxRuntimeException(999, e.getMessage());
+        }
+
+        // Allow TLSv1 protocol only
+        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[]{"TLSv1"}, null, SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+
+        httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build();;
+
+        requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(30000).setConnectionRequestTimeout(30000).build();
+
+    }
+
 
     public WxSslClient(String certPath, String certPassword) {
         KeyStore keyStore = null;

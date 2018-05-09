@@ -42,7 +42,7 @@ public class RedPacks {
     public static RedPacks with(PaySetting paySetting) {
         RedPacks redPacks = new RedPacks();
         redPacks.setPaySetting(paySetting);
-        redPacks.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting));
+        redPacks.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting,paySetting.getCertContent()));
         return redPacks;
     }
 

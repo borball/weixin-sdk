@@ -1,7 +1,9 @@
 package com.riversoft.weixin.pay.base;
 
+import com.riversoft.weixin.common.cert.FilePathCertContent;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
+import com.riversoft.weixin.common.cert.CertContent;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,82 @@ import java.io.InputStream;
  */
 public class PaySetting {
 
+    private static class PayPathSetting {
+
+        /**
+         * 商户ID
+         */
+        private String mchId;
+
+        /**
+         * 商户的appId
+         */
+        private String appId;
+
+        /**
+         * 秘钥
+         */
+        private String key;
+
+        /**
+         * 证书密码
+         */
+        private String certPassword;
+        /**
+         * 证书路径
+         */
+        private String certPath;
+
+        public String getMchId() {
+            return mchId;
+        }
+
+        public void setMchId(String mchId) {
+            this.mchId = mchId;
+        }
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public void setAppId(String appId) {
+            this.appId = appId;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getCertPassword() {
+            return certPassword;
+        }
+
+        public void setCertPassword(String certPassword) {
+            this.certPassword = certPassword;
+        }
+
+        public String getCertPath() {
+            return certPath;
+        }
+
+        public void setCertPath(String certPath) {
+            this.certPath = certPath;
+        }
+
+        public PaySetting toPaySetting(){
+            PaySetting paySetting = new PaySetting();
+            paySetting.setAppId(appId);
+            paySetting.setKey(key);
+            paySetting.setMchId(mchId);
+            paySetting.setCertPassword(certPassword);
+            paySetting.setCertContent(new FilePathCertContent(certPath));
+            return paySetting;
+        }
+    }
     private static Logger logger = LoggerFactory.getLogger(PaySetting.class);
 
     private static PaySetting paySetting = null;
@@ -48,8 +126,8 @@ public class PaySetting {
                 return;
             } else {
                 try {
-                    PaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
-                    paySetting = setting;
+                    PayPathSetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PayPathSetting.class);
+                    paySetting = setting.toPaySetting();
                 } catch (IOException e) {
                 }
             }
@@ -66,8 +144,8 @@ public class PaySetting {
 
             if (inputStream != null) {
                 String xml = IOUtils.toString(inputStream);
-                PaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
-                paySetting = setting;
+                PayPathSetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PayPathSetting.class);
+                paySetting = setting.toPaySetting();
             }
         } catch (IOException e) {
             logger.error("read settings from wx-pay-settings-test.xml or wx-pay-settings.xml failed:", e);
@@ -91,14 +169,19 @@ public class PaySetting {
     private String key;
 
     /**
-     * 证书位置
-     */
-    private String certPath;
-
-    /**
      * 证书密码
      */
     private String certPassword;
+
+    private CertContent certContent;
+
+    public CertContent getCertContent() {
+        return certContent;
+    }
+
+    public void setCertContent(CertContent certContent) {
+        this.certContent = certContent;
+    }
 
     public String getMchId() {
         return mchId;
@@ -122,14 +205,6 @@ public class PaySetting {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    public String getCertPath() {
-        return certPath;
-    }
-
-    public void setCertPath(String certPath) {
-        this.certPath = certPath;
     }
 
     public String getCertPassword() {

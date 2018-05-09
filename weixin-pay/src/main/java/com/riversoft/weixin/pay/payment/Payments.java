@@ -1,6 +1,7 @@
 package com.riversoft.weixin.pay.payment;
 
 import com.riversoft.weixin.common.WxSslClient;
+import com.riversoft.weixin.common.cert.CertContent;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
 import com.riversoft.weixin.common.util.RandomStringGenerator;
@@ -15,6 +16,7 @@ import com.riversoft.weixin.pay.util.SignatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +45,7 @@ public class Payments {
     public static Payments with(PaySetting paySetting) {
         Payments payments = new Payments();
         payments.setPaySetting(paySetting);
-        payments.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting));
+        payments.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting,paySetting.getCertContent()));
         return payments;
     }
 

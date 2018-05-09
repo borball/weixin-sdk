@@ -43,7 +43,7 @@ public class Transfers {
     public static Transfers with(PaySetting paySetting) {
         Transfers transfers = new Transfers();
         transfers.setPaySetting(paySetting);
-        transfers.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting));
+        transfers.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting,paySetting.getCertContent()));
         return transfers;
     }
 
