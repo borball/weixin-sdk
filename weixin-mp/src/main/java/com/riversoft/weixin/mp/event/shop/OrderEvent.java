@@ -14,7 +14,7 @@ public class OrderEvent extends EventRequest {
     private String orderId;
 
     @JsonProperty("OrderStatus")
-    private int orderStatus;
+    private long orderStatus;
 
     @JsonProperty("ProductId")
     @JacksonXmlCData
@@ -32,11 +32,11 @@ public class OrderEvent extends EventRequest {
         this.orderId = orderId;
     }
 
-    public int getOrderStatus() {
+    public long getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(int orderStatus) {
+    public void setOrderStatus(long orderStatus) {
         this.orderStatus = orderStatus;
     }
 
