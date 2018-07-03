@@ -41,14 +41,14 @@
     </modules>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>release</id>
+            <url>http://192.168.20.246:31200/content/repositories/releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>snapshot</id>
+            <url>http://192.168.20.246:31200/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <scm>

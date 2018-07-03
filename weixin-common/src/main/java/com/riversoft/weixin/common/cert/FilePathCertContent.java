@@ -12,7 +12,7 @@ public class FilePathCertContent implements CertContent{
     private String filePath;
 
     public FilePathCertContent(String file){
-        this.filePath = filePath;
+        this.filePath = file;
     }
     @Override
     public void load(KeyStore keyStore, String certPassword) throws CertificateException, NoSuchAlgorithmException, IOException {
