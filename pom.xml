@@ -5,7 +5,7 @@
     <groupId>cn.com.riversoft</groupId>
     <artifactId>weixin-sdk</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.7-SNAPSHOT</version>
+    <version>0.9.7.LS.RELEASE</version>
     <name>weixin sdk pom</name>
     <description>weixin SDK POM</description>
     <url>https://github.com/borball/weixin-sdk</url>
@@ -43,11 +43,11 @@
     <distributionManagement>
         <repository>
             <id>release</id>
-            <url>http://192.168.20.246:31200/content/repositories/releases/</url>
+            <url>http://192.168.1.250:31200/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <id>snapshot</id>
-            <url>http://192.168.20.246:31200/content/repositories/snapshots/</url>
+            <url>http://192.168.1.250:31200/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -61,7 +61,7 @@
         <url>https://github.com/borball/weixin-sdk/issues</url>
     </issueManagement>
 
-    <profiles>
+    <!--<profiles>
         <profile>
             <id>release</id>
             <build>
@@ -146,6 +146,7 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
+
+    </profiles>-->
 
 </project>
