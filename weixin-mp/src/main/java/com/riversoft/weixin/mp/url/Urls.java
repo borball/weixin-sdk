@@ -42,9 +42,9 @@ public class Urls {
      */
     public String url2short(String longUrl) {
         String url = WxEndpoint.get("url.url.toshort");
-        String json = "{\"action\":\"long2short\",\"long_url\":\"%s\"}";
+        String json = String.format("{\"action\":\"long2short\",\"long_url\":\"%s\"}", longUrl);
 
-        logger.debug("long url to short: {}", String.format(json, longUrl));
+        logger.debug("long url to short: {}", json);
         String response = wxClient.post(url, json);
 
         Map<String, Object> result = JsonMapper.defaultMapper().json2Map(response);
