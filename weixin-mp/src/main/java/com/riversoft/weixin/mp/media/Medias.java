@@ -87,7 +87,7 @@ public class Medias {
      * @param mediaId media id
      * @return 文件
      */
-    public File downloadJssdk(String mediaId) {
+    public File downloadHDVoice(String mediaId) {
         return wxClient.download(String.format(WxEndpoint.get("url.media.get.jssdk"), mediaId));
     }
 

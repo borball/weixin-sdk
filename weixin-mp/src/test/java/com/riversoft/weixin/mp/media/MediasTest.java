@@ -35,7 +35,7 @@ public class MediasTest {
         // 暂停2s等待微信转码
         Thread.sleep(2000);
 
-        file = Medias.defaultMedias().downloadJssdk(media.getMediaId());
+        file = Medias.defaultMedias().downloadHDVoice(media.getMediaId());
         Assert.assertTrue(file.exists());
     }
 
