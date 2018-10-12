@@ -81,4 +81,14 @@ public class Medias {
         return wxClient.download(String.format(WxEndpoint.get("url.media.get"), mediaId));
     }
 
+    /**
+     * 下载高清语音素材，格式为speex，16K采样率
+     *
+     * @param mediaId media id
+     * @return 文件
+     */
+    public File downloadHDVoice(String mediaId) {
+        return wxClient.download(String.format(WxEndpoint.get("url.media.get.jssdk"), mediaId));
+    }
+
 }

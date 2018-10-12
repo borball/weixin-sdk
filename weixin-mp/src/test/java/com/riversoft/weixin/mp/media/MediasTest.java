@@ -15,8 +15,8 @@ public class MediasTest {
 
     @Test
     public void testImage() {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/高中物理第二册电场总复习3-0027.jpg");
-        Media media = Medias.defaultMedias().upload(MediaType.image, inputStream, "高中物理第二册电场总复习3-0027.jpg");
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/borball.jpg");
+        Media media = Medias.defaultMedias().upload(MediaType.image, inputStream, "borball.jpg");
         Assert.assertNotNull(media);
 
         File file = Medias.defaultMedias().download(media.getMediaId());
@@ -24,12 +24,18 @@ public class MediasTest {
     }
 
     @Test
-    public void testVoice() {
+    public void testVoice() throws InterruptedException {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("media/test.mp3");
         Media media = Medias.defaultMedias().upload(MediaType.voice, inputStream, "test.mp3");
         Assert.assertNotNull(media);
 
         File file = Medias.defaultMedias().download(media.getMediaId());
+        Assert.assertTrue(file.exists());
+
+        // 暂停2s等待微信转码
+        Thread.sleep(2000);
+
+        file = Medias.defaultMedias().downloadHDVoice(media.getMediaId());
         Assert.assertTrue(file.exists());
     }
 
