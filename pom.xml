@@ -36,7 +36,7 @@
         <module>weixin-mp</module>
         <module>weixin-common</module>
         <module>weixin-pay</module>
-		<module>weixin-open</module>
+        <module>weixin-open</module>
         <module>weixin-app</module>
     </modules>
 
@@ -95,6 +95,7 @@
                         <configuration>
                             <charset>UTF-8</charset>
                             <locale>zh_CN</locale>
+                            <additionalparam>${javadoc.opts}</additionalparam>
                         </configuration>
                     </plugin>
 
@@ -145,6 +146,15 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+          <id>java8-doclint-disabled</id>
+          <activation>
+            <jdk>[1.8,)</jdk>
+          </activation>
+          <properties>
+            <javadoc.opts>-Xdoclint:none</javadoc.opts>
+          </properties>
         </profile>
     </profiles>
 
