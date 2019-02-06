@@ -37,10 +37,13 @@ public class Departments {
     }
 
     public Department get(int id) {
-        String url = WxEndpoint.get("url.department.get");
-        String user = wxClient.get(String.format(url, id));
-        logger.debug("get department: {}", user);
-        return JsonMapper.nonEmptyMapper().fromJson(user, Department.class);
+        List<Department> list = list();
+        for (Department department: list) {
+            if(id == department.getId() ) {
+                return department;
+            }
+        }
+        return null;
     }
 
     public void create(Department department) {
