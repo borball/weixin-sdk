@@ -1,9 +1,10 @@
 package com.riversoft.weixin.pay;
 
+import com.google.common.cache.CacheBuilder;
 import com.riversoft.weixin.common.WxSslClient;
 import com.riversoft.weixin.pay.base.PaySetting;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by exizhai on 11/12/2015.
@@ -11,7 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PayWxClientFactory {
 
     private static PayWxClientFactory instance = null;
-    private static ConcurrentHashMap<String, WxSslClient> wxClients = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, WxSslClient> wxClients = CacheBuilder.newBuilder().initialCapacity(8)
+            .maximumSize(128).<String, WxSslClient>build().asMap();
 
     public static PayWxClientFactory getInstance() {
         if (instance == null) {

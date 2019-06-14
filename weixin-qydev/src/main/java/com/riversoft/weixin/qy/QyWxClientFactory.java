@@ -1,12 +1,13 @@
 package com.riversoft.weixin.qy;
 
+import com.google.common.cache.CacheBuilder;
 import com.riversoft.weixin.common.AccessTokenHolder;
 import com.riversoft.weixin.common.DefaultAccessTokenHolder;
 import com.riversoft.weixin.common.WxClient;
 import com.riversoft.weixin.qy.base.CorpSetting;
 import com.riversoft.weixin.qy.base.WxEndpoint;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by exizhai on 11/12/2015.
@@ -14,7 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class QyWxClientFactory {
 
     private static QyWxClientFactory instance = null;
-    private static ConcurrentHashMap<String, WxClient> wxClients = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, WxClient> wxClients = CacheBuilder.newBuilder().initialCapacity(8)
+            .maximumSize(128).<String, WxClient>build().asMap();
 
     private QyWxClientFactory(){
     }
