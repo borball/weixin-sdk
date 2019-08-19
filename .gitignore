@@ -3,6 +3,7 @@
 *.ipr
 *.iws
 **/*.iml
+**/*.DS_Store
 
 .project
 .classpath
