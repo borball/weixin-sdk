@@ -54,10 +54,10 @@ public class WxClient {
     }
 
     public WxClient(String clientId, String clientSecret, AccessTokenHolder accessTokenHolder) {
+        this();
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.accessTokenHolder = accessTokenHolder;
-        httpClient = HttpClients.createDefault();
     }
 
     public static void setDefaultHttpClient(CloseableHttpClient httpClient) {
