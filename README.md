@@ -11,7 +11,7 @@ weixin-sdk 是对微信公众平台(订阅号、服务号、企业号、小程�
  - 支付： 		weixin-pay
  - 小程序： weixin-app
  
-[API使用指南](https://github.com/borball/weixin-sdk/wiki)
+[API使用指南](../wiki/Home.md)
 
 [SDK DEMO](https://github.com/borball/weixin-sdk-demo)
 
