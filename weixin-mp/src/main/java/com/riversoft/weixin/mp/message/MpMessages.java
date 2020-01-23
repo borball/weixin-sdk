@@ -70,6 +70,18 @@ public class MpMessages {
 	}
 
 	/**
+	 * 预览圖文消息
+	 *
+	 * @param wxName
+	 * @param openId
+	 * @param mediaId
+	 * @return
+	 */
+	public long mpnewsPreview(String wxName, String openId, String mediaId) {
+		return preview(wxName, openId, "mpnews", mediaId);
+	}
+
+	/**
 	 * 群发文本消息, 所有人
 	 *
 	 * @param text
