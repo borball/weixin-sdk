@@ -21,7 +21,11 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -34,13 +38,15 @@ public class WxClient {
 
     private static Logger logger = LoggerFactory.getLogger(WxClient.class);
 
-    protected CloseableHttpClient httpClient;
+    protected static CloseableHttpClient httpClient;
     private String clientId;
     private String clientSecret;
     private AccessTokenHolder accessTokenHolder;
 
     public WxClient() {
-        httpClient = HttpClients.createDefault();
+        if (httpClient == null) {
+            httpClient = HttpClients.createDefault();
+        }
     }
 
     public WxClient(String tokenUrl, String clientId, String clientSecret) {
@@ -48,10 +54,14 @@ public class WxClient {
     }
 
     public WxClient(String clientId, String clientSecret, AccessTokenHolder accessTokenHolder) {
+        this();
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.accessTokenHolder = accessTokenHolder;
-        httpClient = HttpClients.createDefault();
+    }
+
+    public static void setDefaultHttpClient(CloseableHttpClient httpClient) {
+        WxClient.httpClient = httpClient;
     }
 
     public String getClientId() {
@@ -75,13 +85,13 @@ public class WxClient {
     }
 
     public String get(String url, boolean needToken) {
-        if(needToken) {
+        if (needToken) {
             try {
                 return httpGet(appendAccessToken(url));
             } catch (Exception e) {
-                if(e instanceof WxRuntimeException) {
+                if (e instanceof WxRuntimeException) {
                     WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
-                    if(invalidToken(wxRuntimeException.getCode())) {
+                    if (invalidToken(wxRuntimeException.getCode())) {
                         logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
                         refreshToken();
                         return httpGet(appendAccessToken(url));
@@ -95,13 +105,13 @@ public class WxClient {
     }
 
     public byte[] getBinary(String url, boolean needToken) {
-        if(needToken) {
+        if (needToken) {
             try {
                 return httpGetBinary(appendAccessToken(url));
             } catch (Exception e) {
-                if(e instanceof WxRuntimeException) {
+                if (e instanceof WxRuntimeException) {
                     WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
-                    if(invalidToken(wxRuntimeException.getCode())) {
+                    if (invalidToken(wxRuntimeException.getCode())) {
                         logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
                         refreshToken();
                         return httpGetBinary(appendAccessToken(url));
@@ -172,9 +182,9 @@ public class WxClient {
         try {
             return httpDownload(appendAccessToken(url));
         } catch (Exception e) {
-            if(e instanceof WxRuntimeException) {
+            if (e instanceof WxRuntimeException) {
                 WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
-                if(invalidToken(wxRuntimeException.getCode())) {
+                if (invalidToken(wxRuntimeException.getCode())) {
                     logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
                     refreshToken();
                     return httpDownload(appendAccessToken(url));
@@ -188,9 +198,9 @@ public class WxClient {
         try {
             return httpCopyFromStream(appendAccessToken(url), post);
         } catch (Exception e) {
-            if(e instanceof WxRuntimeException) {
+            if (e instanceof WxRuntimeException) {
                 WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
-                if(invalidToken(wxRuntimeException.getCode())) {
+                if (invalidToken(wxRuntimeException.getCode())) {
                     logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
                     refreshToken();
                     return httpCopyFromStream(appendAccessToken(url), post);
@@ -202,9 +212,10 @@ public class WxClient {
 
     /**
      * 永久素材下载使用,奇葩的下载方式
-     * @param url
-     * @param post
-     * @return
+     *
+     * @param url  request url
+     * @param post post content
+     * @return ByteArrayInputStream or Exception when error occured
      */
     private InputStream httpCopyFromStream(String url, String post) {
         HttpPost httpPost = new HttpPost(url);
@@ -223,7 +234,7 @@ public class WxClient {
             } else {
                 InputStream inputStream = entity.getContent();
                 byte[] binaryContent = IOUtils.toByteArray(inputStream);
-                String content = new String(binaryContent, "UTF-8");
+                String content = new String(binaryContent, StandardCharsets.UTF_8);
                 if (content.contains("errcode")) {
                     WxError wxError = WxError.fromJson(content);
                     throw new WxRuntimeException(wxError);
@@ -260,7 +271,7 @@ public class WxClient {
 
                     return tempFile;
                 } else {
-                    String errors = entity == null ? null : EntityUtils.toString(entity, Consts.UTF_8);
+                    String errors = entity == null ? "" : EntityUtils.toString(entity, Consts.UTF_8);
                     logger.warn("download file : {} failed: {}", url, errors);
                     if (errors.contains("errcode")) {
                         WxError wxError = WxError.fromJson(errors);
@@ -292,9 +303,9 @@ public class WxClient {
         try {
             return httpPost(appendAccessToken(url), content);
         } catch (Exception e) {
-            if(e instanceof WxRuntimeException) {
+            if (e instanceof WxRuntimeException) {
                 WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
-                if(invalidToken(wxRuntimeException.getCode())) {
+                if (invalidToken(wxRuntimeException.getCode())) {
                     logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
                     refreshToken();
                     return httpPost(appendAccessToken(url), content);
@@ -317,9 +328,9 @@ public class WxClient {
         try {
             return httpPost(appendAccessToken(url), tempFile, form);
         } catch (Exception e) {
-            if(e instanceof WxRuntimeException) {
+            if (e instanceof WxRuntimeException) {
                 WxRuntimeException wxRuntimeException = (WxRuntimeException) e;
-                if(invalidToken(wxRuntimeException.getCode())) {
+                if (invalidToken(wxRuntimeException.getCode())) {
                     logger.warn("token invalid: {}, will refresh.", wxRuntimeException.getCode());
                     refreshToken();
                     return httpPost(appendAccessToken(url), tempFile, form);
@@ -374,8 +385,8 @@ public class WxClient {
         if (file != null) {
             MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
             multipartEntityBuilder.addBinaryBody("media", file).setMode(HttpMultipartMode.RFC6532);
-            if(form != null && !form.isEmpty()) {
-                for(String key: form.keySet()) {
+            if (form != null && !form.isEmpty()) {
+                for (String key : form.keySet()) {
                     multipartEntityBuilder.addTextBody(key, form.get(key));
                 }
             }
@@ -413,7 +424,7 @@ public class WxClient {
 
     private boolean invalidToken(int code) {
         boolean result = code == 42001 || code == 40001 || code == 40014;
-        if(result) {
+        if (result) {
             accessTokenHolder.expireToken();//强制设置为无效
         }
         return result;
